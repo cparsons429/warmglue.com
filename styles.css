@@ -30,11 +30,17 @@ nav {
 }
 
 .brand-image-button {
-  width: 12em;
-  height: 4em;
-  background: url("assets/icon.png");
-  background-size: contain;
-  background-position: 0 0;
+  position: relative;
+  width: 8em;
+  background: white;
+  padding: 0.5em 0.3em 0.3em 0.3em;
+  margin: -0.5em 0 0 -0.3em;
+}
+
+.icon {
+  content: url("assets/logo.png");
+  width: calc(1.5em * 1175 / 249);
+  height: 1.5em;
 }
 
 .log-in {
@@ -42,11 +48,11 @@ nav {
 }
 
 .log-in-button {
-  background-image: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
+  background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
 }
 
 .log-in-button:hover {
-  background-image: linear-gradient(#ffcccc 0%, #ff6666 100%);
+  background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
 .sign-up {
@@ -54,11 +60,11 @@ nav {
 }
 
 .sign-up-button {
-  background-image: linear-gradient(#ff0000 0%, #990000 100%);
+  background: linear-gradient(#ff0000 0%, #990000 100%);
 }
 
 .sign-up-button:hover {
-  background-image: linear-gradient(#ff1a1a 0%, #b30000 100%);
+  background: linear-gradient(#ff1a1a 0%, #b30000 100%);
 }
 
 .footer {
