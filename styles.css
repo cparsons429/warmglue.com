@@ -60,38 +60,74 @@ b {
   height: 1.5em;
 }
 
-.sign-up {
+.nav-sign-up-div {
   float: right;
-  margin: 0.4em 1em 0em 0em;
+  margin: 0.7em 1.1em 0em 0em;
 }
 
-.sign-up-button {
+.nav-log-in-div{
+  float: right;
+  margin: 0.7em 1.1em 0em 0em;
+}
+
+.nav-sign-up {
+  font-size: 1.1em;
+  padding: 0.5em;
   background: linear-gradient(#ff0000 0%, #990000 100%);
 }
 
-.sign-up-button:hover {
+.nav-sign-up:hover {
   background: linear-gradient(#ff1a1a 0%, #b30000 100%);
 }
 
-.log-in {
-  float: right;
-  margin: 0.4em 1em 0em 0em;
-}
-
-.log-in-button {
+.nav-log-in {
+  font-size: 1.1em;
+  padding: 0.5em;
   background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
 }
 
-.log-in-button:hover {
+.nav-log-in:hover {
   background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
 .one-liner {
   position: relative;
-  top: calc(50vh - 4em);
-  right: 25vw;
+  top: 250px;
+  left: -25vw;
   text-align: center;
   font-size: 2.5em;
+}
+
+.body-sign-up-div {
+  float: left;
+  position: relative;
+  left: calc(25vw - 5.3em);
+  top: 230px;
+  margin: 0.4em 1em 0em 0em;
+}
+
+.body-log-in-div {
+  float: left;
+  position: relative;
+  left: calc(25vw - 5.3em);
+  top: 230px;
+  margin: 0.4em 1em 0em 0em;
+}
+
+.body-sign-up {
+  background: linear-gradient(#ff0000 0%, #990000 100%);
+}
+
+.body-sign-up:hover {
+  background: linear-gradient(#ff1a1a 0%, #b30000 100%);
+}
+
+.body-log-in {
+  background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
+}
+
+.body-log-in:hover {
+  background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
 .footer {
@@ -121,4 +157,9 @@ b {
     background-size: cover;
     height: calc(100vw * 3963 / 1300);
   }
+}
+
+.disappear {
+  /* make an element not visible and not functional */
+  display: none;
 }
