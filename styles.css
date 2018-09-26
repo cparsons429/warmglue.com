@@ -62,7 +62,7 @@ b {
 
 .nav-sign-up-div {
   float: right;
-  margin: 0.7em 1.1em 0em 0em;
+  margin: 0.7em 1.6em 0em 0em;
 }
 
 .nav-log-in-div{
@@ -159,7 +159,24 @@ b {
   }
 }
 
+.appear {
+  /* make a div visible */
+  opacity: 1;
+  transition: opacity 0.25s ease 0s;
+}
+
 .disappear {
-  /* make an element not visible and not functional */
-  display: none;
+  /* make a div invisible */
+  opacity: 0;
+  transition: opacity 0.25s ease 0s;
+}
+
+.enable-link {
+  /* enable link in a div */
+  pointer-events: auto;
+}
+
+.disable-link {
+  /* disable link in a div */
+  pointer-events: none;
 }
