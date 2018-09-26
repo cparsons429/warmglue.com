@@ -16,11 +16,15 @@ nav {
 }
 
 h1 {
+  font-size: 2.5em;
   font-weight: 300;
+  margin-bottom: -0.1em;
 }
 
 p {
+  font-size: 1.1em;
   font-weight: 300;
+  margin-bottom: 1.7em;
 }
 
 b {
@@ -90,27 +94,26 @@ b {
   background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
-.one-liner {
+.explanation {
   position: relative;
-  top: 250px;
+  top: calc(50vh - 9em);
   left: -25vw;
   text-align: center;
-  font-size: 2.5em;
 }
 
 .body-sign-up-div {
   float: left;
   position: relative;
+  top: calc(50vh - 10em);
   left: calc(25vw - 5.3em);
-  top: 230px;
   margin: 0.4em 1em 0em 0em;
 }
 
 .body-log-in-div {
   float: left;
   position: relative;
+  top: calc(50vh - 10em);
   left: calc(25vw - 5.3em);
-  top: 230px;
   margin: 0.4em 1em 0em 0em;
 }
 
