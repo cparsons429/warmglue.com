@@ -2,7 +2,12 @@
 $(document).ready(function() {
   $(window).scroll(function() {
     // assuming the 1em = 16px standard
-    if($(this).scrollTop() > (.7 * document.documentElement.clientHeight - 14 * 16)) {
+    if(
+      (document.documentElement.clientWidth > 1200 &&
+      $(this).scrollTop() > (.7 * document.documentElement.clientHeight - 14 * 16)) ||
+      (document.documentElement.clientWidth < 1201 && document.documentElement.clientWidth > 768 &&
+      $(this).scrollTop() > (.7 * document.documentElement.clientHeight - 28 * 16))
+    ) {
       // making nav elements visible
       $('.nav-log-in-div').removeClass('disappear');
       $('.nav-sign-up-div').removeClass('disappear');
@@ -49,8 +54,12 @@ $(document).ready(function() {
   $(window).scroll(function() {
     // assuming the 1em = 16px standard
     if(
+      (document.documentElement.clientWidth > 1200 &&
       $(this).scrollTop() > (.45 * document.documentElement.clientWidth - 14 * 16) &&
-      $(this).scrollTop() < (.45 * document.documentElement.clientWidth + 30 * 16)
+      $(this).scrollTop() < (.45 * document.documentElement.clientWidth + 30 * 16)) ||
+      (document.documentElement.clientWidth < 1201 && document.documentElement.clientWidth > 768 &&
+      $(this).scrollTop() > (.45 * document.documentElement.clientWidth - 25 * 16) &&
+      $(this).scrollTop() < (.45 * document.documentElement.clientWidth + 10 * 16))
     ) {
       // making in-depth visible
       $('.in-depth').removeClass('disappear');

@@ -165,6 +165,17 @@ a {
   left: calc(75vw - 10em);
   width: 20em;
   text-align: center;
+  z-index: 2;
+}
+
+.occluding-div {
+  position: absolute;
+  background: white;
+  top: 1.5em;
+  left: 5em;
+  width: 10em;
+  height: 15em;
+  z-index: -1;
 }
 
 .footer {
@@ -212,9 +223,8 @@ a {
   height: 2em;
 }
 
-@media only screen and (min-width: 769px) {
-  /* for desktop */
-
+@media only screen and (min-width: 1201px) {
+  /* for large desktop screens */
   .main-body {
     position: relative;
     background: url("assets/bgdesktop.jpg") no-repeat;
@@ -223,9 +233,30 @@ a {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  /* for mobile */
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  /* for small desktop screens and tablets */
+  .main-body {
+    position: relative;
+    background: url("assets/bgdesktop.jpg") no-repeat;
+    background-size: cover;
+    height: calc(100vw * 4000 / 2972);
+  }
 
+  .down-arrow-div {
+    top: calc(50vh - 5em);
+  }
+
+  .explanation {
+    top: calc(25vw - 9em);
+  }
+
+  .in-depth {
+    top: calc(60vw - 9em);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* for mobile screens */
   .main-body {
     position: relative;
     background: url("assets/bgmobile.jpg") no-repeat;
