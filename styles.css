@@ -138,6 +138,27 @@ a {
   background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
+.down-arrow-div {
+  position: absolute;
+  top: calc(50vh + 4em);
+  left: 8.75em;
+}
+
+.down-arrow {
+  content: url("assets/downarrow.png");
+  width: 2.5em;
+  height: 1em;
+  transform: scale(0.5);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.down-arrow:hover {
+  transform: scale(1);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
 .in-depth {
   position: relative;
   top: calc(65vw - 9em);
@@ -223,6 +244,13 @@ a {
   /* make a div invisible */
   opacity: 0;
   transition: opacity 0.25s ease 0s;
+}
+
+.expand {
+  /* make a div 2x in size */
+  transform: scale(2);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
 }
 
 .enable-link {

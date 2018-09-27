@@ -10,11 +10,7 @@ $(document).ready(function() {
       $('.nav-sign-up-div').addClass('appear');
       // making body elements invisible
       $('.explanation').removeClass('appear');
-      $('.body-log-in-div').removeClass('appear');
-      $('.body-sign-up-div').removeClass('appear');
       $('.explanation').addClass('disappear');
-      $('.body-log-in-div').addClass('disappear');
-      $('.body-sign-up-div').addClass('disappear');
       // enabling nav links
       $('.nav-log-in-link').removeClass('disable-link');
       $('.nav-sign-up-link').removeClass('disable-link');
@@ -28,11 +24,7 @@ $(document).ready(function() {
     } else {
       // making body elements visible
       $('.explanation').removeClass('disappear');
-      $('.body-log-in-div').removeClass('disappear');
-      $('.body-sign-up-div').removeClass('disappear');
       $('.explanation').addClass('appear');
-      $('.body-log-in-div').addClass('appear');
-      $('.body-sign-up-div').addClass('appear');
       // making nav elements invisible
       $('.nav-log-in-div').removeClass('appear');
       $('.nav-sign-up-div').removeClass('appear');
@@ -68,5 +60,14 @@ $(document).ready(function() {
       $('.in-depth').removeClass('appear');
       $('.in-depth').addClass('disappear');
     }
+  });
+});
+
+// scroll animation for our down arrow
+$(document).ready(function() {
+  $('.down-arrow').click(function() {
+    $('html, body').animate({
+      scrollTop: $('.in-depth').offset().top - .165 * document.documentElement.clientWidth
+    }, 'slow');
   });
 });
