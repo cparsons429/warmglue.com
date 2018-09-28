@@ -50,7 +50,7 @@ a {
 
 .brand-image {
   float: left;
-  width: 20em;
+  width: 9em;
   margin: 1em;
 }
 
@@ -100,6 +100,7 @@ a {
 
 .explanation {
   position: relative;
+  background: white;
   top: calc(50vh - 9em);
   left: calc(25vw - 10em);
   width: 20em;
@@ -161,21 +162,12 @@ a {
 
 .in-depth {
   position: relative;
+  background: white;
   top: calc(65vw - 9em);
   left: calc(75vw - 10em);
   width: 20em;
   text-align: center;
   z-index: 2;
-}
-
-.occluding-div {
-  position: absolute;
-  background: white;
-  top: 1.5em;
-  left: 5em;
-  width: 10em;
-  height: 15em;
-  z-index: -1;
 }
 
 .footer {
@@ -231,6 +223,14 @@ a {
     background-size: cover;
     height: calc(100vw * 4000 / 2972);
   }
+
+  .mobile-top-divider {
+    display: none;
+  }
+
+  .mobile-bottom-divider {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 769px) and (max-width: 1200px) {
@@ -242,10 +242,6 @@ a {
     height: calc(100vw * 4000 / 2972);
   }
 
-  .down-arrow-div {
-    top: calc(50vh - 5em);
-  }
-
   .explanation {
     top: calc(25vw - 9em);
   }
@@ -253,15 +249,54 @@ a {
   .in-depth {
     top: calc(60vw - 9em);
   }
+
+  .down-arrow-div {
+    top: 18em;
+  }
+
+  .mobile-top-divider {
+    display: none;
+  }
+
+  .mobile-bottom-divider {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 768px) {
   /* for mobile screens */
   .main-body {
     position: relative;
-    background: url("assets/bgmobile.jpg") no-repeat;
+    background: white;
     background-size: cover;
-    height: calc(100vw * 3963 / 1300);
+    height: calc(50vh + 100vw + 55em);
+  }
+
+  .explanation {
+    left: calc(50vw - 10em);
+  }
+
+  .in-depth {
+    top: calc(50vh + 10em);
+    left: calc(50vw - 10em);
+  }
+
+  .down-arrow-div {
+    top: 18em;
+  }
+
+  .mobile-top-divider {
+    position: relative;
+    content: url("assets/mobiletop.jpg");
+    width: 100vw;
+    top: calc(50vh + 1em);
+  }
+
+  .mobile-bottom-divider {
+    position: relative;
+    content: url("assets/mobilebottom.jpg");
+    width: 100vw;
+    top: calc(50vh + 15em);
   }
 }
 
