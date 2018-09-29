@@ -1,0 +1,143 @@
+body {
+  background-color: white;
+  font-family: 'Lato', sans-serif;
+  color: #b30000;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  z-index: 10;
+  height: 4.1em;
+  width: 100vw;
+  top: 0;
+  position: fixed !important;
+  background-color: transparent;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-weight: 300;
+  margin-bottom: -0.1em;
+}
+
+p {
+  font-size: 1.1em;
+  font-weight: 300;
+  margin-bottom: 1.7em;
+}
+
+b {
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+}
+
+.button {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3em;
+  font-weight: 300;
+  padding: 0.6em;
+  margin-right: -0.4em;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 12px;
+}
+
+.brand-image {
+  float: left;
+  width: 9em;
+  margin: 1em;
+}
+
+.brand-image-button {
+  position: relative;
+  width: 8.3em;
+  background: white;
+  padding: 0.5em 0 0.3em 0;
+  margin: -0.5em 0 0 -0.5em;
+}
+
+.logo {
+  content: url("../assets/logo.png");
+  width: calc(1.5em * 1175 / 249);
+  height: 1.5em;
+}
+
+.footer {
+  position: relative;
+  text-align: center;
+  font-size: 0.8em;
+  color: #cccccc;
+  top: -2em;
+  height: 6em;
+}
+
+.twitter-link {
+  position: relative;
+  top: -1em;
+}
+
+.facebook-link {
+  position: relative;
+  top: -1em;
+  margin-left: 0.5em;
+}
+
+.medium-link {
+  position: relative;
+  top: -1em;
+  margin-left: 0.5em;
+}
+
+.twitter {
+  content: url("../assets/twitter.png");
+  margin-left: -0.5em;
+  width: 2em;
+  height: 2em;
+}
+
+.facebook {
+  content: url("../assets/facebook.png");
+  width: 2em;
+  height: 2em;
+}
+
+.medium {
+  content: url("../assets/medium.png");
+  width: 2em;
+  height: 2em;
+}
+
+.appear {
+  /* make a div visible */
+  opacity: 1;
+  transition: opacity 0.25s ease 0s;
+}
+
+.disappear {
+  /* make a div invisible */
+  opacity: 0;
+  transition: opacity 0.25s ease 0s;
+}
+
+.expand {
+  /* make a div 2x in size */
+  transform: scale(2);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.enable-link {
+  /* enable link in a div */
+  pointer-events: auto;
+}
+
+.disable-link {
+  /* disable link in a div */
+  pointer-events: none;
+}
