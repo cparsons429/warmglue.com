@@ -38,7 +38,6 @@ a {
 
 form {
   text-align: right;
-  margin-right: 0.75em;
 }
 
 input[type=text] {
@@ -64,7 +63,6 @@ input[type=password] {
 }
 
 input[type=submit] {
-  position: absolute;
   font-family: 'Lato', sans-serif;
   font-size: 1.1em;
   font-weight: 300;
@@ -123,6 +121,14 @@ input[type=submit]:hover {
 
 .form-text::after {
   content: "       ";
+}
+
+.link-text::before {
+  content: "\A";
+}
+
+.link-text::after {
+  content: "";
 }
 
 ::placeholder {
@@ -206,7 +212,6 @@ input[type=submit]:hover {
 @media only screen and (max-width: 768px) {
   form {
     text-align: left;
-    margin-right: 0;
   }
 
   input[type=text] {
@@ -223,5 +228,9 @@ input[type=submit]:hover {
 
   .form-text::after {
     content: "\A";
+  }
+
+  .link-text::before {
+    content: "";
   }
 }
