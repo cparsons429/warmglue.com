@@ -123,12 +123,32 @@ input[type=submit]:hover {
   content: "       ";
 }
 
-.link-text::before {
-  content: "\A";
+.form-link {
+  color: #b30000;
+  text-decoration: underline;
+  font-size: 1.1em;
+  font-weight: 300;
+  margin-bottom: 1.7em;
 }
 
-.link-text::after {
-  content: "";
+.pre-link {
+  height: 1.1em;
+}
+
+.post-link {
+  height: 0;
+}
+
+.big-text {
+  font-size: 1.1em;
+}
+
+.big-text-link {
+  color: #b30000;
+  text-decoration: underline;
+  font-size: 1em;
+  font-weight: 300;
+  margin-bottom: 1.7em;
 }
 
 ::placeholder {
@@ -230,7 +250,11 @@ input[type=submit]:hover {
     content: "\A";
   }
 
-  .link-text::before {
-    content: "";
+  .pre-link {
+    height:0;
+  }
+
+  .post-link {
+    height: 1.1em;
   }
 }

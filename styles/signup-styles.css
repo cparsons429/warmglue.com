@@ -12,11 +12,6 @@ input[type=submit]:hover {
   background: linear-gradient(#ff4d4d 0%, #b30000 100%);
 }
 
-a {
-  text-decoration: underline;
-  color: #b30000;
-}
-
 .main-body {
   position: relative;
   height: calc(100vh - 6em);
