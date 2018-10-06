@@ -3,9 +3,9 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/index-styles.css">
+  <link rel="stylesheet" href="styles/landing-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="scripts/index-scripts.js"></script>
+  <script src="scripts/landing-scripts.js"></script>
   <title>warmglue: log in or sign up</title>
   <meta charset="utf-8">
   <meta name="description" content="As you expand your professional network, warmglue finds the valuable intros your friends can make for you. Log in or sign up.">
@@ -22,19 +22,19 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="https://warmglue.com">
+      <a href="landing.php">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
       </a>
     </div>
     <div class="nav-sign-up-div disappear">
-      <a href="https://warmglue.com/signup" class="nav-sign-up-link disable-link">
+      <a href="signup.php" class="nav-sign-up-link disable-link">
         <button class="button nav-sign-up">sign up</button>
       </a>
     </div>
     <div class="nav-log-in-div disappear">
-      <a href="https://warmglue.com/login" class="nav-log-in-link disable-link">
+      <a href="login.php" class="nav-log-in-link disable-link">
         <button class="button nav-log-in">log in</button>
       </a>
     </div>
@@ -44,12 +44,12 @@
       <h1>Warm intros are the <b>best</b>.</h1>
       <p>As you expand your professional network, warmglue finds the valuable intros your friends can make for you.</p>
       <div class="body-log-in-div">
-        <a href="https://warmglue.com/login" class="body-log-in-link enable-link">
+        <a href="login.php" class="body-log-in-link enable-link">
           <button class="button body-log-in">log in</button>
         </a>
       </div>
       <div class="body-sign-up-div">
-        <a href="https://warmglue.com/signup" class="body-sign-up-link enable-link">
+        <a href="signup.php" class="body-sign-up-link enable-link">
           <button class="button body-sign-up">sign up</button>
         </a>
       </div>

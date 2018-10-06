@@ -14,7 +14,7 @@ input[type=submit]:hover {
 
 .main-body {
   position: relative;
-  height: calc(100vh - 6em);
+  height: calc(100vh - 8em);
 }
 
 .basic-info {

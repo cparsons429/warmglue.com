@@ -1,12 +1,13 @@
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/login-styles.css">
+  <link rel="stylesheet" href="styles/signup-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <title>warmglue: log in</title>
+  <title>warmglue: sign up</title>
   <meta charset="utf-8">
-  <meta name="description" content="Log in to warmglue to update your intro preferences, and offer feedback on previous intros.">
+  <meta name="description" content="Sign up for warmglue to get valuable professional intros from your friends.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- favicon stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -20,7 +21,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="https://warmglue.com">
+      <a href="landing.php">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -29,15 +30,15 @@
   </nav>
   <div class="main-body">
     <div class="basic-info">
-      <h1>log in</h1>
-      <form name="log-in" action="verify-user.php" method="get">
+      <h1>sign up</h1>
+      <form name="sign-up" action="add-user.php" method="get">
         <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com">
-        <br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+        <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+        <br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
-        <a class="form-link" href="">forgot your password?</a>
-        <br><a class="form-link" href="https://warmglue.com/signup">create an account</a>
+        <a class="form-link" href="login.php">already have an account?</a>
         <div class="post-link"></div>
-        <input type="submit" value="log in">
+        <input type="submit" value="sign up">
       </form>
     </div>
   </div>

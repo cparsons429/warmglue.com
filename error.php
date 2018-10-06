@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
@@ -21,7 +22,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="https://warmglue.com">
+      <a href="landing.php">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -31,7 +32,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>error 404</h1>
-      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="https://warmglue.com">home</a>.</p>
+      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="landing.php">home</a>.</p>
     </div>
   </div>
   <div class="footer">
