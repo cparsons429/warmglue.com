@@ -21,7 +21,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing.php">
+      <a href="landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -36,7 +36,7 @@
         <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
-        <a class="form-link" href="login.php">already have an account?</a>
+        <a class="form-link" href="login">already have an account?</a>
         <div class="post-link"></div>
         <input type="submit" value="sign up">
       </form>

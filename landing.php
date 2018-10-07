@@ -22,19 +22,19 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing.php">
+      <a href="landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
       </a>
     </div>
     <div class="nav-sign-up-div disappear">
-      <a href="signup.php" class="nav-sign-up-link disable-link">
+      <a href="signup" class="nav-sign-up-link disable-link">
         <button class="button nav-sign-up">sign up</button>
       </a>
     </div>
     <div class="nav-log-in-div disappear">
-      <a href="login.php" class="nav-log-in-link disable-link">
+      <a href="login" class="nav-log-in-link disable-link">
         <button class="button nav-log-in">log in</button>
       </a>
     </div>
@@ -44,12 +44,12 @@
       <h1>Warm intros are the <b>best</b>.</h1>
       <p>As you expand your professional network, warmglue finds the valuable intros your friends can make for you.</p>
       <div class="body-log-in-div">
-        <a href="login.php" class="body-log-in-link enable-link">
+        <a href="login" class="body-log-in-link enable-link">
           <button class="button body-log-in">log in</button>
         </a>
       </div>
       <div class="body-sign-up-div">
-        <a href="signup.php" class="body-sign-up-link enable-link">
+        <a href="signup" class="body-sign-up-link enable-link">
           <button class="button body-sign-up">sign up</button>
         </a>
       </div>
