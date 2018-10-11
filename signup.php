@@ -32,9 +32,7 @@
     <div class="basic-info">
       <h1>sign up</h1>
       <form name="sign-up" action="add-user.php" method="get">
-        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com">
-        <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
-        <br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"><br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
         <a class="form-link" href="login">already have an account?</a>
         <div class="post-link"></div>

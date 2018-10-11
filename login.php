@@ -32,8 +32,7 @@
     <div class="basic-info">
       <h1>log in</h1>
       <form name="log-in" action="verify-user.php" method="get">
-        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com">
-        <br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
         <a class="form-link" href="forgot-password">forgot your password?</a>
         <br><a class="form-link" href="signup">create an account</a>
