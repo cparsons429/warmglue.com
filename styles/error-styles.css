@@ -23,12 +23,21 @@
 }
 
 @media only screen and (max-width: 768px) {
+  h1 {
+    text-align: left;
+  }
+
   .main-body {
     background: white;
+    min-height: 20em;
+  }
+
+  .brand-image {
+    margin-left: 1.8em;
   }
 
   .basic-info {
-    top: calc(50vh - 14em);
+    top: 5em;
     left: 0;
     width: calc(100vw - 4em);
   }

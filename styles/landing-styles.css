@@ -84,12 +84,6 @@
   transition: all 0.25s ease-in-out;
 }
 
-.down-arrow:hover {
-  transform: scale(1);
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-}
-
 .in-depth {
   position: relative;
   background: white;
@@ -107,6 +101,12 @@
     background: url("../assets/bgdesktop.jpg") no-repeat;
     background-size: cover;
     height: calc(100vw * 4000 / 2972);
+  }
+
+  .down-arrow:hover {
+    transform: scale(1);
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
   }
 
   .mobile-top-divider {
@@ -139,6 +139,12 @@
     top: 18em;
   }
 
+  .down-arrow:hover {
+    transform: scale(1);
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+  }
+
   .mobile-top-divider {
     display: none;
   }
@@ -155,6 +161,10 @@
     background: white;
     background-size: cover;
     height: calc(50vh + 100vw + 55em);
+  }
+
+  .brand-image {
+    margin-left: 1.8em;
   }
 
   .explanation {
