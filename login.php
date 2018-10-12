@@ -21,7 +21,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing">
+      <a href="home">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>

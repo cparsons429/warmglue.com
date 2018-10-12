@@ -1,0 +1,43 @@
+form {
+  width: calc(100% - 0.75em);
+  margin-right: 0.75em;
+}
+
+input[type=submit] {
+  margin-right: 0;
+  background: linear-gradient(#ff0000 0%, #990000 100%);
+}
+
+input[type=submit]:hover {
+  background: linear-gradient(#ff4d4d 0%, #b30000 100%);
+}
+
+.main-body {
+  position: relative;
+  background: white;
+  width: 25em;
+  margin-left: 20em;
+  padding-top: 8.5em;
+  padding-bottom: 8em;
+}
+
+h1 {
+  text-align: left;
+}
+
+h2 {
+  text-align: left;
+}
+
+@media only screen and (max-width: 768px) {
+  .brand-image {
+    margin-left: 1.8em;
+  }
+
+  .main-body {
+    position: relative;
+    background: white;
+    width: calc(100vw - 2em);
+    margin-left: 2em;
+  }
+}
