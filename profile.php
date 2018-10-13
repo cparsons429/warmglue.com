@@ -47,8 +47,7 @@
           echo sprintf("<p class=\"form-text e%d%d delete\">email</p><input type=\"text\" class=\"e%d%d delete\"name=\"email%d%d\" placeholder=\"\"><img class=\"x e%d%d delete\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
         }
       ?>
-      <br><img class="plus" onClick="add_email()"><br>
-      <br>
+      <br><img class="plus" onClick="add_email()"><br><br>
       <h2 class="form-header">work and education</h2><br>
       <!-- position00 -->
       <p class="form-text">position</p><input type="text" name="position00" placeholder="Math Major"><img class="empty-x"><br>
