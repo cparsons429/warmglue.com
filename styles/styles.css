@@ -168,8 +168,37 @@ input[type=submit]:hover {
   margin-bottom: 1.7em;
 }
 
+.x {
+  width: 1em;
+  height: 1em;
+  margin-bottom: -0.2em;
+  margin-left: 1.5em;
+  content: url("../assets/xsign.png");
+}
+
+.empty-x {
+  width: 1em;
+  height: 1em;
+  margin-bottom: -0.2em;
+  margin-left: 1.5em;
+  content: url("../assets/nothing.png")
+}
+
+.plus {
+  width: 1.2em;
+  height: 1.2em;
+  margin-left: 6.5em;
+  margin-right: 9em;
+  content: url("../assets/plussign.png");
+}
+
 ::placeholder {
   color: #cccccc;
+}
+
+.empty-footer-pad {
+  height: 2.3em;
+  width: 100vw;
 }
 
 .footer {
@@ -244,6 +273,10 @@ input[type=submit]:hover {
 .disable-link {
   /* disable link in a div */
   pointer-events: none;
+}
+
+.delete {
+  display: none;
 }
 
 @media only screen and (max-width: 768px) {

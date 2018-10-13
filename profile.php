@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/profile-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="scripts/profile-scripts.js"></script>
   <title>warmglue: profile</title>
   <meta charset="utf-8">
   <meta name="description" content="Complete your warmglue profile to get valuable professional intros from your friends.">
@@ -32,51 +33,53 @@
     <h1>complete profile</h1>
     <form name="profile" action="complete-profile.php" method="get">
       <br><br><br><p class="form-text">first name</p>
-      <input type="text" name="first-name" placeholder="Jane"><br>
+      <input type="text" name="first-name" placeholder="Jane"><img class="empty-x"><br>
       <p class="form-text">last name</p>
-      <input type="text" name="last-name" placeholder="Doe"><br><br>
+      <input type="text" name="last-name" placeholder="Doe"><img class="empty-x"><br><br>
       <h2 class="form-header">emails (work, personal, school, etc)</h2><br>
-      <p class="form-text">email</p><input type="text" name="email0" placeholder=""><br>
-      <p class="form-text">email</p><input type="text" name="email1" placeholder="janedoe67@outlook.com"><br>
-      <p class="form-text">email</p><input type="text" name="email2" placeholder="doe@wustl.edu"><br>
-      <p class="form-text">email</p><input type="text" name="email3" placeholder="jane@change.org"><br>
-      <!--create emails 4 through 9-->
+      <p class="form-text e00">email</p><input type="text" class="e00" name="email00" placeholder=""><img class="empty-x"><br>
+      <p class="form-text e01">email</p><input type="text" class="e01" name="email01" placeholder="janedoe67@outlook.com"><img class="x e01" id="xe01" onClick="delete_this(this.id)"><br class="e01">
+      <p class="form-text e02">email</p><input type="text" class="e02" name="email02" placeholder="doe@wustl.edu"><img class="x e02" id="xe02" onClick="delete_this(this.id)"><br class="e02">
+      <p class="form-text e03">email</p><input type="text" class="e03" name="email03" placeholder="jane@change.org"><img class="x e03" id="xe03" onClick="delete_this(this.id)"><br class="e03">
+      <!--create emails 4 through 29-->
       <?php
-        for($i=4; $i<10; $i++) {
-          echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email%d\" placeholder=\"\"><br>", $i);
+        for($i=4; $i<30; $i++) {
+          echo sprintf("<p class=\"form-text e%d%d delete\">email</p><input type=\"text\" class=\"e%d%d delete\"name=\"email%d%d\" placeholder=\"\"><img class=\"x e%d%d delete\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
         }
       ?>
+      <br><img class="plus" onClick="add_email()"><br>
       <br>
       <h2 class="form-header">work and education</h2><br>
       <!-- position00 -->
-      <p class="form-text">position</p><input type="text" name="position00" placeholder="Math Major"><br>
-      <p class="form-text">organization</p><input type="text" name="organization00" placeholder="Washington University in St. Louis"><br>
-      <p class="form-text">start</p><input type="text" name="startdate00" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">end</p><input type="text" name="enddate00" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">projects</p><textarea name="projects00" placeholder="Delta Sigma Pi business fraternity, Design-Build-Fly, Partners in East St. Louis"></textarea><br><br><br><br><br><br><br><br><br>
+      <p class="form-text">position</p><input type="text" name="position00" placeholder="Math Major"><img class="empty-x"><br>
+      <p class="form-text">organization</p><input type="text" name="organization00" placeholder="Washington University in St. Louis"><img class="empty-x"><br>
+      <p class="form-text">start</p><input type="text" name="startdate00" placeholder="mm/dd/yyyy"><img class="empty-x"><br>
+      <p class="form-text">end</p><input type="text" name="enddate00" placeholder="mm/dd/yyyy"><img class="empty-x"><br>
+      <p class="form-text">projects</p><textarea name="projects00" placeholder="Delta Sigma Pi business fraternity, Design-Build-Fly, Partners in East St. Louis"></textarea><img class="empty-x"><br><br><br><br><br><br><br><br><br>
       <!-- position01 -->
-      <p class="form-text">position</p><input type="text" name="position01" placeholder="Software Engineering Intern"><br>
-      <p class="form-text">organization</p><input type="text" name="organization01" placeholder="Amazon"><br>
-      <p class="form-text">start</p><input type="text" name="startdate01" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">end</p><input type="text" name="enddate01" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">projects</p><textarea name="projects01" placeholder="CAPTCHA Machine Learning"></textarea><br><br><br><br><br><br><br><br><br>
+      <p class="form-text o01">position</p><input type="text" class="o01" name="position01" placeholder="Software Engineering Intern"><img class="x o01" id="xo01" onClick="delete_this(this.id)"><br class="o01">
+      <p class="form-text o01">organization</p><input type="text" class="o01" name="organization01" placeholder="Amazon"><img class="empty-x o01"><br class="o01">
+      <p class="form-text o01">start</p><input type="text" class="o01" name="startdate01" placeholder="mm/dd/yyyy"><img class="empty-x o01"><br class="o01">
+      <p class="form-text o01">end</p><input type="text" class="o01" name="enddate01" placeholder="mm/dd/yyyy"><img class="empty-x o01"><br class="o01">
+      <p class="form-text o01">projects</p><textarea class="o01" name="projects01" placeholder="CAPTCHA Machine Learning"></textarea><img class="empty-x o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01"><br class="o01">
       <!-- position02 -->
-      <p class="form-text">position</p><input type="text" name="position02" placeholder="Data Scientist"><br>
-      <p class="form-text">organization</p><input type="text" name="organization02" placeholder="Amazon"><br>
-      <p class="form-text">start</p><input type="text" name="startdate02" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">end</p><input type="text" name="enddate02" placeholder="mm/dd/yyyy"><br>
-      <p class="form-text">projects</p><textarea name="projects02" placeholder="AWS Lambda, AWS Cognito"></textarea><br><br><br><br><br><br><br><br><br>
+      <p class="form-text o02">position</p><input type="text" class="o02" name="position02" placeholder="Data Scientist"><img class="x o02" id="xo02" onClick="delete_this(this.id)"><br class="o02">
+      <p class="form-text o02">organization</p><input type="text" class="o02" name="organization02" placeholder="Amazon"><img class="empty-x o02"><br class="o02">
+      <p class="form-text o02">start</p><input type="text" class="o02" name="startdate02" placeholder="mm/dd/yyyy"><img class="empty-x o02"><br class="o02">
+      <p class="form-text o02">end</p><input type="text" class="o02" name="enddate02" placeholder="mm/dd/yyyy"><img class="empty-x o02"><br class="o02">
+      <p class="form-text o02">projects</p><textarea class="o02" name="projects02" placeholder="AWS Lambda, AWS Cognito"></textarea><img class="empty-x o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02">
       <!--create positions 3 through 49-->
       <?php
         for($i=3; $i<50; $i++) {
-          echo sprintf("<p class=\"form-text\">position</p><input type=\"text\" name=\"position%d%d\" placeholder=\"\"><br>", $i/10, $i%10);
-          echo sprintf("<p class=\"form-text\">organization</p><input type=\"text\" name=\"organization%d%d\" placeholder=\"\"><br>", $i/10, $i%10);
-          echo sprintf("<p class=\"form-text\">start</p><input type=\"text\" name=\"startdate%d%d\" placeholder=\"\"><br>", $i/10, $i%10);
-          echo sprintf("<p class=\"form-text\">end</p><input type=\"text\" name=\"enddate%d%d\" placeholder=\"\"><br>", $i/10, $i%10);
-          echo sprintf("<p class=\"form-text\">projects</p><textarea name=\"projects%d%d\" placeholder=\"\"></textarea><br><br><br><br><br><br><br><br><br>", $i/10, $i%10);
+          echo sprintf("<p class=\"form-text o%d%d delete\">position</p><input type=\"text\" class=\"o%d%d delete\" name=\"position%d%d\" placeholder=\"\"><img class=\"x o%d%d delete\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
+          echo sprintf("<p class=\"form-text o%d%d delete\">organization</p><input type=\"text\" class=\"o%d%d delete\" name=\"organization%d%d\" placeholder=\"\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
+          echo sprintf("<p class=\"form-text o%d%d delete\">start</p><input type=\"text\" class=\"o%d%d delete\" name=\"startdate%d%d\" placeholder=\"\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
+          echo sprintf("<p class=\"form-text o%d%d delete\">end</p><input type=\"text\" class=\"o%d%d delete\" name=\"enddate%d%d\" placeholder=\"\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
+          echo sprintf("<p class=\"form-text o%d%d delete\">projects</p><textarea class=\"o%d%d delete\" name=\"projects%d%d\" placeholder=\"\"></textarea><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
         }
       ?>
-      <input type="submit" value="save profile">
+      <img class="plus" onClick="add_occupation()"><br><br><br>
+      <input type="submit" value="save profile"><img class="empty-x">
     </form>
   </div>
   <div class="footer">

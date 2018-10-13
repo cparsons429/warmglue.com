@@ -40,6 +40,7 @@
       </form>
     </div>
   </div>
+  <div class="empty-footer-pad"></div>
   <div class="footer">
     <p>&copy; warmglue 2018</p>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
