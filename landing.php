@@ -3,9 +3,9 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/home-styles.css">
+  <link rel="stylesheet" href="styles/landing-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="scripts/home-scripts.js"></script>
+  <script src="scripts/landing-scripts.js"></script>
   <title>warmglue: log in or sign up</title>
   <meta charset="utf-8">
   <meta name="description" content="As you expand your professional network, warmglue finds the valuable intros your friends can make for you. Log in or sign up.">
@@ -22,7 +22,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="home">
+      <a href="landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>

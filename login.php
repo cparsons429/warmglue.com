@@ -21,7 +21,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="home">
+      <a href="landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -34,7 +34,7 @@
       <form name="log-in" action="verify-user.php" method="get">
         <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
-        <a class="form-link" href="forgot-password">forgot your password?</a>
+        <a class="form-link" href="forgotpassword">forgot your password?</a>
         <br><a class="form-link" href="signup">create an account</a>
         <div class="post-link"></div>
         <input type="submit" value="log in">
