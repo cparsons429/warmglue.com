@@ -13,17 +13,19 @@
   background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
-.main-body {
-  position: relative;
-  background: white;
-  width: 26.5em;
-  margin-left: 20em;
-  padding-top: 8.5em;
-  padding-bottom: 8em;
-  min-height: calc(100vh - 22.2em);
+@media only screen and (min-width: 769px) {
+  /* for desktop screens */
+  .main-body {
+    position: relative;
+    background: url("../assets/bgdesktop.jpg") no-repeat;
+    background-size: cover;
+    height: calc(100vw * 4000 / 3789);
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  /* for mobile screens */
+
   .brand-image {
     margin-left: 1.8em;
   }
@@ -33,5 +35,8 @@
     background: white;
     width: calc(100vw - 2em);
     margin-left: 2em;
+    padding-top: 8.5em;
+    padding-bottom: 8em;
+    min-height: calc(100vh - 22.2em);
   }
 }

@@ -35,6 +35,25 @@
     </div>
   </nav>
   <div class="main-body">
+    <div class="intros-list">
+    </div>
+    <div class="buttons-bar">
+      <div class="profile-div">
+        <a href="profile" class="profile-link">
+          <button class="button profile">profile</button>
+        </a>
+      </div>
+      <div class="search-div">
+        <a href="search" class="search-link">
+          <button class="search profile">search</button>
+        </a>
+      </div>
+      <div class="account-div">
+        <a href="account" class="account-link">
+          <button class="button account">account</button>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="footer">
     <p>&copy; warmglue 2018</p>
