@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/profile-styles.css">
+  <link rel="stylesheet" href="styles/internal-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script src="scripts/profile-scripts.js"></script>
   <title>warmglue: profile</title>

@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/error-styles.css">
+  <link rel="stylesheet" href="styles/external-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <title>warmglue: error 404</title>
   <meta charset="utf-8">

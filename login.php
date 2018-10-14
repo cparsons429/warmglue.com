@@ -3,6 +3,7 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/external-styles.css">
   <link rel="stylesheet" href="styles/login-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <title>warmglue: log in</title>
@@ -34,7 +35,7 @@
       <form name="log-in" action="verify-user.php" method="get">
         <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
-        <a class="form-link" href="forgotpassword">forgot your password?</a>
+        <a class="form-link" href="resetpassword">forgot your password?</a>
         <br><a class="form-link" href="signup">create an account</a>
         <div class="post-link"></div>
         <input type="submit" value="log in">
