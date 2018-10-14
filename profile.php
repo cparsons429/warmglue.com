@@ -30,7 +30,7 @@
     </div>
   </nav>
   <div class="main-body">
-    <h1>complete profile</h1>
+    <h1>profile</h1>
     <form name="profile" action="complete-profile.php" method="get">
       <br><br><br><p class="form-text">first name</p>
       <input type="text" name="first-name" placeholder="Jane"><img class="empty-x"><br>
