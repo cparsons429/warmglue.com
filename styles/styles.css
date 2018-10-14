@@ -181,7 +181,13 @@ input[type=submit]:hover {
   height: 1em;
   margin-bottom: -0.2em;
   margin-left: 1.5em;
-  content: url("../assets/nothing.png")
+  content: url("../assets/nothing.png");
+}
+
+.slight-tab {
+  width: 0.8em;
+  height: 1em;
+  content: url("../assets/nothing.png");
 }
 
 .plus {

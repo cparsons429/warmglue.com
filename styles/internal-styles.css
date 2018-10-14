@@ -14,7 +14,7 @@ input[type=submit]:hover {
   margin-left: 20em;
   padding-top: 8.5em;
   padding-bottom: 8em;
-  min-height: calc(100vh - 8em);
+  min-height: calc(100vh - 22.2em);
 }
 
 h1 {
