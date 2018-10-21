@@ -1,3 +1,13 @@
+<?php
+  require 'backend/db-users.php';
+  require 'backend/helper-functions.php';
+  require 'backend/login-user.php';
+  session_start();
+
+  if ($_SESSION['logged_in'] == 1) {
+    header("location: home");
+  }
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,8 +42,16 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>log in</h1>
-      <form name="log-in" action="verify-user.php" method="get">
-        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br><p class="form-text">password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+      <form name="log-in" action="backend/login-user.php" method="post">
+        <br>
+        <?php
+          if ($_SESSION['email_attempt'] == "") {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
+          } else {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=%s>", $_SESSION['email_attempt']);
+          }
+        ?>
+        <br><p class="form-text">password</p><input type="password" name="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <div class="pre-link"></div>
         <a class="form-link" href="resetpassword">forgot your password?</a>
         <br><a class="form-link" href="signup">create an account</a>

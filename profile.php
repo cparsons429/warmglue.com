@@ -1,3 +1,12 @@
+<?php
+  require 'backend/db-users.php';
+  require 'backend/update-profile.php';
+  session_start();
+
+  if ($_SESSION['logged_in'] != 1) {
+    header("location: login");
+  }
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +40,11 @@
   </nav>
   <div class="main-body">
     <h1>profile</h1>
-    <form name="profile" action="complete-profile.php" method="get">
+    <form name="set-profile" action="update-profile.php" method="post">
       <br><br><br><p class="form-text">first name</p>
-      <input type="text" name="first-name" placeholder="Jane"><img class="empty-x"><br>
+      <input type="text" name="first_name" placeholder="Jane"><img class="empty-x"><br>
       <p class="form-text">last name</p>
-      <input type="text" name="last-name" placeholder="Doe"><img class="empty-x"><br><br>
+      <input type="text" name="last_name" placeholder="Doe"><img class="empty-x"><br><br>
       <h2 class="form-header">emails (work, personal, school, etc)</h2><br>
       <p class="form-text e00">email</p><input type="text" class="e00" name="email00" placeholder=""><img class="empty-x"><br>
       <p class="form-text e01">email</p><input type="text" class="e01" name="email01" placeholder="janedoe67@outlook.com"><img class="x e01" id="xe01" onClick="delete_this(this.id)"><br class="e01">
@@ -47,7 +56,7 @@
           echo sprintf("<p class=\"form-text e%d%d delete\">email</p><input type=\"text\" class=\"e%d%d delete\"name=\"email%d%d\" placeholder=\"\"><img class=\"x e%d%d delete\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
         }
       ?>
-      <br><img class="plus" onClick="add_email()"><br><br>
+      <br><img class="plus" id="plus-email" onClick="add_email()"><br><br>
       <h2 class="form-header">work and education</h2><br>
       <!-- position00 -->
       <p class="form-text">position</p><input type="text" name="position00" placeholder="Math Major"><img class="empty-x"><br>
@@ -67,9 +76,9 @@
       <p class="form-text o02">start</p><input type="text" class="o02" name="startdate02" placeholder="mm/dd/yyyy"><img class="empty-x o02"><br class="o02">
       <p class="form-text o02">end</p><input type="text" class="o02" name="enddate02" placeholder="mm/dd/yyyy"><img class="empty-x o02"><br class="o02">
       <p class="form-text o02">projects</p><textarea class="o02" name="projects02" placeholder="AWS Lambda, AWS Cognito"></textarea><img class="empty-x o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02"><br class="o02">
-      <!--create positions 3 through 49-->
+      <!--create positions 3 through 69-->
       <?php
-        for($i=3; $i<50; $i++) {
+        for($i=3; $i<70; $i++) {
           echo sprintf("<p class=\"form-text o%d%d delete\">position</p><input type=\"text\" class=\"o%d%d delete\" name=\"position%d%d\" placeholder=\"\"><img class=\"x o%d%d delete\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
           echo sprintf("<p class=\"form-text o%d%d delete\">organization</p><input type=\"text\" class=\"o%d%d delete\" name=\"organization%d%d\" placeholder=\"\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
           echo sprintf("<p class=\"form-text o%d%d delete\">start</p><input type=\"text\" class=\"o%d%d delete\" name=\"startdate%d%d\" placeholder=\"\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
@@ -77,7 +86,7 @@
           echo sprintf("<p class=\"form-text o%d%d delete\">projects</p><textarea class=\"o%d%d delete\" name=\"projects%d%d\" placeholder=\"\"></textarea><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\"><br class=\"o%d%d delete\">", $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10, $i/10, $i%10);
         }
       ?>
-      <img class="plus" onClick="add_occupation()"><br><br><br>
+      <img class="plus" id="plus-occupation" onClick="add_occupation()"><br><br><br>
       <input type="submit" value="save profile"><img class="empty-x">
     </form>
   </div>
