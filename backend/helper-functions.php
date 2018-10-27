@@ -1,42 +1,188 @@
 <?php
-  $days_in_each_month = array(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
   function addToMessage($str) {
-    if ($_SESSION['message'] == "") {
+    // handles new line issues depending on whether this is the only, or one of multiple, messages
+    if ($_SESSION['message'] === "") {
       $_SESSION['message'] = "\n\n" + $str;
     } else {
       $_SESSION['message'] += "\n" + $str;
     }
   }
 
-  function isEmail($str) {
-    return preg_match("^[\w!#$%&'\.*+/=?^_`{|}~-]+@[\w\-]+(\.[\w\-]+)+$", $str);
+  function isStartDateFormat($str) {
+    // let us know whether it's a valid start date format
+    // possibilities: w/ slash or dash, w/ 2 or 4 digits for the year
+    return preg_match("^\d{1,2}/\d{1,2}/\d{2}", $str) || preg_match("^\d{1,2}/\d{1,2}/\d{4}", $str) || preg_match("^\d{1,2}-\d{1,2}-\d{2}", $str) || preg_match("^\d{1,2}-\d{1,2}-\d{4}", $str);
   }
 
-  function isName($str) {
-    return preg_match("/^[a-zA-Z\s,.'-\pL]+$/u", $str);
+  function isEndDateFormat($str) {
+    // let us know whether it's a valid end date format
+    // possibilities are same as start date, plus strings like "now" indicating that position is current
+     return isStartDateFormat($str) || preg_match("\b(?i)now(?-i)\b", $str) || preg_match("\b(?i)today(?-i)\b", $str) || preg_match("\b(?i)current(?-i)\b", $str) || preg_match("\b(?i)present(?-i)\b", $str);
   }
 
-  function isDate($str) {
-    if (preg_match("^\d{1,2}/\d{1,2}/\d{4}", $str)) {
+  function getMonthDayYear($str) {
+    // assuming the string has been validated to match the corresponding regex, return the month, date, and year
+    if (preg_match("^\d{1,2}/\d{1,2}/\d{2,4}", $str)) {
       // substring is weird for php; the second parameter is the length of the string, not the index to finish at
       // strrpos is just strpos for last intead of first occurrence
       $month = intval(substr($str, 0, strpos("/")), 10);
       $day = intval(substr($str, strpos("/") + 1, strrpos("/") - (strpos("/") + 1)), 10);
       $year = intval(substr($str, strrpos("/") + 1), 10);
+    } else if preg_match("^\d{1,2}-\d{1,2}-\d{2,4}", $str) {
+      // same as before, just with dashes instead of slashes separating the input
+      $month = intval(substr($str, 0, strpos("-")), 10);
+      $day = intval(substr($str, strpos("-") + 1, strrpos("-") - (strpos("-") + 1)), 10);
+      $year = intval(substr($str, strrpos("-") + 1), 10);
+    }
+    else {
+      // the user must want the current date
+      $month = intval(date("n"));
+      $day = intval(date("j"));
+      $year = intval(date("Y"));
+    }
 
-      if ($month > 12 || $month < 1) {
-        return false;
+    if ($year < 100) {
+      // convert 2-digit year to 4-digit year
+      if ($year <= intval(date("y"))) {
+        $year += intval(date("Y")) - intval(date("y"));
+      } else {
+        $year += intval(date("Y")) - intval(date("y")) - 100;
       }
-      else {
-        // we need to make sure this is a valid day for its month
-        if ($month == 1) {
+    }
 
+    return array($month, $day, $year);
+  }
+
+  function areDatesCorrectlyOrdered($b_month, $b_day, $b_year, $a_month, $a_day, $a_year) {
+    // make sure b doesn't happen after a
+    if ($a_year < $b_year) {
+      return 0;
+    } else if ($a_year > $b_year) {
+      return 1;
+    } else {
+      if ($a_month < $b_month) {
+        return 0;
+      } else if ($a_month > $b_month) {
+        return 1;
+      } else {
+        if ($a_day < $b_day) {
+          return 0;
+        } else {
+          return 1;
         }
       }
     }
-    else if (preg_match("^\d{1,2}-\d{1,2}-\d{4}", $str)) {
-
-    }
   }
+
+  function isDate($str) {
+    // assuming the string has been validated to match the corresponding regex, we want to make sure it's a valid date
+    // get our month, date, and year
+    $date_info = getMonthDayYear($str);
+    $month = $date_info[0];
+    $day = $date_info[1];
+    $year = $date_info[2];
+
+    // make sure our year makes sense; date can't be earlier than 1/1/1900
+    if ($year < 1900) {
+      return 0;
+    }
+
+    // make sure our month makes sense
+    if ($month < 1 or $month > 12) {
+      return 0;
+    }
+
+    // see if this is a leap year
+    if (($year % 4 == 0 && $year % 100 != 0) || ($year % 400 == 0)) {
+      $days_in_each_month = array(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    } else {
+      $days_in_each_month = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    }
+
+    // make sure our day makes sense
+    if ($day < 1 || $days_in_each_month[$month - 1] < $day) {
+      return 0;
+    }
+
+    // make sure our date isn't later than today
+    $now_date_info = getMonthDayYear("now");
+    $now_month = $now_date_info[0];
+    $now_day = $now_date_info[1];
+    $now_year = $now_date_info[2];
+
+    return areDatesCorrectlyOrdered($after_month, $after_day, $after_year, $now_month, $now_day, $now_year);
+  }
+
+  function datesInOrder($before, $after) {
+    // make sure "before" doesn't happen after "after"
+    $before_date_info = getMonthDayYear($before);
+    $before_month = $before_date_info[0];
+    $before_day = $before_date_info[1];
+    $before_year = $before_date_info[2];
+
+    $after_date_info = getMonthDayYear($after);
+    $after_month = $after_date_info[0];
+    $after_day = $after_date_info[1];
+    $after_year = $after_date_info[2];
+
+    // make sure "before" doesn't happen after "after"
+    return areDatesCorrectlyOrdered($before_month, $before_day, $before_year, $after_month, $after_day, $after_year);
+  }
+
+  function isEmail($str) {
+    // return whether the email matches the appropriate regex
+    return preg_match("^[\w!#$%&'\.*+/=?^_`{|}~-]+@[\w\-]+(\.[\w\-]+)+$", $str);
+  }
+
+  function isName($str) {
+    // return whether the name matches the appropriate regex
+    return preg_match("/^[a-zA-Z\s,.'-\pL]+$/u", $str);
+  }
+
+  function emailIndex($arr, $email) {
+    // return index of the email in the given array, or -1 if it's not in the array
+    foreach ($arr as $key => $value) {
+      if ($email === $value) {
+        return $key;
+      }
+    }
+
+    return -1;
+  }
+
+  function emailAlreadyTaken($arr, $email) {
+    // return whether the email is already contained in the given array
+    return !(emailIndex($arr, $email) == -1);
+  }
+
+  function emptyOccupation($occupation) {
+    // return whether the occupation is empty
+    return $occupation[0] === "" && $occupation[1] === "" && $occupation[2] === "" && $occupation[3] === "" && $occupation[4] === "";
+  }
+
+  function occupationIndex($arr, $occupation) {
+    // return index of the occupation in the given array, or -1 if it's not in the array
+    foreach ($arr as $key => $value) {
+      $duplicate = 1;
+
+      for ($i = 0; $i < 5; $i++) {
+        if (!($occupation[$i] === $value[i])) {
+          $duplicate = 0;
+          break;
+        }
+      }
+
+      if ($duplicate == 1) {
+        return $key;
+      }
+    }
+
+    return -1;
+  }
+
+  function occupationAlreadyTaken($arr, $occupation) {
+    // return whether the occupation is already contained in the given array
+    return !(occupationIndex($arr, $occupation) == -1);
+  }
+
  ?>

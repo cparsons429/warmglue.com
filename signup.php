@@ -1,6 +1,4 @@
 <?php
-  require 'backend/db-users.php';
-  require 'backend/helper-functions.php';
   require 'backend/register-user.php';
   session_start();
 
@@ -61,7 +59,9 @@
   </div>
   <div class="empty-footer-pad"></div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>
