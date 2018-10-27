@@ -198,7 +198,7 @@
     }
 
     // find current occupations
-    $stmt = $mysqli->prepare("SELECT id, position, organization, start_date, end_date, projects FROM user_occupations where user_id=?");
+    $stmt = $mysqli->prepare("SELECT id, position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($o_id, $position, $organization, $start_date, $end_date, $projects);

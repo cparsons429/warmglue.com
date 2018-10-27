@@ -37,6 +37,8 @@
 
     if (password_verify($pwd_guess, $pwd_hash)) {
 	     // login succeeded
+       // note that we don't want to delete the session email - we want to keep it available to make sign in easy in case 
+       // the user signs out
 	     $_SESSION['user_id'] = $u_id;
        $_SESSION['logged_in'] = 1;
 	     header("location: home");

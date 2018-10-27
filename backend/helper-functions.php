@@ -185,4 +185,14 @@
     return !(occupationIndex($arr, $occupation) == -1);
   }
 
+  function searchIndex($arr, $search) {
+    // functionally identical to emailIndex
+    return emailIndex($arr, $search);
+  }
+
+  function searchAlreadyTaken($arr, $search) {
+    // functionally identical to emailAlreadyTaken
+    return emailAlreadyTaken($arr, $search);
+  }
+
  ?>
