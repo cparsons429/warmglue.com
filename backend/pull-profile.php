@@ -44,32 +44,37 @@
 
   function getOccupations() {
     // find current occupations
-    $stmt = $mysqli->prepare("SELECT email, is_primary, updated FROM user_emails WHERE user_id=? ORDER BY MAX(updated) DESC");
+    $stmt = $mysqli->prepare("SELECT position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=? ORDER BY MAX(start_date) DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($email, $primary, $_);
+    $stmt->bind_result($position, $organization, $start_date, $end_date, $projects);
 
     // get non-empty searches
-    $emails = array();
+    $occupations = array();
 
     while($stmt->fetch()) {
-      if ($primary) {
-        // if it's our primary email, make it the first element
-        array_unshift($emails, $email)
+      // converting dates to mm/dd/yyyy or "now" format
+      $start_edited = getDateStr($start_date);
+      $end_edited = getDateStr($end_date);
+
+      // in case the user didn't input any project here
+      if ($projects === NULL) {
+        $projects_edited = "";
       } else {
-        // otherwise, make it the last element
-        array_push($emails, $email);
+        $projects_edited = $projects;
       }
+
+      array_push($occupations, array($position, $organization, $start_edited, $end_edited, $projects_edited));
     }
 
-    // fill in empty values for first 4 emails in case they don't exist
-    // this is so we don't have to include special logic for those first 4 emails depending whether or not there has been
-    // an input email
-    for ($i = count($emails); $i < 4; $i++) {
-      array_push($emails, "");
+    // fill in empty values for first 3 occupations in case they don't exist
+    // this is so we don't have to include special logic for those first 3 occupations depending whether or not there has
+    // been an input occupation
+    for ($i = count($occupations); $i < 3; $i++) {
+      array_push($occupations, array("", "", "", "", ""));
     }
 
-    return $emails;
+    return $occupations;
   }
 
  ?>

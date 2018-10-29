@@ -17,7 +17,7 @@
   function isEndDateFormat($str) {
     // let us know whether it's a valid end date format
     // possibilities are same as start date, plus strings like "now" indicating that position is current
-     return isStartDateFormat($str) || preg_match("\b(?i)now(?-i)\b", $str) || preg_match("\b(?i)today(?-i)\b", $str) || preg_match("\b(?i)current(?-i)\b", $str) || preg_match("\b(?i)present(?-i)\b", $str);
+     return isStartDateFormat($str) || preg_match("\b\"?(?i)now(?-i)\"?\b", $str) || preg_match("\b\"?(?i)today(?-i)\"?\b", $str) || preg_match("\b\"?(?i)current(?-i)\"?\b", $str) || preg_match("\b\"?(?i)present(?-i)\"?\b", $str);
   }
 
   function getMonthDayYear($str) {
@@ -125,6 +125,20 @@
 
     // make sure "before" doesn't happen after "after"
     return areDatesCorrectlyOrdered($before_month, $before_day, $before_year, $after_month, $after_day, $after_year);
+  }
+
+  function getDateStr($date) {
+    // after pulling $date from the sql db, convert it to a human-readable string in the mm/dd/yyyy or "now" format
+    if ($date === null) {
+      // in case this is a current date
+      return "now";
+    }
+
+    $year = substr($date, 0, 4);
+    $month = substr($date, 5, 2);
+    $day = substr($date, 8);
+
+    return $month + "/" + $day + "/" + $year;
   }
 
   function isEmail($str) {
