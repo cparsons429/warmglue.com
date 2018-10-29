@@ -56,4 +56,9 @@ function add_occupation() {
   $(occupation_to_reveal).removeClass('delete');
   occupation_to_create++;
   visible_occupations++;
+
+  // we don't want to show more than MAX_OCCUPATIONS, so delete the plus when we reach this limit
+  if (visible_occupations == MAX_OCCUPATIONS) {
+    document.getElementById("plus-occupation").addClass('delete');
+  }
 };

@@ -10,13 +10,21 @@
   $_SESSION['first_name_attempt'] = htmlentities($_POST['first_name']);
   $_SESSION['last_name_attempt'] = htmlentities($_POST['last_name']);
 
-  // make sure names match regex to prevent sql injections
+  // make sure names match regex to prevent sql injections, and make sure the user has input names
   if (!isName($_POST['first_name'])) {
     addToMessage("\"" + $_SESSION['first_name_attempt'] + "\" seems to have some non-standard characters for a name.");
+  } else if ($_SESSION['first_name_attempt']) === "") {
+    addToMessage("You have to provide a first name to proceed.");
+  } else {
+    // we're good to go
   }
 
   if (!isName($_POST['last_name'])) {
     addToMessage("\"" + $_SESSION['last_name_attempt'] + "\" seems to have some non-standard characters for a name.");
+  } else if ($_SESSION['last_name_attempt']) === "") {
+    addToMessage("You have to provide a last name to proceed.");
+  } else {
+    // we're good to go
   }
 
   // make sure emails match regex to prevent sql injections
@@ -226,16 +234,33 @@
       $end = getMonthDayYear($input_occupation[3]);
 
       $start_str = $start[0] + "," + $start[1] + "," + $start[2];
-      $end_str = $end[0] + "," + $end[1] + "," $end[2];
 
-      if ($input_occupation[4] === "") {
-        // in case the last entry is empty, leave it at null when we insert our new value into sql
-        $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'))");
-        $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str);
+      if (!$end === null) {
+        // we need to handle if this occupation is still a place where the user works (denoted by getMonthDayYear returning
+        // null to indicate that the user input the current date)
+        $end_str = $end[0] + "," + $end[1] + "," $end[2];
+
+        if ($input_occupation[4] === "") {
+          // in case the last entry is empty, leave it at null when we insert our new value into sql
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'))");
+          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str);
+        } else {
+          // if the last entry isn't empty, then proceed with the value of projects
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str, $input_occupation[4]);
+        }
       } else {
-        // if the last entry isn't empty, then proceed with the value of projects
-        $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'), ?)");
-        $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str, $input_occupation[4]);
+        // the user just input a current occupation
+
+        if ($input_occupation[4] === "") {
+          // in case the last entry is empty, leave it at null when we insert our new value into sql
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'))");
+          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str);
+        } else {
+          // if the last entry isn't empty, then proceed with the value of projects
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $input_occupation[4]);
+        }
       }
 
       $stmt->execute();

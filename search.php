@@ -1,5 +1,6 @@
 <?php
   require 'backend/update-searches.php';
+  require 'backend/pull-searches.php';
   session_start();
 
   if ($_SESSION['logged_in'] != 1) {
@@ -41,16 +42,22 @@
     <h1>searches</h1>
     <form name="search" action="complete-search.php" method="get">
       <br><br><br>
-      <p class="form-text s00">search</p><textarea class="s00" name="search00" placeholder="Math professor who's connected with the graduate program at Stanford. I'm thinking about applying there for a master's."></textarea><img class="empty-x s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00"><br class="s00">
-      <p class="form-text s01">search</p><textarea class="s01" name="search01" placeholder="Developer at a meal delivery company - we're trying to get more users for our API!"></textarea><img class="empty-x s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01"><br class="s01">
-      <p class="form-text s02">search</p><textarea class="s02" name="search02" placeholder=""></textarea><img class="empty-x s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02"><br class="s02">
-      <p class="form-text s03">search</p><textarea class="s03" name="search03" placeholder=""></textarea><img class="empty-x s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03"><br class="s03">
-      <p class="form-text s04">search</p><textarea class="s04" name="search04" placeholder=""></textarea><img class="empty-x s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04"><br class="s04">
+      <?php
+        $searches = getSearches();
+
+        echo sprintf("<p class=\"form-text s00\">search</p><textarea class=\"s00\" name=\"search00\" placeholder=\"Professor who's connected with the graduate math program at Stanford. I'm thinking about applying there for a master's.\" value=\"%s\"></textarea><img class=\"empty-x s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\">", $searches[0]);
+        echo sprintf("<p class=\"form-text s01\">search</p><textarea class=\"s01\" name=\"search01\" placeholder=\"Developer at a meal delivery company - we're trying to get more users for our API!\" value=\"%s\"></textarea><img class=\"empty-x s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\">", $searches[1]);
+        echo sprintf("<p class=\"form-text s02\">search</p><textarea class=\"s02\" name=\"search02\" placeholder=\"\" value=\"%s\"></textarea><img class=\"empty-x s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\"><br class=\"s02\">", $searches[2]);
+        echo sprintf("<p class=\"form-text s03\">search</p><textarea class=\"s03\" name=\"search03\" placeholder=\"\" value=\"%s\"></textarea><img class=\"empty-x s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\">", $searches[3]);
+        echo sprintf("<p class=\"form-text s04\">search</p><textarea class=\"s04\" name=\"search04\" placeholder=\"\" value=\"%s\"</textarea><img class=\"empty-x s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\">", $searches[4]);
+      ?>
       <input type="submit" value="save searches"><img class="empty-x">
     </form>
   </div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>

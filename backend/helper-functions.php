@@ -36,9 +36,7 @@
     }
     else {
       // the user must want the current date
-      $month = intval(date("n"));
-      $day = intval(date("j"));
-      $year = intval(date("Y"));
+      return null;
     }
 
     if ($year < 100) {
