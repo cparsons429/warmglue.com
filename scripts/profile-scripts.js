@@ -1,8 +1,8 @@
-var email_to_create = 4;
-var occupation_to_create = 3;
+var email_to_create = '<?php echo $num_emails; ?>';
+var occupation_to_create = '<?php echo $num_occupations; ?>';
 
-var visible_emails = 4;
-var visible_occupations = 3;
+var visible_emails = email_to_create;
+var visible_occupations = occupation_to_create;
 
 const MAX_EMAILS = 10;
 const MAX_OCCUPATIONS = 50;

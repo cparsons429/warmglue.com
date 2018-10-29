@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/internal-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="scripts/profile-scripts.js"></script>
+  <script src="scripts/profile-scripts.js" defer></script>
   <title>warmglue: profile</title>
   <meta charset="utf-8">
   <meta name="description" content="Complete your warmglue profile to get valuable professional intros from your friends.">
@@ -48,6 +48,7 @@
         echo sprint("<p class=\"form-text\">last name</p><input type=\"text\" name=\"last_name\" placeholder=\"Doe\" value=\"%s\"><img class=\"empty-x\"><br><br>", $names[1]);
 
         $emails = getEmails();
+        $num_emails = count($emails);
 
         echo sprintf("<h2 class=\"form-header\">emails (work, personal, school, etc)</h2><br>");
         echo sprintf("<p class=\"form-text e00\">email</p><input type=\"text\" class=\"e00\" name=\"email00\" placeholder=\"\" value=\"%s\"><img class=\"empty-x\"><br>", $emails[0]);
@@ -56,18 +57,19 @@
         echo sprintf("<p class=\"form-text e03\">email</p><input type=\"text\" class=\"e03\" name=\"email03\" placeholder=\"jane@change.org\" value=\"%s\"><img class=\"x e03\" id=\"xe03\" onClick=\"delete_this(this.id)\"><br class=\"e03\">", $emails[3]);
 
         // create form elements for each of the emails the user has input
-        for($i = 4; $i < count($emails); $i++) {
+        for($i = 4; $i < $num_emails; $i++) {
           echo sprintf("<p class=\"form-text e%d%d\">email</p><input type=\"text\" class=\"e%d%d\" name=\"email%d%d\"  value=\"%s\"><img class=\"x e%d%d\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $emails[i], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
         }
 
         // create form elements for extra emails (30 total emails are created as a buffer)
-        for($i = count($emails); $i < 30; $i++) {
+        for($i = $num_emails; $i < 30; $i++) {
           echo sprintf("<p class=\"form-text e%d%d delete\">email</p><input type=\"text\" class=\"e%d%d delete\" name=\"email%d%d\"><img class=\"x e%d%d delete\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d delete\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
         }
 
         echo sprintf("<br><img class=\"plus\" id=\"plus-email\" onClick=\"add_email()\"><br><br>");
 
         $occupations = getOccupations();
+        $num_occupations = count($occupations);
 
         echo sprintf("<h2 class=\"form-header\">work and education</h2><br>");
 
@@ -105,7 +107,7 @@
         echo sprintf("<p class=\"form-text o02\">projects</p><textarea class=\"o02\" name=\"projects02\" placeholder=\"AWS Lambda, AWS Cognito\" value=\"%s\"></textarea><img class=\"empty-x o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\">", $occupations[2][4]);
 
         // create form elements for each of the occupations the user has input
-        for($i = 3; $i < count($occupations); $i++) {
+        for($i = 3; $i < $num_occupations; $i++) {
           echo sprintf("<p class=\"form-text o%d%d\">position</p><input type=\"text\" class=\"o%d%d\" name=\"position%d%d\" value=\"%s\"><img class=\"x o%d%d\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][0], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
           echo sprintf("<p class=\"form-text o%d%d\">organization</p><input type=\"text\" class=\"o%d%d\" name=\"organization%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][1], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
@@ -118,7 +120,7 @@
         }
 
         // create form elements for the extra occupations (100 total occupations are created as a buffer)
-        for($i = count($occupations); $i < 100; $i++) {
+        for($i = $num_occupations; $i < 100; $i++) {
           echo sprintf("<p class=\"form-text o%d%d delete\">position</p><input type=\"text\" class=\"o%d%d delete\" name=\"position%d%d\"><img class=\"x o%d%d delete\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d delete\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
           echo sprintf("<p class=\"form-text o%d%d delete\">organization</p><input type=\"text\" class=\"o%d%d delete\" name=\"organization%d%d\"><img class=\"empty-x o%d%d delete\"><br class=\"o%d%d delete\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
