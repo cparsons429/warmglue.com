@@ -25,9 +25,6 @@
 
   // compare the submitted password to the actual password hash
   if ($count == 1) {
-    // escape password to prevent sql injections
-    $pwd_guess = escape_string($_POST['password']);
-
     // we search for the password for this email
     $stmt = $mysqli->prepare("SELECT salted_hash FROM users WHERE id=?");
     $stmt->bind_param('i', $u_id);
@@ -35,9 +32,9 @@
     $stmt->bind_result($pwd_hash);
     $stmt->fetch();
 
-    if (password_verify($pwd_guess, $pwd_hash)) {
+    if (password_verify($_POST['password'], $pwd_hash)) {
 	     // login succeeded
-       // note that we don't want to delete the session email - we want to keep it available to make sign in easy in case 
+       // note that we don't want to delete the session email - we want to keep it available to make sign in easy in case
        // the user signs out
 	     $_SESSION['user_id'] = $u_id;
        $_SESSION['logged_in'] = 1;

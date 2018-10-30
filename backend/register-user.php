@@ -30,17 +30,10 @@
     exit();
   } else {
     // we need to make sure the passwords match one another
-    // escape passwords to protect against sql injections
-    $pwd0 = $mysqli->escape_string($_POST['password0']);
-    $pwd1 = $mysqli->escape_string($_POST['password1']);
-
-    if ($pwd0 === $pwd1)) {
+    if ($_POST['password0'] === $_POST['password1']) {
       // we're good to create a user
-      // note that we input the escaped password string, not the original password string
-      // that's because for login purposes, we'll compare an escaped password string with the salted hash
-      // we'll do that upon login because we want to protect against sql injection for login as well
       $stmt = $mysqli->prepare("INSERT INTO users (salted_hash) VALUES (?)");
-      $stmt->bind_param('s', password_hash($pwd0, PASSWORD_DEFAULT));
+      $stmt->bind_param('s', password_hash($_POST['password0'], PASSWORD_DEFAULT));
       $stmt->execute();
 
       // get user id

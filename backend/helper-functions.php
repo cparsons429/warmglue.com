@@ -2,9 +2,9 @@
   function addToMessage($str) {
     // handles new line issues depending on whether this is the only, or one of multiple, messages
     if ($_SESSION['message'] === "") {
-      $_SESSION['message'] = "\n\n" + $str;
+      $_SESSION['message'] = "\n\n" + htmlentities($str);
     } else {
-      $_SESSION['message'] += "\n" + $str;
+      $_SESSION['message'] += "\n" + htmlentities($str);
     }
   }
 

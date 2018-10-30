@@ -12,16 +12,16 @@
 
   // make sure names match regex to prevent sql injections, and make sure the user has input names
   if (!isName($_POST['first_name'])) {
-    addToMessage("\"" + $_SESSION['first_name_attempt'] + "\" seems to have some non-standard characters for a name.");
-  } else if ($_SESSION['first_name_attempt']) === "") {
+    addToMessage("\"" + $_POST['first_name'] + "\" seems to have some non-standard characters for a name.");
+  } else if ($_POST['first_name'] === "") {
     addToMessage("You have to provide a first name to proceed.");
   } else {
     // we're good to go
   }
 
   if (!isName($_POST['last_name'])) {
-    addToMessage("\"" + $_SESSION['last_name_attempt'] + "\" seems to have some non-standard characters for a name.");
-  } else if ($_SESSION['last_name_attempt']) === "") {
+    addToMessage("\"" + $_POST['last_name'] + "\" seems to have some non-standard characters for a name.");
+  } else if ($_POST['last_name'] === "") {
     addToMessage("You have to provide a last name to proceed.");
   } else {
     // we're good to go
@@ -33,33 +33,29 @@
   // if all emails fail, we don't want to show a redundant error message; hence, the extra variable $at_least_one_invalid
   $emails = array();
   $_SESSION['email_attempts'] = array();
-  $at_least_one_invalid = 0;
 
   for ($i = 0; $i < 30; i++) {
     $email_name = "email" + strval(intdiv($i, 10)) + strval($i%10);
-    $sanitized_email = htmlentities($_POST[$email_name]);
 
-    if ($sanitized_email === "" || emailAlreadyTaken($_SESSION['email_attempts'], $sanitized_email)) {
+    if ($_POST[$email_name] === "" || emailAlreadyTaken($emails, $_POST[$email_name])) {
       // there's nothing here, or this is a duplicate email
     } else {
       // there's something here
-      array_push($_SESSION['email_attempts'], $sanitized_email);
+      array_push($_SESSION['email_attempts'], htmlentities($_POST[$email_name]));
 
       // to make sure that our email isn't already taken
       $stmt = $mysqli->prepare("SELECT COUNT(*), user_id FROM user_emails WHERE email=?");
-      $stmt->bind_param('s', $_POST['email']);
+      $stmt->bind_param('s', $_POST[$email_name]);
       $stmt->execute();
       $stmt->bind_result($count, $u_id);
       $stmt->fetch();
 
       if (!isEmail($_POST[$email_name]) {
         // the thing here is not valid
-        addToMessage("\"" + $sanitized_email + "\" doesn't look like an email address.");
-        $at_least_one_invalid = 1;
+        addToMessage("\"" + $_POST[$email_name] + "\" doesn't look like an email address.");
       } else if ($count == 1 && !($u_id == $_SESSION['user_id'])) {
         // this email is already taken by another account
-        addToMessage("\"" + $sanitized_email + "\" is already registered with another account.");
-        $at_least_one_invalid = 1;
+        addToMessage("\"" + $_POST[$email_name] + "\" is already registered with another account.");
       } else {
         // the thing here is valid
         array_push($emails, $_POST[$email_name]);
@@ -67,7 +63,7 @@
     }
   }
 
-  if (count($_SESSION['email_attempts']) == 0 && $at_least_one_invalid == 0) {
+  if (count($_SESSION['email_attempts']) == 0)) {
     addToMessage("You have to provide at least one valid email address to proceed.");
   }
 
@@ -75,7 +71,6 @@
   // then, make sure that the dates make sense for each occupation
   $occupations = array();
   $_SESSION['occupation_attempts'] = array();
-  $at_least_one_invalid = 0;
 
   for ($i = 0; $i < 100; $i++) {
     $iteration_name = strval(intdiv($i, 10)) + strval($i%10);
@@ -86,77 +81,68 @@
     $end_name = "enddate" + $iteration_name;
     $projects_name = "projects" + $iteration_name;
 
-    $sanitized_position = htmlentities($_POST[$position_name]);
-    $sanitized_organization = htmlentities($_POST[$organization_name]);
-    $sanitized_start = htmlentities($_POST[$start_name]);
-    $sanitized_end = htmlentities($_POST[$end_name]);
-    $sanitized_projects = htmlentities($_POST[$projects_name]);
+    $occupation = array($_POST[$position_name], $_POST[$organization_name], $_POST[$start_name], $_POST[$end_name], $_POST[$projects_name]);
+    $sanitized_occupation = array();
 
-    $sanitized_occupation = array($sanitized_position, $sanitized_organization, $sanitized_start, $sanitized_end, $sanitized_projects);
+    foreach ($occupation as $value) {
+      array_push($sanitized_occupation, htmlentities($value));
+    }
 
-    if (emptyOccupation($sanitized_occupation) || occupationAlreadyTaken($_SESSION['occupation_attempts'], $sanitized_occupation)) {
+    // now we check to see if this is a valid occupation
+    if (emptyOccupation($occupation) || occupationAlreadyTaken($occupations, $occupation)) {
       // there's nothing here, or this is a duplicate occupation
     } else {
       // there's something here
       array_push($_SESSION['occupation_attempts'], $sanitized_occupation);
 
-      if ($position_value === "" || $organization_value === "" || $start_value === "" || $end_value === "") {
+      if ($occupation[0] === "" || $occupation[1] === "" || $occupation[2] === "" || $occupation[3] === "") {
         // they must have filled out at least 1 entry, but not filled out at least 1 of the 4 necessary entries
 
-        if (!$position_value === "") {
-          addToMessage("Your occupation \"" + $sanitized_occupation[0] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$organization_value === "") {
-          addToMessage("Your occupation at \"" + $sanitized_occupation[1] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$start_value === "") {
-          addToMessage("Your occupation starting on \"" + $sanitized_occupation[2] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$end_value === ""){
-          addToMessage("Your occupation ending on \"" + $sanitized_occupation[3] + "\" requires at minimum a position, an organization, and valid start and end dates.");
+        if (!$occupation[0] === "") {
+          addToMessage("Your occupation \"" + $occupation[0] + "\" requires at minimum a position, an organization, and valid start and end dates.");
+        } else if (!$occupation[1] === "") {
+          addToMessage("Your occupation at \"" + $occupation[1] + "\" requires at minimum a position, an organization, and valid start and end dates.");
+        } else if (!$occupation[2] === "") {
+          addToMessage("Your occupation starting on \"" + $occupation[2] + "\" requires at minimum a position, an organization, and valid start and end dates.");
+        } else if (!$occupation[3] === "") {
+          addToMessage("Your occupation ending on \"" + $occupation[3] + "\" requires at minimum a position, an organization, and valid start and end dates.");
         } else {
-          addToMessage("Your occupation where you worked on \"" + $sanitized_occupation[4] +"\" requires at minimum a position, an organization, and valid start and end dates.")
+          addToMessage("Your occupation where you worked on \"" + $occupation[4] +"\" requires at minimum a position, an organization, and valid start and end dates.")
         }
-
-        $at_least_one_invalid = 1;
-      } else if (!isStartDateFormat($_POST[$start_name]) || !isEndDateFormat($_POST[$end_name])) {
+      } else if (!isStartDateFormat($occupation[2]) || !isEndDateFormat($occupation[3])) {
         // invalid format for one or both of the dates
 
-        if (isEndDateFormat($_POST[$end_name])) {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " doesn't have a valid start date. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\".");
-        } else if (isStartDateFormat($_POST[$start_name])) {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " doesn't have a valid end date. Valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
+        if (isEndDateFormat($occupation[3])) {
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " doesn't have a valid start date. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\".");
+        } else if (isStartDateFormat($occupation[2])) {
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " doesn't have a valid end date. Valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
         } else {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " has invalid start and end dates. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\", and valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has invalid start and end dates. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\", and valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
         }
-
-        $at_least_one_invalid = 1;
-      } else if (!isDate($_POST[$start_name]) || !isDate($_POST[$end_name])) {
+      } else if (!isDate($occupation[2]) || !isDate($occupation[3])) {
         // invalid value for one or both of the dates
 
-        if (isDate($_POST[$end_name)) {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " has a start date that doesn't seem like a recent, real date.");
-        } else if (isDate($_POST[$start_name)) {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " has an end date that doesn't seem like a recent, real date.");
+        if (isDate($occupation[3])) {
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start date that doesn't seem like a recent, real date.");
+        } else if (isDate($occupation[2])) {
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has an end date that doesn't seem like a recent, real date.");
         } else {
-          addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " has a start and an end date that don't seem like recent, real dates.");
+          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start and an end date that don't seem like recent, real dates.");
         }
-
-        $at_least_one_invalid = 1;
-      } else if (!datesCorrectlyOrdered($_POST)){
+      } else if (!datesInOrder($occupation[2], $occupation[3])){
         // the start date is happening after the end date
 
-        addToMessage("Your occupation as a " + $sanitized_occupation[0] + " at " + $sanitized_occupation[1] + " has a start date that occurs later than its end date.");
+        addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start date that occurs later than its end date.");
 
         $at_least_one_invalid = 1;
       } else {
         // the thing here is valid
-        $escaped_position = escape_string($_POST[$position_name]);
-        $escaped_organization = escape_string($_POST[$organization_name]);
-        $escaped_projects = escape_string($_POST[$projects_name]);
 
-        array_push($occupations, array($escaped_position, $escaped_organization, $_POST[$start_name], $_POST[$end_name], $escaped_projects));
+        array_push($occupations, $occupation);
       }
   }
 
-  if (count($_SESSION['occupation_attempts']) == 0 && $at_least_one_invalid == 0) {
+  if (count($_SESSION['occupation_attempts']) == 0) {
     addToMessage("You have to provide at least one valid occupation to proceed.");
   }
 
@@ -171,15 +157,15 @@
     $stmt = $mysqli->prepare("SELECT id, email, is_primary FROM user_emails WHERE user_id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($e_id, $email, $primary);
+    $stmt->bind_result($e_id, $e_pull, $primary);
 
     $primary_email == $emails[0];
 
     // delete or ignore emails that are already in the db
     while ($stmt->fetch()) {
-      if (emailAlreadyTaken($emails, $email)) {
+      if (emailAlreadyTaken($emails, $e_pull)) {
         // this email is included in the user's input, so we'll ignore the user's input as a duplicate when we add new emails
-        $email_index = emailIndex($emails, $email);
+        $email_index = emailIndex($emails, $e_pull);
 
         // if this email is set as primary when it shouldn't be, or vice versa, reset it correctly
         if ($primary === !($emails[$email_index] === $primary_email)) {
@@ -199,7 +185,7 @@
     }
 
     // add emails that are included in the new input, but aren't included in the db
-    foreach ($emails as &$input_email) {
+    foreach ($emails as $input_email) {
       $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, ?)");
       $stmt->bind_param('isi', $_SESSION['user_id'], $input_email, ($input_email === $primary_email));
       $stmt->execute();
@@ -209,15 +195,15 @@
     $stmt = $mysqli->prepare("SELECT id, position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($o_id, $position, $organization, $start_date, $end_date, $projects);
+    $stmt->bind_result($o_id, $position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
 
     // delete or ignore occupations that are already in the db
     while ($stmt->fetch()) {
-      $occupation = array($position, $organization, $start_date, $end_date, $projects);
+      $o_pull = array($position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
 
-      if (occupationAlreadyTaken($occupations, $occupation)) {
+      if (occupationAlreadyTaken($occupations, $o_pull)) {
         // this occupation is already included in the user's input, so we'll ignore the user's input as a duplicate when we // add new occupations
-        unset($occupations[occupationIndex($occupations, $occupation)]);
+        unset($occupations[occupationIndex($occupations, $o_pull)]);
       }
       else {
         // this occupation isn't included in the occupations input by the user, so we need to delete it
@@ -228,7 +214,7 @@
     }
 
     // add occupations that are included in the new input, but aren't included in the db
-    foreach ($occupations as &$input_occupation) {
+    foreach ($occupations as $input_occupation) {
       // convert all date strings to standardized format for insert into mysql
       $start = getMonthDayYear($input_occupation[2]);
       $end = getMonthDayYear($input_occupation[3]);

@@ -12,7 +12,7 @@
     $searches = array();
 
     while($stmt->fetch()) {
-      array_push($searches, $search);
+      array_push($searches, htmlentities($search));
     }
 
     // fill in empty values for searches that don't exist

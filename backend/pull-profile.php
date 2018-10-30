@@ -9,7 +9,7 @@
     $stmt->bind_result($first, $last);
     $stmt->fetch();
 
-    return array($first, $last);
+    return array(htmlentities($first), htmlentities($last));
   }
 
   function getEmails() {
@@ -25,10 +25,10 @@
     while($stmt->fetch()) {
       if ($primary) {
         // if it's our primary email, make it the first element
-        array_unshift($emails, $email)
+        array_unshift($emails, htmlentities($email));
       } else {
         // otherwise, make it the last element
-        array_push($emails, $email);
+        array_push($emails, htmlentities($email));
       }
     }
 
@@ -61,10 +61,10 @@
       if ($projects === NULL) {
         $projects_edited = "";
       } else {
-        $projects_edited = $projects;
+        $projects_edited = htmlentities($projects);
       }
 
-      array_push($occupations, array($position, $organization, $start_edited, $end_edited, $projects_edited));
+      array_push($occupations, array(htmlentities($position), htmlentities($organization), $start_edited, $end_edited, $projects_edited));
     }
 
     // fill in empty values for first 3 occupations in case they don't exist

@@ -11,11 +11,10 @@
 
   for ($i = 0; $i < 5; $i++) {
     $search_name = "search" + strval(intdiv($i, 10)) + strval($i%10);
-    $escaped_search = escape_string($_POST[$search_name]);
 
     // only add a search if it's not empty and not already input
-    if (!($escaped_search === "") && !searchAlreadyTaken($searches, $escaped_search)) {
-      array_push($searches, $escaped_search);
+    if (!($_POST[$search_name] === "") && !searchAlreadyTaken($searches, $search)) {
+      array_push($searches, $search);
     }
   }
 
@@ -40,7 +39,7 @@
   }
 
   // add searches that are included in the new input, but aren't included in the db
-  foreach ($searches as &$input_search) {
+  foreach ($searches as $input_search) {
     $stmt = $mysqli->prepare("INSERT INTO searches (user_id, search) VALUES (?, ?)");
     $stmt->bind_param('is', $_SESSION['user_id'], $input_search);
     $stmt->execute();
