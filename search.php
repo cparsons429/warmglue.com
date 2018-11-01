@@ -40,7 +40,7 @@
   </nav>
   <div class="main-body">
     <h1>searches</h1>
-    <form name="search" action="complete-search.php" method="get">
+    <form name="search" action="backend/update-searches.php" method="post">
       <br><br><br>
       <?php
         $searches = getSearches();
@@ -51,6 +51,7 @@
         echo sprintf("<p class=\"form-text s03\">search</p><textarea class=\"s03\" name=\"search03\" placeholder=\"\" value=\"%s\"></textarea><img class=\"empty-x s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\"><br class=\"s03\">", $searches[3]);
         echo sprintf("<p class=\"form-text s04\">search</p><textarea class=\"s04\" name=\"search04\" placeholder=\"\" value=\"%s\"</textarea><img class=\"empty-x s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\"><br class=\"s04\">", $searches[4]);
       ?>
+      <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>">
       <input type="submit" value="save searches"><img class="empty-x">
     </form>
   </div>

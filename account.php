@@ -1,3 +1,11 @@
+<?php
+  require 'backend/return-home.php';
+  session_start();
+
+  if ($_SESSION['logged_in'] != 1) {
+    header("location: login");
+  }
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,17 +38,20 @@
   </nav>
   <div class="main-body">
     <h1>account</h1>
-    <form name="account" action="return-to-home.php" method="get">
+    <form name="account" action="backend/return-home.php" method="post">
       <br><br><br><p class="form-text">maximum intros / week: 3</p><img class="slight-tab"><br>
       <p class="form-text">maximum concurrent searches: 5</p><img class="slight-tab"><br>
       <div class="pre-link"></div>
+      <br><a class="form-link" href="change password">change password</a><img class="empty-x"><br>
       <br><a class="form-link" href="cancelaccount">cancel my account</a><img class="empty-x"><br><br>
       <div class="post-link"></div>
       <input type="submit" value="return to home"><img class="empty-x">
     </form>
   </div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>

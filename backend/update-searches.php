@@ -2,6 +2,11 @@
   require 'db.php';
   require 'helper-functions.php';
 
+  // preventing CSRF attacks
+  if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+    die("Request forgery detected");
+  }
+
   // note that we don't need to worry about a session error message here - there's nothing a user can input in to a search // that forces an error, and we're not showing an error message on this page
 
   // we also don't need to save our searches to a session variable, because no matter what, the form will go through
@@ -44,5 +49,8 @@
     $stmt->bind_param('is', $_SESSION['user_id'], $input_search);
     $stmt->execute();
   }
+
+  // send them back home
+  header("location: ../home");
 
  ?>

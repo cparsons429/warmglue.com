@@ -2,8 +2,13 @@
   require 'db.php';
   require 'helper-functions.php';
 
+  // preventing CSRF attacks
+  if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+    die("Request forgery detected");
+  }
+
   // clear our error message so that we can display the correct errors to the user
-  $_SESSION['message'] = "";
+  $_SESSION['message'] = null;
 
   // save the first and last names the user attempted in case submission fails
   // make sure to escape string to prevent sql injections
@@ -15,6 +20,7 @@
     addToMessage("\"" + $_POST['first_name'] + "\" seems to have some non-standard characters for a name.");
   } else if ($_POST['first_name'] === "") {
     addToMessage("You have to provide a first name to proceed.");
+    $_SESSION['first_name_attempt'] = null;
   } else {
     // we're good to go
   }
@@ -23,6 +29,7 @@
     addToMessage("\"" + $_POST['last_name'] + "\" seems to have some non-standard characters for a name.");
   } else if ($_POST['last_name'] === "") {
     addToMessage("You have to provide a last name to proceed.");
+    $_SESSION['last_name_attempt'] = null;
   } else {
     // we're good to go
   }
@@ -65,6 +72,13 @@
 
   if (count($_SESSION['email_attempts']) == 0)) {
     addToMessage("You have to provide at least one valid email address to proceed.");
+    $_SESSION['email_attempts'] = null;
+  } else if (count($_SESSION['email_attempts']) < 4) {
+    for ($i = count($_SESSION['email_attempts']); $i < 4; $i++) {
+      array_push($_SESSION['email_attempts'], "");
+    }
+  } else {
+    // we have sufficient emails, and we don't need to input blank entries on those extra spots
   }
 
   // make sure each occupation has the first 4 entries completed
@@ -144,9 +158,16 @@
 
   if (count($_SESSION['occupation_attempts']) == 0) {
     addToMessage("You have to provide at least one valid occupation to proceed.");
+    $_SESSION['occupation_attempts'] = null;
+  } else if (count($_SESSION['occupation_attempts']) < 3) {
+    for ($i = count($_SESSION['occupation_attempts']); $i < 3; $i++) {
+      array_push($_SESSION['occupation_attempts'], array("", "", "", "", ""));
+    }
+  } else {
+    // we have sufficient occupations, and we don't need to input blank entries on those extra spots
   }
 
-  if ($_SESSION['message'] === "") {
+  if (!isset($_SESSION['message'])) {
     // there were no errors, and we're good to go
     // update our user entry
     $stmt = $mysqli->prepare("UPDATE users SET (first_name, last_name) VALUES (?, ?) WHERE user_id=?");
@@ -159,7 +180,7 @@
     $stmt->execute();
     $stmt->bind_result($e_id, $e_pull, $primary);
 
-    $primary_email == $emails[0];
+    $primary_email = $emails[0];
 
     // delete or ignore emails that are already in the db
     while ($stmt->fetch()) {
@@ -168,7 +189,7 @@
         $email_index = emailIndex($emails, $e_pull);
 
         // if this email is set as primary when it shouldn't be, or vice versa, reset it correctly
-        if ($primary === !($emails[$email_index] === $primary_email)) {
+        if ($primary == !($emails[$email_index] === $primary_email)) {
           $upd_stmt = $mysqli->prepare("UPDATE user_emails SET (is_primary) VALUES (?) WHERE id=?")
           $upd_stmt = $mysqli->bind_param('ii', !$primary, $e_id);
           $upd_stmt->execute();
@@ -178,7 +199,7 @@
         unset($emails[$email_index]);
       } else {
         // this email isn't included in the emails input by the user, so we need to delete it
-        $del_stmt = $mysqli->prepare("DELETE from user_emails WHERE id=?");
+        $del_stmt = $mysqli->prepare("DELETE FROM user_emails WHERE id=?");
         $del_stmt->bind_param('i', $e_id);
         $del_stmt->execute();
       }
@@ -207,7 +228,7 @@
       }
       else {
         // this occupation isn't included in the occupations input by the user, so we need to delete it
-        $del_stmt = $mysqli->prepare("DELETE from user_occupations WHERE id=?");
+        $del_stmt = $mysqli->prepare("DELETE FROM user_occupations WHERE id=?");
         $del_stmt->bind_param('i', $o_id);
         $del_stmt->execute();
       }
@@ -221,7 +242,7 @@
 
       $start_str = $start[0] + "," + $start[1] + "," + $start[2];
 
-      if (!$end === null) {
+      if (isset($end)) {
         // we need to handle if this occupation is still a place where the user works (denoted by getMonthDayYear returning
         // null to indicate that the user input the current date)
         $end_str = $end[0] + "," + $end[1] + "," $end[2];
@@ -253,10 +274,20 @@
     }
 
     // delete the session variables for these entries
-    $_SESSION['first_name_attempt'] = "";
-    $_SESSION['last_name_attempt'] = "";
-    $_SESSION['email_attempts'] = array();
-    $_SESSION['occupation_attempts'] = array();
+    $_SESSION['first_name_attempt'] = null;
+    $_SESSION['last_name_attempt'] = null;
+    $_SESSION['email_attempts'] = null;
+    $_SESSION['occupation_attempts'] = null;
+
+    // if they're registering, send them to search
+    // otherwise, send them back home
+    if ($_SESSION['registering'] == 1) {
+      $_SESSION['registering'] = 0;
+      header("location: ../search");
+    } else {
+      header("location: ../home");
+    }
+
   }
 
 ?>

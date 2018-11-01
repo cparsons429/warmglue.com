@@ -1,3 +1,10 @@
+<?php
+  session_start();
+
+  if ($_SESSION['logged_in'] != 1) {
+    header("location: login");
+  }
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +15,7 @@
   <script src="scripts/home-scripts.js" defer></script>
   <title>warmglue: home</title>
   <meta charset="utf-8">
-  <meta name="description" content="As you expand your professional network, warmglue finds the valuable intros your friends can make for you. Log in or sign up.">
+  <meta name="description" content="Log in or sign up to review intros, update your profile, update your searches, and view account settings.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- favicon stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -29,7 +36,7 @@
       </a>
     </div>
     <div class="nav-log-out-div">
-      <a href="landing" class="nav-log-out-link">
+      <a href="backend/logout-user.php">
         <button class="button nav-log-out">log out</button>
       </a>
     </div>
@@ -56,7 +63,9 @@
     </div>
   </div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>

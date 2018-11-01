@@ -5,9 +5,9 @@ form {
 
 input[type=submit] {
   margin-right: 5.3em;
-  background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
+  background: linear-gradient(#ff0000 0%, #990000 100%);
 }
 
 input[type=submit]:hover {
-  background: linear-gradient(#ffcccc 0%, #ff6666 100%);
+  background: linear-gradient(#ff4d4d 0%, #b30000 100%);
 }

@@ -1,3 +1,11 @@
+<?php
+  require 'backend/send-password-reset.php';
+  session_start();
+
+  if ($_SESSION['logged_in'] == 1) {
+    header("location: changepassword");
+  }
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +26,7 @@
   <link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#b30000">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
 </head>
 <body>
   <nav class="navbar">
@@ -32,15 +41,32 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>reset password</h1>
-      <form name="reset-password" action="reset-password.php" method="get">
-        <br><p class="form-text">email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br>
+      <form name="reset-password" action="backend/send-password-reset.php" method="post">
+        <br>
+        <?php
+          if (isset($_SESSION['email_attempt'])) {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=\"%s\">", $_SESSION['email_attempt']);
+          } else {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
+          }
+        ?>
+        <br>
         <input type="submit" value="reset password">
+        <?php
+          if (isset($_SESSION['message'])) {
+            echo sprintf("<div class=\"pre-link\"></div>");
+            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
+            echo sprintf("<div class=\"post-link\"></div>");
+          }
+        ?>
       </form>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>

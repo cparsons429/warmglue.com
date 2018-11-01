@@ -40,13 +40,13 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>sign up</h1>
-      <form name="sign-up" action="register-user.php" method="post">
+      <form name="sign-up" action="backend/register-user.php" method="post">
         <br>
         <?php
-          if ($_SESSION['email_attempt'] == "") {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
+          if (isset($_SESSION['email_attempt'])) {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=\"%s\">", $_SESSION['email_attempt']);
           } else {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=%s>", $_SESSION['email_attempt']);
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
           }
         ?>
         <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"><br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
@@ -54,6 +54,13 @@
         <a class="form-link" href="login">already have an account?</a>
         <div class="post-link"></div>
         <input type="submit" value="sign up">
+        <?php
+          if (isset($_SESSION['message'])) {
+            echo sprintf("<div class=\"pre-link\"></div>");
+            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
+            echo sprintf("<div class=\"post-link\"></div>");
+          }
+        ?>
       </form>
     </div>
   </div>

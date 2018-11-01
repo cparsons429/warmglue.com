@@ -16,7 +16,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <title>warmglue: log in</title>
   <meta charset="utf-8">
-  <meta name="description" content="Log in to warmglue to update your intro preferences, and offer feedback on previous intros.">
+  <meta name="description" content="Log in to review intros, update your profile, update your searches, and view account settings.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- favicon stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -43,10 +43,10 @@
       <form name="log-in" action="backend/login-user.php" method="post">
         <br>
         <?php
-          if ($_SESSION['email_attempt'] == "") {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
+          if (isset($_SESSION['email_attempt'])) {
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=\"%s\">", $_SESSION['email_attempt']);
           } else {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=%s>", $_SESSION['email_attempt']);
+            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
           }
         ?>
         <br><p class="form-text">password</p><input type="password" name="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
@@ -55,6 +55,13 @@
         <br><a class="form-link" href="signup">create an account</a>
         <div class="post-link"></div>
         <input type="submit" value="log in">
+        <?php
+          if (isset($_SESSION['message'])) {
+            echo sprintf("<div class=\"pre-link\"></div>");
+            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
+            echo sprintf("<div class=\"post-link\"></div>");
+          }
+        ?>
       </form>
     </div>
   </div>

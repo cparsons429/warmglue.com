@@ -1,3 +1,7 @@
+<?php
+  require 'backend/update-password.php'
+  session_start();
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +22,7 @@
   <link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#b30000">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
 </head>
 <body>
   <nav class="navbar">
@@ -32,15 +37,24 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>change password</h1>
-      <form name="change-password" action="change-password.php" method="get">
+      <form name="change-password" action="backend/update-password.php" method="post">
         <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"><br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <input type="submit" value="change password">
+        <?php
+          if (isset($_SESSION['message'])) {
+            echo sprintf("<div class=\"pre-link\"></div>");
+            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
+            echo sprintf("<div class=\"post-link\"></div>");
+          }
+        ?>
       </form>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>

@@ -3,7 +3,7 @@
   require 'helper-functions.php';
 
   // clear our error message so that we can display the correct errors to the user
-  $_SESSION['message'] = "";
+  $_SESSION['message'] = null;
 
   // save the email the user attempted for use on multiple pages / in case submission fails
   // make sure to escape string to prevent sql injections
@@ -12,7 +12,7 @@
   // make sure email matches regex to prevent sql injections
   if (!isEmail($_POST['email'])) {
     // let user know that this isn't an email address and exit
-    addToMessage("\"" + $_SESSION['email_attempt'] + "\" doesn't look like an email address.");
+    addToMessage("\"" + $_POST['email'] + "\" doesn't look like an email address.");
     exit();
   }
 
@@ -38,7 +38,8 @@
        // the user signs out
 	     $_SESSION['user_id'] = $u_id;
        $_SESSION['logged_in'] = 1;
-	     header("location: home");
+       $_SESSION['token'] = bin2hex(random_bytes(32));
+	     header("location: ../home");
        exit();
     } else {
        // login must have failed because password didn't match password in records
@@ -50,6 +51,6 @@
 
   // login must have failed because email address isn't in the records
   // let the user know the email address isn't registered, then we finish
-  addToMessage("\"" + $_SESSION['email_attempt'] + "\" isn't associated with any account.");
+  addToMessage("\"" + $_POST['email'] + "\" isn't associated with any account.");
 
  ?>

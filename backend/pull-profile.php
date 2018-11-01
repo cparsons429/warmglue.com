@@ -9,7 +9,21 @@
     $stmt->bind_result($first, $last);
     $stmt->fetch();
 
-    return array(htmlentities($first), htmlentities($last));
+    $names = array();
+
+    if (isset($first)) {
+      array_push($names, $first);
+    } else {
+      array_push($names, "");
+    }
+
+    if (isset($last)) {
+      array_push($names, $last);
+    } else {
+      array_push($names, "");
+    }
+
+    return $names;
   }
 
   function getEmails() {
@@ -58,7 +72,7 @@
       $end_edited = getDateStr($end_date);
 
       // in case the user didn't input any project here
-      if ($projects === NULL) {
+      if (!isset($projects)) {
         $projects_edited = "";
       } else {
         $projects_edited = htmlentities($projects);

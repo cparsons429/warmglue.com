@@ -1,7 +1,7 @@
 <?php
   function addToMessage($str) {
     // handles new line issues depending on whether this is the only, or one of multiple, messages
-    if ($_SESSION['message'] === "") {
+    if (!isset($_SESSION['message'])) {
       $_SESSION['message'] = "\n\n" + htmlentities($str);
     } else {
       $_SESSION['message'] += "\n" + htmlentities($str);
@@ -129,7 +129,7 @@
 
   function getDateStr($date) {
     // after pulling $date from the sql db, convert it to a human-readable string in the mm/dd/yyyy or "now" format
-    if ($date === null) {
+    if (!isset($date)) {
       // in case this is a current date
       return "now";
     }

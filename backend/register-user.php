@@ -3,7 +3,7 @@
   require 'helper-functions.php';
 
   // clear our error message so that we can display the correct errors to the user
-  $_SESSION['message'] = "";
+  $_SESSION['message'] = null;
 
   // save the email the user attempted for use on multiple pages / in case submission fails
   // make sure to escape string to prevent sql injections
@@ -12,7 +12,7 @@
   // make sure email matches regex to prevent sql injections
   if (!isEmail($_POST['email'])) {
     // let user know that this isn't an email address and exit
-    addToMessage("\"" + $_SESSION['email_attempt'] + "\" doesn't look like an email address.");
+    addToMessage("\"" + $_POST['email'] + "\" doesn't look like an email address.");
     exit();
   }
 
@@ -26,7 +26,7 @@
   if ($count == 1) {
     // email must already be associated with an account
     // let the user know and exit
-    addToMessage("\"" + $_SESSION['email_attempt'] + "\" is already associated with an account.");
+    addToMessage("\"" + $_POST['email'] + "\" is already associated with an account.");
     exit();
   } else {
     // we need to make sure the passwords match one another
@@ -52,8 +52,9 @@
       // the user signs out
       $_SESSION['user_id'] = $u_id;
       $_SESSION['logged_in'] = 1;
+      $_SESSION['token'] = bin2hex(random_bytes(32));
       $_POST['registering'] = 1;
-      header("location: profile");
+      header("location: ../profile");
     } else {
       // passwords don't match one another
       // let the user know and exit

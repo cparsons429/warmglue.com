@@ -23,7 +23,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="home">
+      <a href="landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -36,8 +36,11 @@
       <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="home">home</a>.</p>
     </div>
   </div>
+  <div class="empty-footer-pad"></div>
   <div class="footer">
-    <p>&copy; warmglue 2018</p>
+    <?php
+      echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
+    ?>
     <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
       <img class="twitter" alt="">
     </a>
