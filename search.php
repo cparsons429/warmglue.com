@@ -1,5 +1,4 @@
 <?php
-  require 'backend/update-searches.php';
   require 'backend/pull-searches.php';
   session_start();
 

@@ -1,5 +1,4 @@
 <?php
-  require 'backend/update-password.php'
   session_start();
  ?>
 <!DOCTYPE html>

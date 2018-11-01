@@ -1,5 +1,4 @@
 <?php
-  require 'backend/send-password-reset.php';
   session_start();
 
   if ($_SESSION['logged_in'] == 1) {

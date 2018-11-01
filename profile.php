@@ -1,5 +1,4 @@
 <?php
-  require 'backend/update-profile.php';
   require 'backend/pull-profile.php';
   session_start();
 
