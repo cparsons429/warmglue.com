@@ -11,24 +11,24 @@
   function isStartDateFormat($str) {
     // let us know whether it's a valid start date format
     // possibilities: w/ slash or dash, w/ 2 or 4 digits for the year
-    return preg_match("^\d{1,2}/\d{1,2}/\d{2}", $str) || preg_match("^\d{1,2}/\d{1,2}/\d{4}", $str) || preg_match("^\d{1,2}-\d{1,2}-\d{2}", $str) || preg_match("^\d{1,2}-\d{1,2}-\d{4}", $str);
+    return preg_match("/^\d{1,2}\/\d{1,2}\/\d{2}+$/", $str) || preg_match("/^\d{1,2}\/\d{1,2}\/\d{4}+$/", $str) || preg_match("/^\d{1,2}-\d{1,2}-\d{2}+$/", $str) || preg_match("/^\d{1,2}-\d{1,2}-\d{4}+$/", $str);
   }
 
   function isEndDateFormat($str) {
     // let us know whether it's a valid end date format
     // possibilities are same as start date, plus strings like "now" indicating that position is current
-     return isStartDateFormat($str) || preg_match("\b\"?(?i)now(?-i)\"?\b", $str) || preg_match("\b\"?(?i)today(?-i)\"?\b", $str) || preg_match("\b\"?(?i)current(?-i)\"?\b", $str) || preg_match("\b\"?(?i)present(?-i)\"?\b", $str);
+     return isStartDateFormat($str) || preg_match("/^(?i)now+$/", $str) || preg_match("/^(?i)today+$/", $str) || preg_match("/^(?i)current+$/", $str) || preg_match("/^(?i)present+$/", $str);
   }
 
   function getMonthDayYear($str) {
     // assuming the string has been validated to match the corresponding regex, return the month, date, and year
-    if (preg_match("^\d{1,2}/\d{1,2}/\d{2,4}", $str)) {
+    if (preg_match("/^\d{1,2}\/\d{1,2}\/\d{2,4}+$/", $str)) {
       // substring is weird for php; the second parameter is the length of the string, not the index to finish at
       // strrpos is just strpos for last intead of first occurrence
       $month = intval(substr($str, 0, strpos("/")), 10);
       $day = intval(substr($str, strpos("/") + 1, strrpos("/") - (strpos("/") + 1)), 10);
       $year = intval(substr($str, strrpos("/") + 1), 10);
-    } else if (preg_match("^\d{1,2}-\d{1,2}-\d{2,4}", $str)) {
+    } else if (preg_match("/^\d{1,2}-\d{1,2}-\d{2,4}+$/", $str)) {
       // same as before, just with dashes instead of slashes separating the input
       $month = intval(substr($str, 0, strpos("-")), 10);
       $day = intval(substr($str, strpos("-") + 1, strrpos("-") - (strpos("-") + 1)), 10);
@@ -148,7 +148,7 @@
 
   function isName($str) {
     // return whether the name matches the appropriate regex
-    return preg_match("/^[a-zA-Z\s,.'-\pL]+$/u", $str);
+    return preg_match("/^[a-zA-Z\s,.'-\pL]+$/", $str);
   }
 
   function emailIndex($arr, $email) {
