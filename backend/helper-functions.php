@@ -206,4 +206,10 @@
     // functionally identical to emailAlreadyTaken
     return emailAlreadyTaken($arr, $search);
   }
+
+  function passwordComplexEnough($pwd) {
+    // return whether the password is complex enough
+    // right now, our only requirement is that it's at least 8 characters long
+    return (strlen($pwd) >= 8);
+  }
  ?>

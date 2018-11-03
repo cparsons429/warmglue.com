@@ -284,8 +284,10 @@
     if ($_SESSION['registering'] == 1) {
       $_SESSION['registering'] = 0;
       header("location: ../search");
+      exit();
     } else {
       header("location: ../home");
+      exit();
     }
 
   }

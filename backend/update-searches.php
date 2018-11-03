@@ -50,7 +50,15 @@
     $stmt->execute();
   }
 
-  // send them back home
-  header("location: ../home");
-
+  // if they're registering, send them to profile
+  // otherwise, send them back home
+  if ($_SESSION['registering'] == 1) {
+    $_SESSION['registering'] = 0;
+    header("location: ../profile");
+    exit();
+  } else {
+    header("location: ../home");
+    exit();
+  }
+  
  ?>

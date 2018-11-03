@@ -50,6 +50,13 @@
 
     // we then have to make sure the passwords match one another
     if ($_POST['password0'] === $_POST['password1']) {
+      // make sure passwords meet minimum complexity requirements
+      if (!passwordComplexEnough($_POST['password0'])) {
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "Your password must be at least 8 characters long.");
+        header("location: ../signup");
+        exit();
+      }
+
       // we're good to create a user
       $stmt = $mysqli->prepare("INSERT INTO users (salted_hash) VALUES (?)");
       $stmt->bind_param('s', password_hash($_POST['password0'], PASSWORD_DEFAULT));
