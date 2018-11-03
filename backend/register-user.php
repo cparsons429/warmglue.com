@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   require 'db.php';
   require 'helper-functions.php';
 
@@ -7,45 +9,61 @@
 
   // save the email the user attempted for use on multiple pages / in case submission fails
   // make sure to escape string to prevent sql injections
-  $_SESSION['email_attempt'] = htmlentities($_POST['email']);
+  $e = trim($_POST['email']);
+  $_SESSION['email_attempt'] = htmlentities($e);
 
-  // make sure email matches regex to prevent sql injections
-  if (!isEmail($_POST['email'])) {
-    // let user know that this isn't an email address and exit
-    addToMessage("\"" + $_POST['email'] + "\" doesn't look like an email address.");
+  // make sure email matches regex to prevent sql injections, and make sure the user has input an email
+  if ($e === "") {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide an email to proceed.");
+    $_SESSION['email_attempt'] = null;
+    header("location: ../signup");
     exit();
+  } else if (!isEmail($e)) {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" doesn't look like an email address.");
+    header("location: ../signup");
+    exit();
+  } else {
+    // we're good to go
   }
 
   // we search to make sure this isn't a taken email
   $stmt = $mysqli->prepare("SELECT COUNT(*) FROM user_emails WHERE email=?");
-  $stmt->bind_param('s', $_POST['email']);
+  $stmt->bind_param('s', $e);
   $stmt->execute();
   $stmt->bind_result($count);
   $stmt->fetch();
+  $stmt->close();
 
   if ($count == 1) {
     // email must already be associated with an account
     // let the user know and exit
-    addToMessage("\"" + $_POST['email'] + "\" is already associated with an account.");
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" is already associated with an account.");
+    header("location: ../signup");
     exit();
   } else {
-    // we need to make sure the passwords match one another
+    // we need to make sure the passwords have been input
+    if ($_POST['password0'] === "" || $_POST['password1'] === "") {
+      $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to complete both password fields to proceed.");
+      header("location: ../signup");
+      exit();
+    }
+
+    // we then have to make sure the passwords match one another
     if ($_POST['password0'] === $_POST['password1']) {
       // we're good to create a user
       $stmt = $mysqli->prepare("INSERT INTO users (salted_hash) VALUES (?)");
       $stmt->bind_param('s', password_hash($_POST['password0'], PASSWORD_DEFAULT));
       $stmt->execute();
+      $stmt->close();
 
       // get user id
-      $stmt = $mysqli->prepare("SELECT LAST_INSERT_ID()");
-      $stmt->execute();
-      $stmt->bind_result($u_id);
-      $stmt->fetch();
+      $u_id = $mysqli->insert_id;
 
       // add their email to the db
-      $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, ?)");
-      $stmt->bind_param("isi", $u_id, $_POST['email'], 1);
+      $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, 1)");
+      $stmt->bind_param("is", $u_id, $e);
       $stmt->execute();
+      $stmt->close();
 
       // automatically log in, and have the user complete their profile
       // note that we don't want to delete the session email - we want to keep it available to make sign in easy in case
@@ -55,10 +73,12 @@
       $_SESSION['token'] = bin2hex(random_bytes(32));
       $_POST['registering'] = 1;
       header("location: ../profile");
+      exit();
     } else {
       // passwords don't match one another
       // let the user know and exit
-      addToMessage("Those passwords don't match.");
+      $_SESSION['message'] = updateMessage($_SESSION['message'], "Those passwords don't match.");
+      header("location: ../signup");
       exit();
     }
   }

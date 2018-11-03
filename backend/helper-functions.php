@@ -1,10 +1,10 @@
 <?php
-  function addToMessage($str) {
+  function updateMessage($original, $str) {
     // handles new line issues depending on whether this is the only, or one of multiple, messages
-    if (!isset($_SESSION['message'])) {
-      $_SESSION['message'] = "\n\n" + htmlentities($str);
+    if (!isset($original)) {
+      return htmlentities($str);
     } else {
-      $_SESSION['message'] += "\n" + htmlentities($str);
+      return $original."\n".htmlentities($str);
     }
   }
 
@@ -28,7 +28,7 @@
       $month = intval(substr($str, 0, strpos("/")), 10);
       $day = intval(substr($str, strpos("/") + 1, strrpos("/") - (strpos("/") + 1)), 10);
       $year = intval(substr($str, strrpos("/") + 1), 10);
-    } else if preg_match("^\d{1,2}-\d{1,2}-\d{2,4}", $str) {
+    } else if (preg_match("^\d{1,2}-\d{1,2}-\d{2,4}", $str)) {
       // same as before, just with dashes instead of slashes separating the input
       $month = intval(substr($str, 0, strpos("-")), 10);
       $day = intval(substr($str, strpos("-") + 1, strrpos("-") - (strpos("-") + 1)), 10);
@@ -42,9 +42,9 @@
     if ($year < 100) {
       // convert 2-digit year to 4-digit year
       if ($year <= intval(date("y"))) {
-        $year += intval(date("Y")) - intval(date("y"));
+        $year .= intval(date("Y")) - intval(date("y"));
       } else {
-        $year += intval(date("Y")) - intval(date("y")) - 100;
+        $year .= intval(date("Y")) - intval(date("y")) - 100;
       }
     }
 
@@ -138,12 +138,12 @@
     $month = substr($date, 5, 2);
     $day = substr($date, 8);
 
-    return $month + "/" + $day + "/" + $year;
+    return $month."/".$day."/".$year;
   }
 
   function isEmail($str) {
     // return whether the email matches the appropriate regex
-    return preg_match("^[\w!#$%&'\.*+/=?^_`{|}~-]+@[\w\-]+(\.[\w\-]+)+$", $str);
+    return preg_match("/^[\w!#$%&'\.*+\/=?^_`{|}~-]+@[\w\-]+(\.[\w\-]+)+$/", $str);
   }
 
   function isName($str) {
@@ -206,5 +206,4 @@
     // functionally identical to emailAlreadyTaken
     return emailAlreadyTaken($arr, $search);
   }
-
  ?>

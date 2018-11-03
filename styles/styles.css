@@ -140,6 +140,22 @@ input[type=submit]:hover {
   content: "       ";
 }
 
+.error-text {
+  font-size: 1.1em;
+  font-weight: 300;
+  display: inline;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.error-text::before {
+  content: "\A";
+}
+
+.error-text::after {
+  content: "\A";
+}
+
 .form-link {
   color: #b30000;
   text-decoration: underline;
@@ -304,6 +320,14 @@ input[type=submit]:hover {
 
   .form-text::after {
     content: "\A";
+  }
+
+  .error-text::before {
+    content: "";
+  }
+
+  .error-text::after {
+    content: "\A\A";
   }
 
   .pre-link {
