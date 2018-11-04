@@ -53,9 +53,11 @@
         <br><a class="form-link" href="signup">create an account</a>
         <div class="post-link"></div>
         <?php
-          if (isset($_SESSION['message'])) {
+          if (isset($_SESSION['message']) && $_SESSION['backend_redirect']) {
             echo sprintf("<p class=\"error-text\">%s</p>", $_SESSION['message']);
           }
+
+          $_SESSION['backend_redirect'] = 0;
         ?>
         <input type="submit" value="log in">
       </form>

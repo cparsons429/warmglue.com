@@ -4,8 +4,9 @@
   require 'db.php';
   require 'helper-functions.php';
 
-  // clear our error message so that we can display the correct errors to the user
+  // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;
+  $_SESSION['backend_redirect'] = 1;
 
   // save the email the user attempted for use on multiple pages / in case submission fails
   // make sure to escape string to prevent sql injections
