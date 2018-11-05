@@ -17,6 +17,11 @@ input[type=submit]:hover {
   min-height: calc(100vh - 22.2em);
 }
 
+.error-div {
+  float: right;
+  margin-right: 2.4em;
+}
+
 h1 {
   text-align: left;
 }
@@ -35,5 +40,10 @@ h2 {
     background: white;
     width: calc(100vw - 2em);
     margin-left: 2em;
+  }
+
+  .error-div {
+    float: initial;
+    margin-right: 2em;
   }
 }

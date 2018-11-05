@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/home-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="scripts/home-scripts.js" defer></script>
+  <script src="scripts/home-scripts.js"></script>
   <title>warmglue: home</title>
   <meta charset="utf-8">
   <meta name="description" content="Log in or sign up to review intros, update your profile, update your searches, and view account settings.">

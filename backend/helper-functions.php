@@ -16,8 +16,8 @@
 
   function isEndDateFormat($str) {
     // let us know whether it's a valid end date format
-    // possibilities are same as start date, plus strings like "now" indicating that position is current
-     return isStartDateFormat($str) || preg_match("/^(?i)now+$/", $str) || preg_match("/^(?i)today+$/", $str) || preg_match("/^(?i)current+$/", $str) || preg_match("/^(?i)present+$/", $str);
+    // possibilities are same as start date, plus empty string indicating occupation is current
+     return isStartDateFormat($str) || ($str === "");
   }
 
   function getMonthDayYear($str) {
@@ -76,6 +76,12 @@
     // assuming the string has been validated to match the corresponding regex, we want to make sure it's a valid date
     // get our month, date, and year
     $date_info = getMonthDayYear($str);
+
+    if (!isset($date_info)) {
+      // user input the current date
+      return 1;
+    }
+
     $month = $date_info[0];
     $day = $date_info[1];
     $year = $date_info[2];
@@ -103,7 +109,7 @@
     }
 
     // make sure our date isn't later than today
-    $now_date_info = getMonthDayYear("now");
+    $now_date_info = getMonthDayYear("");
     $now_month = $now_date_info[0];
     $now_day = $now_date_info[1];
     $now_year = $now_date_info[2];
@@ -119,6 +125,12 @@
     $before_year = $before_date_info[2];
 
     $after_date_info = getMonthDayYear($after);
+
+    if (!isset($after_date_info)) {
+      // user input the current date
+      return 1;
+    }
+
     $after_month = $after_date_info[0];
     $after_day = $after_date_info[1];
     $after_year = $after_date_info[2];
@@ -131,7 +143,7 @@
     // after pulling $date from the sql db, convert it to a human-readable string in the mm/dd/yyyy or "now" format
     if (!isset($date)) {
       // in case this is a current date
-      return "now";
+      return "";
     }
 
     $year = substr($date, 0, 4);

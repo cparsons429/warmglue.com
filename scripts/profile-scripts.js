@@ -1,36 +1,48 @@
-var email_to_create = '<?php echo $num_emails; ?>';
-var occupation_to_create = '<?php echo $num_occupations; ?>';
+var email_to_create;
+var occupation_to_create;
+var visible_emails;
+var visible_occupations;
 
-var visible_emails = email_to_create;
-var visible_occupations = occupation_to_create;
+// set our variables correctly once the page loads
+window.onload = function() {
+  email_to_create = $('.e_count').length;
+  occupation_to_create = $('.o_count').length;
+  visible_emails = email_to_create;
+  visible_occupations = occupation_to_create;
+};
 
 const MAX_EMAILS = 10;
 const MAX_OCCUPATIONS = 50;
+
+function delete_me(clicked_id) {
+  var to_delete = "." + clicked_id;
+  $(to_delete).addClass('delete');
+};
 
 function delete_this(clicked_id) {
   // delete the elements from view
   var class_to_delete = "." + clicked_id.substring(1);
   $(class_to_delete).addClass('delete');
+
   var elements = document.getElementsByClassName(class_to_delete.substring(1));
 
   // clear the values in these elements
-  for each (element in elements) {
+  for (let element of elements) {
     element.value = '';
   }
 
   // decrement the number of visible elements
-  if (clicked_id.substring(0, 1) == "e") {
+  if (clicked_id.substring(0, 1) === "e") {
     visible_emails--;
   }
   else {
     visible_occupations--;
   }
-
   // if we just decremented away from MAX_EMAILS or MAX_OCCUPATIONS, show the plus again
-  if (visible_emails == MAX_EMAILS - 1 && clicked_id.substring(0, 1) == "e") {
+  if (visible_emails == (MAX_EMAILS - 1) && clicked_id.substring(0, 1) === "e") {
     document.getElementById("plus-email").removeClass('delete');
   }
-  else if (){
+  else {
     document.getElementById("plus-occupation").removeClass('delete');
   }
 };

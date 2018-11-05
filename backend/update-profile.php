@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   require 'db.php';
   require 'helper-functions.php';
 
@@ -7,29 +9,33 @@
     die("Request forgery detected");
   }
 
-  // clear our error message so that we can display the correct errors to the user
+  // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;
+  $_SESSION['backend_redirect'] = 1;
 
   // save the first and last names the user attempted in case submission fails
   // make sure to escape string to prevent sql injections
-  $_SESSION['first_name_attempt'] = htmlentities($_POST['first_name']);
-  $_SESSION['last_name_attempt'] = htmlentities($_POST['last_name']);
+  $f_name = trim($_POST['first_name']);
+  $l_name = trim($_POST['last_name']);
+  $_SESSION['first_name_attempt'] = htmlentities($f_name);
+  $_SESSION['last_name_attempt'] = htmlentities($l_name);
 
-  // make sure names match regex to prevent sql injections, and make sure the user has input names
-  if (!isName($_POST['first_name'])) {
-    addToMessage("\"" + $_POST['first_name'] + "\" seems to have some non-standard characters for a name.");
-  } else if ($_POST['first_name'] === "") {
-    addToMessage("You have to provide a first name to proceed.");
+  // make sure first name matches regex to prevent sql injections, and make sure the user has input an first name
+  if ($f_name === "") {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide a first name to proceed.");
     $_SESSION['first_name_attempt'] = null;
+  } else if (!isName($f_name)) {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$f_name."\" seems to have some non-standard characters for a name.");
   } else {
     // we're good to go
   }
 
-  if (!isName($_POST['last_name'])) {
-    addToMessage("\"" + $_POST['last_name'] + "\" seems to have some non-standard characters for a name.");
-  } else if ($_POST['last_name'] === "") {
-    addToMessage("You have to provide a last name to proceed.");
+  // make sure last name matches regex to prevent sql injections, and make sure the user has input a last name
+  if ($l_name === "") {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide a last name to proceed.");
     $_SESSION['last_name_attempt'] = null;
+  } else if (!isName($l_name)) {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$l_name."\" seems to have some non-standard characters for a name.");
   } else {
     // we're good to go
   }
@@ -41,37 +47,40 @@
   $emails = array();
   $_SESSION['email_attempts'] = array();
 
-  for ($i = 0; $i < 30; i++) {
-    $email_name = "email" + strval(intdiv($i, 10)) + strval($i%10);
+  for ($i = 0; $i < 30; $i++) {
+    $email_name = "email".strval(intdiv($i, 10)).strval($i%10);
 
-    if ($_POST[$email_name] === "" || emailAlreadyTaken($emails, $_POST[$email_name])) {
+    $e = trim($_POST[$email_name]);
+
+    if ($e === "" || emailAlreadyTaken($emails, $e)) {
       // there's nothing here, or this is a duplicate email
     } else {
       // there's something here
-      array_push($_SESSION['email_attempts'], htmlentities($_POST[$email_name]));
+      array_push($_SESSION['email_attempts'], htmlentities($e));
 
       // to make sure that our email isn't already taken
       $stmt = $mysqli->prepare("SELECT COUNT(*), user_id FROM user_emails WHERE email=?");
-      $stmt->bind_param('s', $_POST[$email_name]);
+      $stmt->bind_param('s', $e);
       $stmt->execute();
       $stmt->bind_result($count, $u_id);
       $stmt->fetch();
+      $stmt->close();
 
-      if (!isEmail($_POST[$email_name]) {
-        // the thing here is not valid
-        addToMessage("\"" + $_POST[$email_name] + "\" doesn't look like an email address.");
+      if (!isEmail($e)) {
+        // this is not a valid email
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" doesn't look like an email address.");
       } else if ($count == 1 && !($u_id == $_SESSION['user_id'])) {
         // this email is already taken by another account
-        addToMessage("\"" + $_POST[$email_name] + "\" is already registered with another account.");
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" is already registered with another account.");
       } else {
         // the thing here is valid
-        array_push($emails, $_POST[$email_name]);
+        array_push($emails, $e);
       }
     }
   }
 
-  if (count($_SESSION['email_attempts']) == 0)) {
-    addToMessage("You have to provide at least one valid email address to proceed.");
+  if (count($_SESSION['email_attempts']) == 0) {
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide at least one valid email address to proceed.");
     $_SESSION['email_attempts'] = null;
   } else if (count($_SESSION['email_attempts']) < 4) {
     for ($i = count($_SESSION['email_attempts']); $i < 4; $i++) {
@@ -87,77 +96,76 @@
   $_SESSION['occupation_attempts'] = array();
 
   for ($i = 0; $i < 100; $i++) {
-    $iteration_name = strval(intdiv($i, 10)) + strval($i%10);
+    $iteration_name = strval(intdiv($i, 10)).strval($i%10);
 
-    $position_name = "position" + $iteration_name;
-    $organization_name = "organization" + $iteration_name;
-    $start_name = "startdate" + $iteration_name;
-    $end_name = "enddate" + $iteration_name;
-    $projects_name = "projects" + $iteration_name;
+    $position_name = "position".$iteration_name;
+    $organization_name = "organization".$iteration_name;
+    $start_name = "startdate".$iteration_name;
+    $end_name = "enddate".$iteration_name;
+    $projects_name = "projects".$iteration_name;
 
-    $occupation = array($_POST[$position_name], $_POST[$organization_name], $_POST[$start_name], $_POST[$end_name], $_POST[$projects_name]);
+    $o = array(trim($_POST[$position_name]), trim($_POST[$organization_name]), trim($_POST[$start_name]), trim($_POST[$end_name]), trim($_POST[$projects_name]));
     $sanitized_occupation = array();
 
-    foreach ($occupation as $value) {
+    foreach ($o as $value) {
       array_push($sanitized_occupation, htmlentities($value));
     }
 
     // now we check to see if this is a valid occupation
-    if (emptyOccupation($occupation) || occupationAlreadyTaken($occupations, $occupation)) {
+    if (emptyOccupation($o) || occupationAlreadyTaken($occupations, $o)) {
       // there's nothing here, or this is a duplicate occupation
     } else {
       // there's something here
       array_push($_SESSION['occupation_attempts'], $sanitized_occupation);
 
-      if ($occupation[0] === "" || $occupation[1] === "" || $occupation[2] === "" || $occupation[3] === "") {
-        // they must have filled out at least 1 entry, but not filled out at least 1 of the 4 necessary entries
+      if ($o[0] === "" || $o[1] === "" || $o[2] === "") {
+        // they must have filled out at least 1 entry, but not filled out at least 1 of the 3 necessary entries
 
-        if (!$occupation[0] === "") {
-          addToMessage("Your occupation \"" + $occupation[0] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$occupation[1] === "") {
-          addToMessage("Your occupation at \"" + $occupation[1] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$occupation[2] === "") {
-          addToMessage("Your occupation starting on \"" + $occupation[2] + "\" requires at minimum a position, an organization, and valid start and end dates.");
-        } else if (!$occupation[3] === "") {
-          addToMessage("Your occupation ending on \"" + $occupation[3] + "\" requires at minimum a position, an organization, and valid start and end dates.");
+        if (!$o[0] === "") {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation \"".$o[0]."\" requires at minimum a position, an organization, and a valid start date.");
+        } else if (!$o[1] === "") {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation at \"".$o[1]."\" requires at minimum a position, an organization, and a valid start date.");
+        } else if (!$o[2] === "") {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation starting on \"".$o[2]."\" requires at minimum a position, an organization, and a valid start date.");
+        } else if (!$o[3] === "") {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation ending on \"".$o[3]."\" requires at minimum a position, an organization, and a valid start date.");
         } else {
-          addToMessage("Your occupation where you worked on \"" + $occupation[4] +"\" requires at minimum a position, an organization, and valid start and end dates.")
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation where you worked on \"".$o[4]."\" requires at minimum a position, an organization, and a valid start date.");
         }
-      } else if (!isStartDateFormat($occupation[2]) || !isEndDateFormat($occupation[3])) {
+      } else if (!isStartDateFormat($o[2]) || !isEndDateFormat($o[3])) {
         // invalid format for one or both of the dates
 
-        if (isEndDateFormat($occupation[3])) {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " doesn't have a valid start date. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\".");
-        } else if (isStartDateFormat($occupation[2])) {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " doesn't have a valid end date. Valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
+        if (isEndDateFormat($o[3])) {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." doesn't have a valid start date. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\".");
+        } else if (isStartDateFormat($o[2])) {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." doesn't have a valid end date. Valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\". Leave the end date empty if you still work or study there.");
         } else {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has invalid start and end dates. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\", and valid end dates are of the form mm/dd/yyyy, like \"6/26/2016\", or \"now\" if you still work or study there.");
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." has invalid start and end dates. Valid start dates are of the form mm/dd/yyyy, like \"5/25/2015\", and valid end dates are either of the form mm/dd/yyyy, or empty.");
         }
-      } else if (!isDate($occupation[2]) || !isDate($occupation[3])) {
+      } else if (!isDate($o[2]) || !isDate($o[3])) {
         // invalid value for one or both of the dates
 
-        if (isDate($occupation[3])) {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start date that doesn't seem like a recent, real date.");
-        } else if (isDate($occupation[2])) {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has an end date that doesn't seem like a recent, real date.");
+        if (isDate($o[3])) {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." has a start date that doesn't seem like a recent, real date.");
+        } else if (isDate($o[2])) {
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." has an end date that doesn't seem like a recent, real date.");
         } else {
-          addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start and an end date that don't seem like recent, real dates.");
+          $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." has start and end dates that don't seem like recent, real dates.");
         }
-      } else if (!datesInOrder($occupation[2], $occupation[3])){
+      } else if (!datesInOrder($o[2], $o[3])){
         // the start date is happening after the end date
 
-        addToMessage("Your occupation as a " + $occupation[0] + " at " + $occupation[1] + " has a start date that occurs later than its end date.");
-
-        $at_least_one_invalid = 1;
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation as a ".$o[0]." at ".$o[1]." has a start date that occurs later than its end date.");
       } else {
         // the thing here is valid
 
-        array_push($occupations, $occupation);
+        array_push($occupations, $o);
       }
+    }
   }
 
   if (count($_SESSION['occupation_attempts']) == 0) {
-    addToMessage("You have to provide at least one valid occupation to proceed.");
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide at least one valid occupation to proceed.");
     $_SESSION['occupation_attempts'] = null;
   } else if (count($_SESSION['occupation_attempts']) < 3) {
     for ($i = count($_SESSION['occupation_attempts']); $i < 3; $i++) {
@@ -171,8 +179,9 @@
     // there were no errors, and we're good to go
     // update our user entry
     $stmt = $mysqli->prepare("UPDATE users SET (first_name, last_name) VALUES (?, ?) WHERE user_id=?");
-    $stmt->bind_param('ssi', $_POST['first_name'], $_POST['last_name'], $_SESSION['user_id']);
+    $stmt->bind_param('ssi', $f_name, $l_name, $_SESSION['user_id']);
     $stmt->execute();
+    $stmt->close();
 
     // find current emails
     $stmt = $mysqli->prepare("SELECT id, email, is_primary FROM user_emails WHERE user_id=?");
@@ -190,9 +199,10 @@
 
         // if this email is set as primary when it shouldn't be, or vice versa, reset it correctly
         if ($primary == !($emails[$email_index] === $primary_email)) {
-          $upd_stmt = $mysqli->prepare("UPDATE user_emails SET (is_primary) VALUES (?) WHERE id=?")
+          $upd_stmt = $mysqli->prepare("UPDATE user_emails SET (is_primary) VALUES (?) WHERE id=?");
           $upd_stmt = $mysqli->bind_param('ii', !$primary, $e_id);
           $upd_stmt->execute();
+          $upd_stmt->close();
         }
 
         // now ignore it
@@ -202,14 +212,18 @@
         $del_stmt = $mysqli->prepare("DELETE FROM user_emails WHERE id=?");
         $del_stmt->bind_param('i', $e_id);
         $del_stmt->execute();
+        $del_stmt->close();
       }
     }
+
+    $stmt->close();
 
     // add emails that are included in the new input, but aren't included in the db
     foreach ($emails as $input_email) {
       $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, ?)");
       $stmt->bind_param('isi', $_SESSION['user_id'], $input_email, ($input_email === $primary_email));
       $stmt->execute();
+      $stmt->close();
     }
 
     // find current occupations
@@ -231,8 +245,11 @@
         $del_stmt = $mysqli->prepare("DELETE FROM user_occupations WHERE id=?");
         $del_stmt->bind_param('i', $o_id);
         $del_stmt->execute();
+        $del_stmt->close();
       }
     }
+
+    $stmt->close();
 
     // add occupations that are included in the new input, but aren't included in the db
     foreach ($occupations as $input_occupation) {
@@ -240,12 +257,12 @@
       $start = getMonthDayYear($input_occupation[2]);
       $end = getMonthDayYear($input_occupation[3]);
 
-      $start_str = $start[0] + "," + $start[1] + "," + $start[2];
+      $start_str = $start[0].",".$start[1].",".$start[2];
 
       if (isset($end)) {
         // we need to handle if this occupation is still a place where the user works (denoted by getMonthDayYear returning
         // null to indicate that the user input the current date)
-        $end_str = $end[0] + "," + $end[1] + "," $end[2];
+        $end_str = $end[0].",".$end[1].",".$end[2];
 
         if ($input_occupation[4] === "") {
           // in case the last entry is empty, leave it at null when we insert our new value into sql
@@ -253,8 +270,8 @@
           $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str);
         } else {
           // if the last entry isn't empty, then proceed with the value of projects
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'), ?)");
-          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str, $input_occupation[4]);
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt->bind_param('isssss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str, $input_occupation[4]);
         }
       } else {
         // the user just input a current occupation
@@ -262,15 +279,16 @@
         if ($input_occupation[4] === "") {
           // in case the last entry is empty, leave it at null when we insert our new value into sql
           $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'))");
-          $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str);
+          $stmt->bind_param('isss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str);
         } else {
           // if the last entry isn't empty, then proceed with the value of projects
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), ?)");
           $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $input_occupation[4]);
         }
       }
 
       $stmt->execute();
+      $stmt->close();
     }
 
     // delete the session variables for these entries
@@ -289,7 +307,9 @@
       header("location: ../home");
       exit();
     }
-
+  } else {
+    // the user didn't complete the form correctly
+    header("location: ../profile");
+    exit();
   }
-
 ?>

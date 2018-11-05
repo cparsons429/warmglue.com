@@ -1,13 +1,15 @@
 <?php
-  require 'db.php';
-
   function getName() {
+    session_start();
+    require 'db.php';
+
     // get first and last name
-    $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=?");
+    $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=20");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($first, $last);
     $stmt->fetch();
+    $stmt->close();
 
     $names = array();
 
@@ -27,6 +29,9 @@
   }
 
   function getEmails() {
+    session_start();
+    require 'db.php';
+
     // find current emails
     $stmt = $mysqli->prepare("SELECT email, is_primary, updated FROM user_emails WHERE user_id=? ORDER BY MAX(updated) DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
@@ -36,7 +41,7 @@
     // get non-empty searches
     $emails = array();
 
-    while($stmt->fetch()) {
+    while ($stmt->fetch()) {
       if ($primary) {
         // if it's our primary email, make it the first element
         array_unshift($emails, htmlentities($email));
@@ -45,6 +50,8 @@
         array_push($emails, htmlentities($email));
       }
     }
+
+    $stmt->close();
 
     // fill in empty values for first 4 emails in case they don't exist
     // this is so we don't have to include special logic for those first 4 emails depending whether or not there has been
@@ -57,8 +64,11 @@
   }
 
   function getOccupations() {
+    session_start();
+    require 'db.php';
+
     // find current occupations
-    $stmt = $mysqli->prepare("SELECT position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=? ORDER BY MAX(start_date) DESC");
+    $stmt = $mysqli->prepare("SELECT position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=? ORDER BY DATE(start_date) DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($position, $organization, $start_date, $end_date, $projects);
@@ -67,7 +77,7 @@
     $occupations = array();
 
     while($stmt->fetch()) {
-      // converting dates to mm/dd/yyyy or "now" format
+      // converting dates to mm/dd/yyyy or empty format
       $start_edited = getDateStr($start_date);
       $end_edited = getDateStr($end_date);
 
@@ -80,6 +90,8 @@
 
       array_push($occupations, array(htmlentities($position), htmlentities($organization), $start_edited, $end_edited, $projects_edited));
     }
+
+    $stmt->close();
 
     // fill in empty values for first 3 occupations in case they don't exist
     // this is so we don't have to include special logic for those first 3 occupations depending whether or not there has
