@@ -25,14 +25,20 @@
     if (preg_match("/^\d{1,2}\/\d{1,2}\/\d{2,4}+$/", $str)) {
       // substring is weird for php; the second parameter is the length of the string, not the index to finish at
       // strrpos is just strpos for last intead of first occurrence
-      $month = intval(substr($str, 0, strpos("/")), 10);
-      $day = intval(substr($str, strpos("/") + 1, strrpos("/") - (strpos("/") + 1)), 10);
-      $year = intval(substr($str, strrpos("/") + 1), 10);
+      $slash0 = strpos($str, "/");
+      $slash1 = strrpos($str, "/");
+
+      $month = intval(substr($str, 0, $slash0), 10);
+      $day = intval(substr($str, $slash0 + 1, $slash1 - ($slash0 + 1)), 10);
+      $year = intval(substr($str, $slash1 + 1), 10);
     } else if (preg_match("/^\d{1,2}-\d{1,2}-\d{2,4}+$/", $str)) {
       // same as before, just with dashes instead of slashes separating the input
-      $month = intval(substr($str, 0, strpos("-")), 10);
-      $day = intval(substr($str, strpos("-") + 1, strrpos("-") - (strpos("-") + 1)), 10);
-      $year = intval(substr($str, strrpos("-") + 1), 10);
+      $dash0 = strpos($str, "-");
+      $dash1 = strrpos($str, "-");
+
+      $month = intval(substr($str, 0, $dash0), 10);
+      $day = intval(substr($str, $dash0 + 1, $dash1 - ($dash0 + 1)), 10);
+      $year = intval(substr($str, $dash1 + 1), 10);
     }
     else {
       // the user must want the current date
@@ -42,9 +48,9 @@
     if ($year < 100) {
       // convert 2-digit year to 4-digit year
       if ($year <= intval(date("y"))) {
-        $year .= intval(date("Y")) - intval(date("y"));
+        $year += intval(date("Y")) - intval(date("y"));
       } else {
-        $year .= intval(date("Y")) - intval(date("y")) - 100;
+        $year += intval(date("Y")) - intval(date("y")) - 100;
       }
     }
 
@@ -109,12 +115,12 @@
     }
 
     // make sure our date isn't later than today
-    $now_date_info = getMonthDayYear("");
+    $now_date_info = getMonthDayYear(date("n/j/Y"));
     $now_month = $now_date_info[0];
     $now_day = $now_date_info[1];
     $now_year = $now_date_info[2];
 
-    return areDatesCorrectlyOrdered($after_month, $after_day, $after_year, $now_month, $now_day, $now_year);
+    return areDatesCorrectlyOrdered($month, $day, $year, $now_month, $now_day, $now_year);
   }
 
   function datesInOrder($before, $after) {

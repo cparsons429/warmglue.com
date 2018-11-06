@@ -4,12 +4,11 @@
     require 'db.php';
 
     // get first and last name
-    $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=20");
+    $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($first, $last);
     $stmt->fetch();
-    $stmt->close();
 
     $names = array();
 
@@ -24,6 +23,8 @@
     } else {
       array_push($names, "");
     }
+
+    $stmt->close();
 
     return $names;
   }
@@ -66,6 +67,7 @@
   function getOccupations() {
     session_start();
     require 'db.php';
+    require 'helper-functions.php';
 
     // find current occupations
     $stmt = $mysqli->prepare("SELECT position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=? ORDER BY DATE(start_date) DESC");
@@ -73,7 +75,7 @@
     $stmt->execute();
     $stmt->bind_result($position, $organization, $start_date, $end_date, $projects);
 
-    // get non-empty searches
+    // get non-empty occupations
     $occupations = array();
 
     while($stmt->fetch()) {

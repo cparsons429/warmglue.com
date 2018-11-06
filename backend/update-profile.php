@@ -62,9 +62,12 @@
       $stmt = $mysqli->prepare("SELECT COUNT(*), user_id FROM user_emails WHERE email=?");
       $stmt->bind_param('s', $e);
       $stmt->execute();
-      $stmt->bind_result($count, $u_id);
+      $stmt->bind_result($count_str, $u_id_str);
       $stmt->fetch();
       $stmt->close();
+
+      $count = intval($count_str);
+      $u_id = intval($u_id_str);
 
       if (!isEmail($e)) {
         // this is not a valid email
@@ -178,7 +181,7 @@
   if (!isset($_SESSION['message'])) {
     // there were no errors, and we're good to go
     // update our user entry
-    $stmt = $mysqli->prepare("UPDATE users SET (first_name, last_name) VALUES (?, ?) WHERE user_id=?");
+    $stmt = $mysqli->prepare("UPDATE users SET first_name=?, last_name=? WHERE id=?");
     $stmt->bind_param('ssi', $f_name, $l_name, $_SESSION['user_id']);
     $stmt->execute();
     $stmt->close();
@@ -187,44 +190,68 @@
     $stmt = $mysqli->prepare("SELECT id, email, is_primary FROM user_emails WHERE user_id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($e_id, $e_pull, $primary);
+    $stmt->bind_result($e_id_str, $e_pull, $primary_str);
 
     $primary_email = $emails[0];
 
+    $emails_to_delete = array();
+    $emails_to_switch_primary = array();
+
     // delete or ignore emails that are already in the db
     while ($stmt->fetch()) {
+      $e_id = intval($e_id_str);
+      $primary = intval($primary_str);
+
       if (emailAlreadyTaken($emails, $e_pull)) {
         // this email is included in the user's input, so we'll ignore the user's input as a duplicate when we add new emails
         $email_index = emailIndex($emails, $e_pull);
 
         // if this email is set as primary when it shouldn't be, or vice versa, reset it correctly
         if ($primary == !($emails[$email_index] === $primary_email)) {
-          $upd_stmt = $mysqli->prepare("UPDATE user_emails SET (is_primary) VALUES (?) WHERE id=?");
-          $upd_stmt = $mysqli->bind_param('ii', !$primary, $e_id);
-          $upd_stmt->execute();
-          $upd_stmt->close();
+          array_push($emails_to_switch_primary, array(!$primary, $e_id));
         }
 
         // now ignore it
         unset($emails[$email_index]);
       } else {
         // this email isn't included in the emails input by the user, so we need to delete it
-        $del_stmt = $mysqli->prepare("DELETE FROM user_emails WHERE id=?");
-        $del_stmt->bind_param('i', $e_id);
-        $del_stmt->execute();
-        $del_stmt->close();
+        array_push($emails_to_delete, $e_id);
       }
+    }
+
+    array_values($emails);
+
+    $stmt->close();
+
+    // resetting primary emails
+    $stmt = $mysqli->prepare("UPDATE user_emails SET is_primary=? WHERE id=?");
+
+    foreach ($emails_to_switch_primary as $e_to_switch) {
+      $stmt->bind_param('ii', $e_to_switch[0], $e_to_switch[1]);
+      $stmt->execute();
+    }
+
+    $stmt->close();
+
+    // deleting non-included emails
+    $stmt = $mysqli->prepare("DELETE FROM user_emails WHERE id=?");
+
+    foreach ($emails_to_delete as $e_to_delete) {
+      $stmt->bind_param('i', $e_to_delete);
+      $stmt->execute();
     }
 
     $stmt->close();
 
     // add emails that are included in the new input, but aren't included in the db
+    $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, ?)");
+
     foreach ($emails as $input_email) {
-      $stmt = $mysqli->prepare("INSERT INTO user_emails (user_id, email, is_primary) VALUES (?, ?, ?)");
-      $stmt->bind_param('isi', $_SESSION['user_id'], $input_email, ($input_email === $primary_email));
+      $stmt->bind_param('isi', $_SESSION['user_id'], $input_email, intval($input_email === $primary_email));
       $stmt->execute();
-      $stmt->close();
     }
+
+    $stmt->close();
 
     // find current occupations
     $stmt = $mysqli->prepare("SELECT id, position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=?");
@@ -232,8 +259,11 @@
     $stmt->execute();
     $stmt->bind_result($o_id, $position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
 
+    $occupations_to_delete = array();
+
     // delete or ignore occupations that are already in the db
     while ($stmt->fetch()) {
+      $o_id = intval($o_id);
       $o_pull = array($position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
 
       if (occupationAlreadyTaken($occupations, $o_pull)) {
@@ -242,11 +272,18 @@
       }
       else {
         // this occupation isn't included in the occupations input by the user, so we need to delete it
-        $del_stmt = $mysqli->prepare("DELETE FROM user_occupations WHERE id=?");
-        $del_stmt->bind_param('i', $o_id);
-        $del_stmt->execute();
-        $del_stmt->close();
+        array_push($occupations_to_delete, $o_id);
       }
+    }
+
+    $stmt->close();
+
+    // deleting non-included occupations
+    $stmt = $mysqli->prepare("DELETE FROM user_occupations WHERE id=?");
+
+    foreach ($occupations_to_delete as $o_to_delete) {
+      $stmt->bind_param('i', $o_to_delete);
+      $stmt->execute();
     }
 
     $stmt->close();
@@ -259,6 +296,8 @@
 
       $start_str = $start[0].",".$start[1].",".$start[2];
 
+      echo sprintf("%s", $start_str);
+
       if (isset($end)) {
         // we need to handle if this occupation is still a place where the user works (denoted by getMonthDayYear returning
         // null to indicate that the user input the current date)
@@ -266,29 +305,34 @@
 
         if ($input_occupation[4] === "") {
           // in case the last entry is empty, leave it at null when we insert our new value into sql
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'))");
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%c,%e,%Y'), STR_TO_DATE(?, '%c,%e,%Y'))");
           $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str);
+          $stmt->execute();
+          $stmt->close();
         } else {
           // if the last entry isn't empty, then proceed with the value of projects
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, end_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%c,%e,%Y'), STR_TO_DATE(?, '%c,%e,%Y'), ?)");
           $stmt->bind_param('isssss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $end_str, $input_occupation[4]);
+          $stmt->execute();
+          $stmt->close();
         }
       } else {
         // the user just input a current occupation
 
         if ($input_occupation[4] === "") {
           // in case the last entry is empty, leave it at null when we insert our new value into sql
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'))");
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date) VALUES (?, ?, ?, STR_TO_DATE(?, '%c,%e,%Y'))");
           $stmt->bind_param('isss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str);
+          $stmt->execute();
+          $stmt->close();
         } else {
           // if the last entry isn't empty, then proceed with the value of projects
-          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%m,%d,%Y'), ?)");
+          $stmt = $mysqli->prepare("INSERT INTO user_occupations (user_id, position, organization, start_date, projects) VALUES (?, ?, ?, STR_TO_DATE(?, '%c,%e,%Y'), ?)");
           $stmt->bind_param('issss', $_SESSION['user_id'], $input_occupation[0], $input_occupation[1], $start_str, $input_occupation[4]);
+          $stmt->execute();
+          $stmt->close();
         }
       }
-
-      $stmt->execute();
-      $stmt->close();
     }
 
     // delete the session variables for these entries
