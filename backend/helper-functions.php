@@ -196,7 +196,7 @@
       $duplicate = 1;
 
       for ($i = 0; $i < 5; $i++) {
-        if (!($occupation[$i] === $value[i])) {
+        if (!($occupation[$i] === $value[$i])) {
           $duplicate = 0;
           break;
         }
@@ -229,5 +229,14 @@
     // return whether the password is complex enough
     // right now, our only requirement is that it's at least 8 characters long
     return (strlen($pwd) >= 8);
+  }
+
+  function nullToEmpty($str) {
+    // turning null to empty string
+    if (!(isset($str))) {
+      return "";
+    }
+
+    return $str;
   }
  ?>

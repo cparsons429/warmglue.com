@@ -124,13 +124,13 @@
       if ($o[0] === "" || $o[1] === "" || $o[2] === "") {
         // they must have filled out at least 1 entry, but not filled out at least 1 of the 3 necessary entries
 
-        if (!$o[0] === "") {
+        if (!($o[0] === "")) {
           $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation \"".$o[0]."\" requires at minimum a position, an organization, and a valid start date.");
-        } else if (!$o[1] === "") {
+        } else if (!($o[1] === "")) {
           $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation at \"".$o[1]."\" requires at minimum a position, an organization, and a valid start date.");
-        } else if (!$o[2] === "") {
+        } else if (!($o[2] === "")) {
           $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation starting on \"".$o[2]."\" requires at minimum a position, an organization, and a valid start date.");
-        } else if (!$o[3] === "") {
+        } else if (!($o[3] === "")) {
           $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation ending on \"".$o[3]."\" requires at minimum a position, an organization, and a valid start date.");
         } else {
           $_SESSION['message'] = updateMessage($_SESSION['message'], "Your occupation where you worked on \"".$o[4]."\" requires at minimum a position, an organization, and a valid start date.");
@@ -257,20 +257,19 @@
     $stmt = $mysqli->prepare("SELECT id, position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=?");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($o_id, $position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
+    $stmt->bind_result($o_id_str, $position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
 
     $occupations_to_delete = array();
 
     // delete or ignore occupations that are already in the db
     while ($stmt->fetch()) {
-      $o_id = intval($o_id);
-      $o_pull = array($position_pull, $organization_pull, $start_date_pull, $end_date_pull, $projects_pull);
+      $o_id = intval($o_id_str);
+      $o_pull = array($position_pull, $organization_pull, getDateStr($start_date_pull), getDateStr($end_date_pull), nullToEmpty($projects_pull));
 
       if (occupationAlreadyTaken($occupations, $o_pull)) {
         // this occupation is already included in the user's input, so we'll ignore the user's input as a duplicate when we // add new occupations
         unset($occupations[occupationIndex($occupations, $o_pull)]);
-      }
-      else {
+      } else {
         // this occupation isn't included in the occupations input by the user, so we need to delete it
         array_push($occupations_to_delete, $o_id);
       }

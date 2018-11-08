@@ -31,9 +31,11 @@
   $stmt = $mysqli->prepare("SELECT COUNT(*) FROM user_emails WHERE email=?");
   $stmt->bind_param('s', $e);
   $stmt->execute();
-  $stmt->bind_result($count);
+  $stmt->bind_result($count_str);
   $stmt->fetch();
   $stmt->close();
+
+  $count = intval($count_str);
 
   if ($count == 1) {
     // email must already be associated with an account

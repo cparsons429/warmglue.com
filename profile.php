@@ -72,7 +72,7 @@
 
         // create form elements for each of the emails the user has input
         for ($i = 4; $i < count($emails); $i++) {
-          echo sprintf("<p class=\"form-text e%d%d e_count\">email</p><input type=\"text\" class=\"e%d%d\" name=\"email%d%d\" value=\"%s\"><img class=\"x e%d%d\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $emails[i], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text e%d%d e_count\">email</p><input type=\"text\" class=\"e%d%d\" name=\"email%d%d\" value=\"%s\"><img class=\"x e%d%d\" id=\"xe%d%d\" onClick=\"delete_this(this.id)\"><br class=\"e%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $emails[$i], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
         }
 
         // create form elements for extra emails (30 total emails are created as a buffer)
@@ -100,7 +100,7 @@
 
         echo sprintf("<p class=\"form-text\">**end</p><input type=\"text\" name=\"enddate00\" placeholder=\"mm/dd/yyyy\" value=\"%s\"><img class=\"empty-x\"><br>", $occupations[0][3]);
 
-        echo sprintf("<p class=\"form-text\">projects</p><textarea name=\"projects00\" placeholder=\"Delta Sigma Pi business fraternity, Design-Build-Fly, Partners in East St. Louis\" value=\"%s\"></textarea><img class=\"empty-x\"><br><br><br><br><br><br><br><br><br>", $occupations[0][4]);
+        echo sprintf("<p class=\"form-text\">projects</p><textarea name=\"projects00\" placeholder=\"Delta Sigma Pi business fraternity, Design-Build-Fly, Partners in East St. Louis\">%s</textarea><img class=\"empty-x\"><br><br><br><br><br><br><br><br><br>", $occupations[0][4]);
 
         // occupation01
         echo sprintf("<p class=\"form-text o01 o_count\">position</p><input type=\"text\" class=\"o01\" name=\"position01\" placeholder=\"Software Engineering Intern\" value=\"%s\"><img class=\"x o01\" id=\"xo01\" onClick=\"delete_this(this.id)\"><br class=\"o01\">", $occupations[1][0]);
@@ -111,7 +111,7 @@
 
         echo sprintf("<p class=\"form-text o01\">**end</p><input type=\"text\" class=\"o01\" name=\"enddate01\" placeholder=\"09/15/2015\" value=\"%s\"><img class=\"empty-x o01\"><br class=\"o01\">", $occupations[1][3]);
 
-        echo sprintf("<p class=\"form-text o01\">projects</p><textarea class=\"o01\" name=\"projects01\" placeholder=\"CAPTCHA Machine Learning\" value=\"%s\"></textarea><img class=\"empty-x o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\">", $occupations[1][4]);
+        echo sprintf("<p class=\"form-text o01\">projects</p><textarea class=\"o01\" name=\"projects01\" placeholder=\"CAPTCHA Machine Learning\">%s</textarea><img class=\"empty-x o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\"><br class=\"o01\">", $occupations[1][4]);
 
         // occupation02
         echo sprintf("<p class=\"form-text o02 o_count\">position</p><input type=\"text\" class=\"o02\" name=\"position02\" placeholder=\"Data Scientist\" value=\"%s\"><img class=\"x o02\" id=\"xo02\" onClick=\"delete_this(this.id)\"><br class=\"o02\">", $occupations[2][0]);
@@ -122,19 +122,19 @@
 
         echo sprintf("<p class=\"form-text o02\">**end</p><input type=\"text\" class=\"o02\" name=\"enddate02\" placeholder=\"\" value=\"%s\"><img class=\"empty-x o02\"><br class=\"o02\">", $occupations[2][3]);
 
-        echo sprintf("<p class=\"form-text o02\">projects</p><textarea class=\"o02\" name=\"projects02\" placeholder=\"AWS Lambda, AWS Cognito\" value=\"%s\"></textarea><img class=\"empty-x o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\">", $occupations[2][4]);
+        echo sprintf("<p class=\"form-text o02\">projects</p><textarea class=\"o02\" name=\"projects02\" placeholder=\"AWS Lambda, AWS Cognito\">%s</textarea><img class=\"empty-x o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\"><br class=\"o02\">", $occupations[2][4]);
 
         // create form elements for each of the occupations the user has input
         for ($i = 3; $i < count($occupations); $i++) {
-          echo sprintf("<p class=\"form-text o%d%d o_count\">position</p><input type=\"text\" class=\"o%d%d\" name=\"position%d%d\" value=\"%s\"><img class=\"x o%d%d\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][0], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text o%d%d o_count\">position</p><input type=\"text\" class=\"o%d%d\" name=\"position%d%d\" value=\"%s\"><img class=\"x o%d%d\" id=\"xo%d%d\" onClick=\"delete_this(this.id)\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[$i][0], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
-          echo sprintf("<p class=\"form-text o%d%d\">organization</p><input type=\"text\" class=\"o%d%d\" name=\"organization%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][1], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text o%d%d\">organization</p><input type=\"text\" class=\"o%d%d\" name=\"organization%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[$i][1], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
-          echo sprintf("<p class=\"form-text o%d%d\">start</p><input type=\"text\" class=\"o%d%d\" name=\"startdate%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][2], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text o%d%d\">start</p><input type=\"text\" class=\"o%d%d\" name=\"startdate%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[$i][2], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
-          echo sprintf("<p class=\"form-text o%d%d\">**end</p><input type=\"text\" class=\"o%d%d\" name=\"enddate%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][3], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text o%d%d\">**end</p><input type=\"text\" class=\"o%d%d\" name=\"enddate%d%d\" value=\"%s\"><img class=\"empty-x o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[$i][3], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
 
-          echo sprintf("<p class=\"form-text o%d%d\">projects</p><textarea class=\"o%d%d\" name=\"projects%d%d\" value=\"%s\"></textarea><img class=\"empty-x o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[i][4], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
+          echo sprintf("<p class=\"form-text o%d%d\">projects</p><textarea class=\"o%d%d\" name=\"projects%d%d\">%s</textarea><img class=\"empty-x o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\"><br class=\"o%d%d\">", intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, $occupations[$i][4], intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10, intdiv($i, 10), $i%10);
         }
 
         // create form elements for the extra occupations (100 total occupations are created as a buffer)

@@ -31,10 +31,11 @@
   $stmt = $mysqli->prepare("SELECT COUNT(*), user_id FROM user_emails WHERE email=?");
   $stmt->bind_param('s', $e);
   $stmt->execute();
-  $stmt->bind_result($count, $u_id_str);
+  $stmt->bind_result($count_str, $u_id_str);
   $stmt->fetch();
   $stmt->close();
 
+  $count = intval($count_str);
   $u_id = intval($u_id_str);
 
   // compare the submitted password to the actual password hash

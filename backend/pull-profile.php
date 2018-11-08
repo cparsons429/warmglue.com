@@ -34,15 +34,17 @@
     require 'db.php';
 
     // find current emails
-    $stmt = $mysqli->prepare("SELECT email, is_primary, updated FROM user_emails WHERE user_id=? ORDER BY MAX(updated) DESC");
+    $stmt = $mysqli->prepare("SELECT email, is_primary, updated FROM user_emails WHERE user_id=? ORDER BY updated DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
-    $stmt->bind_result($email, $primary, $_);
+    $stmt->bind_result($email, $primary_str, $_);
 
     // get non-empty searches
     $emails = array();
 
     while ($stmt->fetch()) {
+      $primary = intval($primary_str);
+
       if ($primary) {
         // if it's our primary email, make it the first element
         array_unshift($emails, htmlentities($email));
@@ -79,10 +81,6 @@
     $occupations = array();
 
     while($stmt->fetch()) {
-      // converting dates to mm/dd/yyyy or empty format
-      $start_edited = getDateStr($start_date);
-      $end_edited = getDateStr($end_date);
-
       // in case the user didn't input any project here
       if (!isset($projects)) {
         $projects_edited = "";
@@ -90,7 +88,7 @@
         $projects_edited = htmlentities($projects);
       }
 
-      array_push($occupations, array(htmlentities($position), htmlentities($organization), $start_edited, $end_edited, $projects_edited));
+      array_push($occupations, array(htmlentities($position), htmlentities($organization), getDateStr($start_date), getDateStr($end_date), $projects_edited));
     }
 
     $stmt->close();
