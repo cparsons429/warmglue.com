@@ -1,9 +1,10 @@
 <?php
-  require 'db.php';
-
   function getSearches() {
+    session_start();
+    require 'db.php';
+
     // find current searches
-    $stmt = $mysqli->prepare("SELECT search, updated FROM searches WHERE user_id=? ORDER BY MAX(updated) DESC");
+    $stmt = $mysqli->prepare("SELECT search, searched FROM searches WHERE user_id=? ORDER BY searched DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($search, $_);
@@ -14,6 +15,8 @@
     while($stmt->fetch()) {
       array_push($searches, htmlentities($search));
     }
+
+    $stmt->close();
 
     // fill in empty values for searches that don't exist
     // this is so we don't have to include special logic for those first 5 searches depending whether or not there has been // an input search
