@@ -40,20 +40,24 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>cancel account</h1>
-      <form name="cancel-account" action="backend/delete-user.php" method="post">
-        <br><p class="form-text">confirm email</p><input type="text" name="email" placeholder="jane.doe@gmail.com"><br>
-        <div class="pre-link"></div>
-        <p class="form-text">This action <b>cannot</b> be undone.</p>
-        <div class="post-link"></div>
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>">
-        <input type="submit" value="cancel account">
+      <form name="confirm-delete" action="backend/delete-confirm.php" method="post">
+        <br><p class="form-text">confirm email</p><input type="text" name="email" placeholder="jane.doe@gmail.com">
         <?php
-          if (isset($_SESSION['message'])) {
-            echo sprintf("<div class=\"pre-link\"></div>");
-            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
-            echo sprintf("<div class=\"post-link\"></div>");
+          echo sprintf("<div class=\"pre-warning\"></div>");
+
+          if (isset($_SESSION['message']) && $_SESSION['backend_redirect']) {
+            echo sprintf("<p class=\"error-text\">This action <b>cannot</b> be undone.<br><br>%s</p>", $_SESSION['message']);
+          } else {
+            echo sprintf("<p class=\"error-text\">This action <b>cannot</b> be undone.</p>");
           }
+
+          echo sprintf("<div class=\"post-warning\"></div>");
+
+          $_SESSION['backend_redirect'] = 0;
+
+          echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
         ?>
+        <input type="submit" value="cancel account">
       </form>
     </div>
   </div>

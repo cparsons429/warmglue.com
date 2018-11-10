@@ -156,6 +156,22 @@ input[type=submit]:hover {
   content: "\A";
 }
 
+.warning-text {
+  font-size: 1.1em;
+  font-weight: 300;
+  display: inline;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.warning-text::before {
+  content: "\A";
+}
+
+.warning-text::after {
+  content: "\A";
+}
+
 .form-link {
   color: #b30000;
   text-decoration: underline;
@@ -170,6 +186,14 @@ input[type=submit]:hover {
 
 .post-link {
   height: 0;
+}
+
+.pre-warning {
+  height: 0.3em;
+}
+
+.post-warning {
+  height: 0.4em;
 }
 
 .big-text {
@@ -330,11 +354,23 @@ input[type=submit]:hover {
     content: "\A\A";
   }
 
+  .warning-text::before {
+    content: "\A";
+  }
+
+  .warning-text::after {
+    content: "\A\A";
+  }
+
   .pre-link {
     height:0;
   }
 
   .post-link {
     height: 1.1em;
+  }
+
+  .pre-warning {
+    height: 1em;
   }
 }

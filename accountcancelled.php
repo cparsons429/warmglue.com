@@ -3,6 +3,10 @@
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: landing");
+  } else if ($_SESSION['delete_confirmed'] != 1) {
+    header("location: home");
+  } else {
+    require 'backend/delete-user.php';
   }
  ?>
 <!DOCTYPE html>
@@ -41,6 +45,9 @@
     <div class="basic-info">
       <h1>account cancelled</h1>
       <p class="big-text">Your account has been cancelled. Sorry to see you go.</p>
+        <?php
+          delete_account($_SESSION['token']);
+         ?>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
