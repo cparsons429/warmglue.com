@@ -1,5 +1,4 @@
 <?php
-  require 'backend/return-home.php';
   session_start();
 
   if ($_SESSION['logged_in'] != 1) {
@@ -42,7 +41,7 @@
       <br><br><br><p class="form-text">maximum intros / week: 3</p><img class="slight-tab"><br>
       <p class="form-text">maximum concurrent searches: 5</p><img class="slight-tab"><br>
       <div class="pre-link"></div>
-      <br><a class="form-link" href="change password">change password</a><img class="empty-x"><br>
+      <br><a class="form-link" href="changepassword">change password</a><img class="empty-x"><br>
       <br><a class="form-link" href="cancelaccount">cancel my account</a><img class="empty-x"><br><br>
       <div class="post-link"></div>
       <input type="submit" value="return to home"><img class="empty-x">
