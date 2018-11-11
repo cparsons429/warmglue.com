@@ -47,7 +47,8 @@
 
     if ($year < 100) {
       // convert 2-digit year to 4-digit year
-      if ($year <= intval(date("y"))) {
+      if ($year <= intval(date("y")) + 20) {
+        // we add in the buffer of 20 because we're pretty certain the user is talking about a date 20 years in the future // rather than 80 years in the past
         $year += intval(date("Y")) - intval(date("y"));
       } else {
         $year += intval(date("Y")) - intval(date("y")) - 100;
