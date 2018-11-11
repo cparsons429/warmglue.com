@@ -33,7 +33,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>page not found</h1>
-      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="home">home</a>.</p>
+      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="landing">home</a>.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
