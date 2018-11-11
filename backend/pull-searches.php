@@ -7,7 +7,7 @@
     $mysqli = authenticated_connect($token);
 
     // find current searches
-    $stmt = $mysqli->prepare("SELECT search, searched FROM searches WHERE user_id=? ORDER BY searched DESC");
+    $stmt = $mysqli->prepare("SELECT search, searched FROM searches WHERE user_id=? AND is_archived=0 ORDER BY searched DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
     $stmt->bind_result($search, $_);

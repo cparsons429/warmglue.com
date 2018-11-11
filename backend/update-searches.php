@@ -25,14 +25,14 @@
   }
 
   // find current searches
-  $stmt = $mysqli->prepare("SELECT id, search FROM searches WHERE user_id=?");
+  $stmt = $mysqli->prepare("SELECT id, search FROM searches WHERE user_id=? AND is_archived=0");
   $stmt->bind_param('i', $_SESSION['user_id']);
   $stmt->execute();
   $stmt->bind_result($s_id_str, $s_current);
 
-  $searches_to_delete = array();
+  $searches_to_archive = array();
 
-  // delete or ignore searches that are already in the db
+  // archive or ignore searches that are already in the db
   while($stmt->fetch()) {
     $s_id = intval($s_id_str);
 
@@ -41,18 +41,18 @@
       // new searches
       unset($searches[searchIndex($searches, $s_current)]);
     } else {
-      // this search isn't included in the occupations input by the user, so we need to delete it
-      array_push($searches_to_delete, $s_id);
+      // this search isn't included in the occupations input by the user, so we need to archive it
+      array_push($searches_to_archive, $s_id);
     }
   }
 
   $stmt->close();
 
-  // deleting non-included searches
-  $stmt = $mysqli->prepare("DELETE FROM searches WHERE id=?");
+  // archiving non-included searches
+  $stmt = $mysqli->prepare("UPDATE searches SET is_archived=1 WHERE id=?");
 
-  foreach ($searches_to_delete as $s_to_delete) {
-    $stmt->bind_param('i', $s_to_delete);
+  foreach ($searches_to_archive as $s_to_archive) {
+    $stmt->bind_param('i', $s_to_archive);
     $stmt->execute();
   }
 
