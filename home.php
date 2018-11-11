@@ -3,6 +3,7 @@
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: login");
+    exit();
   }
  ?>
 <!DOCTYPE html>
@@ -36,9 +37,12 @@
       </a>
     </div>
     <div class="nav-log-out-div">
-      <a href="backend/logout-user.php">
-        <button class="button nav-log-out">log out</button>
-      </a>
+      <form name="log-out" action="backend/logout-user.php" method="post">
+        <?php
+          echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
+         ?>
+        <input type="submit" value="log out" class="button nav-log-out">
+      </form>
     </div>
   </nav>
   <div class="main-body">

@@ -4,6 +4,7 @@
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: login");
+    exit();
   }
  ?>
 <!DOCTYPE html>
@@ -42,7 +43,8 @@
     <form name="set-profile" action="backend/update-profile.php" method="post">
       <br><br><br>
       <?php
-        $names = getName();
+        $info = getInfo($_SESSION['token']);
+        $names = $info[0];
 
         if (isset($_SESSION['first_name_attempt'])) {
           echo sprintf("<p class=\"form-text\">*first name</p><input type=\"text\" name=\"first_name\" placeholder=\"Jane\" value=\"%s\"><img class=\"empty-x\"><br>", $_SESSION['first_name_attempt']);
@@ -62,7 +64,7 @@
           $emails = $_SESSION['email_attempts'];
         } else {
           // the user has not input any emails
-          $emails = getEmails();
+          $emails = $info[1];
         }
 
         echo sprintf("<p class=\"form-text e00 e_count\">*email</p><input type=\"text\" class=\"e00\" name=\"email00\" placeholder=\"\" value=\"%s\"><img class=\"empty-x\"><br>", $emails[0]);
@@ -88,7 +90,7 @@
           $occupations = $_SESSION['occupation_attempts'];
         } else {
           // the user has not input any emails
-          $occupations = getOccupations();
+          $occupations = $info[2];
         }
 
         // occupation00

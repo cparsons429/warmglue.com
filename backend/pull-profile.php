@@ -1,7 +1,11 @@
 <?php
-  function getName() {
+  function getInfo($token) {
     session_start();
     require 'db.php';
+    require 'helper-functions.php';
+
+    // connect, while preventing CSRF attacks
+    $mysqli = authenticated_connect($token);
 
     // get first and last name
     $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=?");
@@ -26,12 +30,7 @@
 
     $stmt->close();
 
-    return $names;
-  }
-
-  function getEmails() {
-    session_start();
-    require 'db.php';
+    // now, for emails
 
     // find current emails
     $stmt = $mysqli->prepare("SELECT email, is_primary, updated FROM user_emails WHERE user_id=? ORDER BY updated DESC");
@@ -63,13 +62,10 @@
       array_push($emails, "");
     }
 
-    return $emails;
-  }
+    // now, for occupations
 
-  function getOccupations() {
-    session_start();
-    require 'db.php';
-    require 'helper-functions.php';
+    // connect, while preventing CSRF attacks
+    $mysqli = authenticated_connect($token);
 
     // find current occupations
     $stmt = $mysqli->prepare("SELECT position, organization, start_date, end_date, projects FROM user_occupations WHERE user_id=? ORDER BY DATE(start_date) DESC");
@@ -100,7 +96,7 @@
       array_push($occupations, array("", "", "", "", ""));
     }
 
-    return $occupations;
+    return array($names, $emails, $occupations);
   }
 
  ?>

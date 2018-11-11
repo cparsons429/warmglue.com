@@ -1,3 +1,11 @@
+input[type=submit] {
+  background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
+}
+
+input[type=submit]:hover {
+  background: linear-gradient(#ffcccc 0%, #ff6666 100%);
+}
+
 .nav-log-out-div {
   float: right;
   margin: 0.7em 1.6em 0em 0em;

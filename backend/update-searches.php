@@ -4,10 +4,8 @@
   require 'db.php';
   require 'helper-functions.php';
 
-  // preventing CSRF attacks
-  if (!hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("Request forgery detected");
-  }
+  // connect, while preventing CSRF attacks
+  $mysqli = authenticated_connect($_POST['token']);
 
   // note that we don't need to worry about a session error message here - there's nothing a user can input in to a search // that forces an error, and we're not showing an error message on this page
 

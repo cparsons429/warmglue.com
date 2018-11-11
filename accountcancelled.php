@@ -3,8 +3,10 @@
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: landing");
+    exit();
   } else if ($_SESSION['delete_confirmed'] != 1) {
     header("location: home");
+    exit();
   } else {
     require 'backend/delete-user.php';
   }

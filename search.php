@@ -4,6 +4,7 @@
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: login");
+    exit();
   }
  ?>
 <!DOCTYPE html>
@@ -42,7 +43,7 @@
     <form name="search" action="backend/update-searches.php" method="post">
       <br><br><br>
       <?php
-        $searches = getSearches();
+        $searches = getSearches($_SESSION['token']);
 
         echo sprintf("<p class=\"form-text s00\">search</p><textarea class=\"s00\" name=\"search00\" placeholder=\"Professor who's connected with the graduate math program at Stanford. I'm thinking about applying there for a master's.\">%s</textarea><img class=\"empty-x s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\"><br class=\"s00\">", $searches[0]);
         echo sprintf("<p class=\"form-text s01\">search</p><textarea class=\"s01\" name=\"search01\" placeholder=\"Developer at a meal delivery company - we're trying to get more users for our API!\">%s</textarea><img class=\"empty-x s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\"><br class=\"s01\">", $searches[1]);

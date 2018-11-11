@@ -3,6 +3,7 @@
 
   if ($_SESSION['logged_in'] == 1) {
     header("location: home");
+    exit();
   }
  ?>
 <!DOCTYPE html>

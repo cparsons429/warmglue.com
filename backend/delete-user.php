@@ -5,10 +5,8 @@
     require 'db.php';
     require 'helper-functions.php';
 
-    // preventing CSRF attacks
-    if (!hash_equals($_SESSION['token'], $token)) {
-      die("Request forgery detected");
-    }
+    // connect, while preventing CSRF attacks
+    $mysqli = authenticated_connect($token);
 
     // delete user from users list
     $stmt = $mysqli->prepare("DELETE FROM users WHERE id=?");

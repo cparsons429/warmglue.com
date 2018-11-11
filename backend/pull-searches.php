@@ -1,7 +1,10 @@
 <?php
-  function getSearches() {
+  function getSearches($token) {
     session_start();
     require 'db.php';
+
+    // connect, while preventing CSRF attacks
+    $mysqli = authenticated_connect($token);
 
     // find current searches
     $stmt = $mysqli->prepare("SELECT search, searched FROM searches WHERE user_id=? ORDER BY searched DESC");

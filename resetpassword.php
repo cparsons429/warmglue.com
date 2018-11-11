@@ -3,6 +3,7 @@
 
   if ($_SESSION['logged_in'] == 1) {
     header("location: changepassword");
+    exit();
   }
  ?>
 <!DOCTYPE html>

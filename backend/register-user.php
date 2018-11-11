@@ -4,6 +4,9 @@
   require 'db.php';
   require 'helper-functions.php';
 
+  // connect
+  $mysqli = public_connect();
+
   // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;
   $_SESSION['backend_redirect'] = 1;

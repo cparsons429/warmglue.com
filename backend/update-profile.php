@@ -4,10 +4,8 @@
   require 'db.php';
   require 'helper-functions.php';
 
-  // preventing CSRF attacks
-  if (!hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("Request forgery detected");
-  }
+  // connect, while preventing CSRF attacks
+  $mysqli = authenticated_connect($_POST['token']);
 
   // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;
