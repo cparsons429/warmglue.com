@@ -1,7 +1,9 @@
 <?php
   session_start();
 
+  $_SESSION['db_access_allowed'] = 1;
   require 'db.php';
+  $_SESSION['helper_functions_access_allowed'] = 1;
   require 'helper-functions.php';
 
   // connect, while preventing CSRF attacks

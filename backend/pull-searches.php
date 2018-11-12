@@ -1,6 +1,19 @@
 <?php
+  session_start();
+
+  // preventing information leakage
+  if (!$_SESSION['pull_searches_access_allowed']) {
+    header("location: ../accessdenied");
+    exit();
+  } else {
+    $_SESSION['pull_searches_access_allowed'] = 0;
+  }
+
   function getSearches($token) {
     session_start();
+
+    // preventing information leakage
+    $_SESSION['db_access_allowed'] = 1;
     require 'db.php';
 
     // connect, while preventing CSRF attacks

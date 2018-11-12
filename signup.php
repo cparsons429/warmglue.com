@@ -58,6 +58,8 @@
           }
 
           $_SESSION['backend_redirect'] = 0;
+
+          echo sprintf("<input type=\"hidden\" name=\"signup_access\" value=\"1\">");
         ?>
         <input type="submit" value="sign up">
       </form>

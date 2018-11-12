@@ -1,11 +1,13 @@
 <?php
   session_start();
 
+  $_SESSION['db_access_allowed'] = 1;
   require 'db.php';
+  $_SESSION['helper_functions_access_allowed'] = 1;
   require 'helper-functions.php';
 
   // connect
-  $mysqli = public_connect();
+  $mysqli = public_connect(intval($_POST['login_access']));
 
   // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;

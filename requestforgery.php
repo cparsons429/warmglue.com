@@ -33,7 +33,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>request forgery</h1>
-      <p class="big-text">Request forgery detected. Your account is safe, but if you were sent here by an email, you should flag that email as spam.</p>
+      <p class="big-text">Request forgery detected. Your personal data is safe, but if you were sent here by an email, you should flag that email as spam.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>

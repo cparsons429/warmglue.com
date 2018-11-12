@@ -1,6 +1,9 @@
 <?php
-  require 'backend/pull-searches.php';
   session_start();
+
+  // preventing information leakage
+  $_SESSION['pull_searches_access_allowed'] = 1;
+  require 'backend/pull-searches.php';
 
   if ($_SESSION['logged_in'] != 1) {
     header("location: login");

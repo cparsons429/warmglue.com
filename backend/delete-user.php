@@ -1,8 +1,21 @@
 <?php
+  session_start();
+
+  // preventing information leakage
+  if (!$_SESSION['delete_user_access_allowed']) {
+    header("location: ../accessdenied");
+    exit();
+  } else {
+    $_SESSION['delete_user_access_allowed'] = 0;
+  }
+
   function delete_account($token) {
     session_start();
 
+    // preventing information leakage
+    $_SESSION['db_access_allowed'] = 1;
     require 'db.php';
+    $_SESSION['helper_functions_access_allowed'] = 1;
     require 'helper-functions.php';
 
     // connect, while preventing CSRF attacks

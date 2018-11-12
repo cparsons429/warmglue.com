@@ -8,6 +8,8 @@
     header("location: home");
     exit();
   } else {
+    // preventing information leakage
+    $_SESSION['delete_user_access_allowed'] = 1;
     require 'backend/delete-user.php';
   }
  ?>

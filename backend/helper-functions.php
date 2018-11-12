@@ -1,4 +1,14 @@
 <?php
+  session_start();
+
+  // preventing information leakage
+  if (!$_SESSION['helper_functions_access_allowed']) {
+    header("location: ../accessdenied");
+    exit();
+  } else {
+    $_SESSION['helper_functions_access_allowed'] = 0;
+  }
+
   function updateMessage($original, $str) {
     // handles new line issues depending on whether this is the only, or one of multiple, messages
     if (!isset($original)) {

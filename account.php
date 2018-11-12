@@ -45,6 +45,9 @@
       <br><a class="form-link" href="changepassword">change password</a><img class="empty-x"><br>
       <br><a class="form-link" href="cancelaccount">cancel my account</a><img class="empty-x"><br><br>
       <div class="post-link"></div>
+      <?php
+        echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
+       ?>
       <input type="submit" value="return to home"><img class="empty-x">
     </form>
   </div>

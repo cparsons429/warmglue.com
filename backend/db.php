@@ -1,5 +1,21 @@
 <?php
-  function public_connect() {
+  session_start();
+
+  // preventing information leakage
+  if (!$_SESSION['db_access_allowed']) {
+    header("location: ../accessdenied");
+    exit();
+  } else {
+    $_SESSION['db_access_allowed'] = 0;
+  }
+
+  function public_connect($allowed_access) {
+    // preventing information leakage
+    if (!$allowed_access) {
+      header("location: ../accessdenied");
+      exit();
+    }
+
     // before the user has authenticated
     $host = 'localhost';
     $user = 'phpaccess';
