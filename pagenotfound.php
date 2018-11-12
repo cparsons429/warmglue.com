@@ -2,8 +2,8 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
-  <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/external-styles.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/external-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <title>warmglue: page not found</title>
   <meta charset="utf-8">
@@ -33,7 +33,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>page not found</h1>
-      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="landing">home</a>.</p>
+      <p class="big-text">There's no warmglue.com page at that address. Let's take you back <a class="big-text-link" href="/landing">home</a>.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
