@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /assets/
+Disallow: /backend/
+Disallow: /phpmyadminCR1E8qjwgLMPkOXeUN7u67Z2R6B9y71i/
+Disallow: /scripts/
+Disallow: /styles/
