@@ -23,7 +23,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing">
+      <a href="/landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -33,7 +33,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>access denied</h1>
-      <p class="big-text">You don't have permission to view that page. Let's take you back <a class="big-text-link" href="landing">home</a>.</p>
+      <p class="big-text">You don't have permission to view that page. Let's take you back <a class="big-text-link" href="/landing">home</a>.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>

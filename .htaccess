@@ -1,11 +1,54 @@
 DirectoryIndex landing.php
 
 RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
 
-# browser requests for PHP
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.php
-RewriteRule ^/?(.*)\.php$ /$1 [L,R=301]
+# remove trailing slash and any following characters
+RewriteRule ^(.*)/(.*)$ /$1 [L,R=301]
+
+# browser requests for anything but PHP, TXT, CSS, JS, PNG, JPG, WEBMANIFEST, SVG, ICO, XML
+RewriteRule ^/?(.*)\.(?!php|txt|css|js|png|jpg|webmanifest|svg|ico|xml)(.*)$ /$1 [L,R=301]
+
+# browser requests for PHP, TXT, CSS, JS, PNG, JPG, WEBMANIFEST, SVG, ICO, XML
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.(php|txt|css|js|png|jpg|webmanifest|svg|ico|xml)
+RewriteRule ^/?(.*)\.(php|txt|css|js|png|jpg|webmanifest|svg|ico|xml)$ /$1 [L,R=301]
 
 # check to see if the request is for a PHP file:
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^/?(.*)$ /$1.php [L]
+
+# check to see if the request is for a TXT file:
+RewriteCond %{REQUEST_FILENAME}\.txt -f
+RewriteRule ^/?(.*)$ /$1.txt [L]
+
+# check to see if the request is for a CSS file:
+RewriteCond %{REQUEST_FILENAME}\.css -f
+RewriteRule ^/?(.*)$ /$1.css [L]
+
+# check to see if the request is for a JS file:
+RewriteCond %{REQUEST_FILENAME}\.js -f
+RewriteRule ^/?(.*)$ /$1.js [L]
+
+# check to see if the request is for a PNG file:
+RewriteCond %{REQUEST_FILENAME}\.png -f
+RewriteRule ^/?(.*)$ /$1.png [L]
+
+# check to see if the request is for a JPG file:
+RewriteCond %{REQUEST_FILENAME}\.jpg -f
+RewriteRule ^/?(.*)$ /$1.jpg [L]
+
+# check to see if the request is for a WEBMANIFEST file:
+RewriteCond %{REQUEST_FILENAME}\.webmanifest -f
+RewriteRule ^/?(.*)$ /$1.webmanifest [L]
+
+# check to see if the request is for a SVG file:
+RewriteCond %{REQUEST_FILENAME}\.svg -f
+RewriteRule ^/?(.*)$ /$1.svg [L]
+
+# check to see if the request is for a ICO file:
+RewriteCond %{REQUEST_FILENAME}\.ico -f
+RewriteRule ^/?(.*)$ /$1.ico [L]
+
+# check to see if the request is for a XML file:
+RewriteCond %{REQUEST_FILENAME}\.xml -f
+RewriteRule ^/?(.*)$ /$1.xml [L]

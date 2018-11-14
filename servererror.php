@@ -23,7 +23,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing">
+      <a href="/landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
@@ -33,7 +33,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>server error</h1>
-      <p class="big-text">Servers are being upgraded right now. If things still aren't working for you in the next few hours, reach out: support@warmglue.com</p>
+      <p class="big-text">Please try again later.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>

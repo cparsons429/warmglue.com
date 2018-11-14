@@ -23,7 +23,7 @@
 <body>
   <nav class="navbar">
     <div class="brand-image">
-      <a href="landing">
+      <a href="/landing">
         <button class="button brand-image-button">
           <img class="logo" alt ="">
         </button>
