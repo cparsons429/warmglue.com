@@ -37,7 +37,7 @@
       </a>
     </div>
     <div class="nav-log-out-div">
-      <form name="log-out" action="backend/logout-user.php" method="post">
+      <form name="log-out" action="backend/logout-user" method="post">
         <?php
           echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
          ?>

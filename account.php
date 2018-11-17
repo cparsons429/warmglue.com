@@ -38,7 +38,7 @@
   </nav>
   <div class="main-body">
     <h1>account</h1>
-    <form name="account" action="backend/return-home.php" method="post">
+    <form name="account" action="backend/return-home" method="post">
       <br><br><br><p class="form-text">maximum intros / week: 3</p><img class="slight-tab"><br>
       <p class="form-text">maximum concurrent searches: 5</p><img class="slight-tab"><br>
       <div class="pre-link"></div>

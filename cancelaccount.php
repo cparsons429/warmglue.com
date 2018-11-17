@@ -41,7 +41,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>cancel account</h1>
-      <form name="confirm-delete" action="backend/delete-confirm.php" method="post">
+      <form name="confirm-delete" action="backend/delete-confirm" method="post">
         <br><p class="form-text">confirm email</p><input type="text" name="email" placeholder="jane.doe@gmail.com">
         <?php
           echo sprintf("<div class=\"pre-warning\"></div>");

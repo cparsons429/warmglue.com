@@ -36,7 +36,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>change password</h1>
-      <form name="change-password" action="backend/update-password.php" method="post">
+      <form name="change-password" action="backend/update-password" method="post">
         <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"><br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
         <input type="submit" value="change password">
         <?php

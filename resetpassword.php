@@ -41,7 +41,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>reset password</h1>
-      <form name="reset-password" action="backend/send-password-reset.php" method="post">
+      <form name="reset-password" action="backend/send-password-reset" method="post">
         <br>
         <?php
           if (isset($_SESSION['email_attempt'])) {

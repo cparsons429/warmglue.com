@@ -43,7 +43,7 @@
   </nav>
   <div class="main-body">
     <h1>searches</h1>
-    <form name="search" action="backend/update-searches.php" method="post">
+    <form name="search" action="backend/update-searches" method="post">
       <br><br><br>
       <?php
         $searches = getSearches($_SESSION['token']);

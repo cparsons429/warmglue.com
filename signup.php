@@ -40,7 +40,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>sign up</h1>
-      <form name="sign-up" action="backend/register-user.php" method="post">
+      <form name="sign-up" action="backend/register-user" method="post">
         <br>
         <?php
           if (isset($_SESSION['email_attempt'])) {

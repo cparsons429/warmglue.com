@@ -40,7 +40,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>log in</h1>
-      <form name="log-in" action="backend/login-user.php" method="post">
+      <form name="log-in" action="backend/login-user" method="post">
         <br>
         <?php
           if (isset($_SESSION['email_attempt'])) {

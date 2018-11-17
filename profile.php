@@ -43,7 +43,7 @@
   </nav>
   <div class="main-body">
     <h1>profile</h1>
-    <form name="set-profile" action="backend/update-profile.php" method="post">
+    <form name="set-profile" action="backend/update-profile" method="post">
       <br><br><br>
       <?php
         $info = getInfo($_SESSION['token']);
