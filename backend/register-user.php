@@ -3,6 +3,8 @@
 
   $_SESSION['db_access_allowed'] = 1;
   require 'db.php';
+  $_SESSION['confirm_email_access_allowed'] = 1;
+  require 'confirm-email.php';
   $_SESSION['helper_functions_access_allowed'] = 1;
   require 'helper-functions.php';
 
@@ -87,6 +89,10 @@
       $_SESSION['logged_in'] = 1;
       $_SESSION['token'] = bin2hex(random_bytes(32));
       $_POST['registering'] = 1;
+
+      // immediately send message to confirm primary email
+      confirmEmail($mysqli, $_SESSION['token']);
+
       header("location: ../profile");
       exit();
     } else {
