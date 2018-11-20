@@ -1,5 +1,19 @@
 <?php
   session_start();
+
+  if ($_SESSION['logged_in'] != 1) {
+    // we need to see if the url has the correct token
+    $_SESSION['change_password_verify_allowed'] = 1;
+    require 'backend/change-password-verify.php';
+    $u_id = change_pw_account(1, $_GET['token']);
+
+    if ($u_id == 0) {
+      header("location: resetpassword");
+      exit();
+    }
+  } else {
+    $u_id = $_SESSION['user_id'];
+  }
  ?>
 <!DOCTYPE html>
 <html>
@@ -38,14 +52,20 @@
       <h1>change password</h1>
       <form name="change-password" action="backend/update-password" method="post">
         <br><p class="form-text">create password</p><input type="password" name="password0" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"><br><p class="form-text">re-type password</p><input type="password" name="password1" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
-        <input type="submit" value="change password">
+        <div class="pre-link"></div>
+        <a class="form-link" href="landing">return to home</a>
+        <div class="post-link"></div>
         <?php
-          if (isset($_SESSION['message'])) {
-            echo sprintf("<div class=\"pre-link\"></div>");
-            echo sprintf("<br><p class=\"form-text\">%s</p><img class=\"empty-x\"><br>", $_SESSION['message']);
-            echo sprintf("<div class=\"post-link\"></div>");
+          if (isset($_SESSION['message']) && $_SESSION['backend_redirect']) {
+            echo sprintf("<p class=\"error-text\">%s</p>", $_SESSION['message']);
           }
+
+          $_SESSION['backend_redirect'] = 0;
+
+          echo sprintf("<input type=\"hidden\" name=\"reset_pw_id\" value=\"%d\">", $u_id);
+          echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_GET['token']);
         ?>
+        <input type="submit" value="change password">
       </form>
     </div>
   </div>

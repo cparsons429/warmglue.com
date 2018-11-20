@@ -250,4 +250,16 @@
 
     return $str;
   }
+
+  function random_string($len=500) {
+    // generate a random string from alphanumeric characters, with default length 500
+    $keyspace = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    $return_str = "";
+
+    for ($i = 0; $i < $len; $i++) {
+      $return_str .= substr($keyspace, random_int(0, strlen($keyspace) - 1), 1);
+    }
+
+    return $return_str;
+  }
  ?>

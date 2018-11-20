@@ -1,9 +1,12 @@
 <?php
   session_start();
 
-  if ($_SESSION['logged_in'] == 1) {
-    header("location: changepassword");
+  if ($_SESSION['change_successful'] != 1) {
+    header("location: landing");
     exit();
+  } else {
+    // preventing information leakage
+    $_SESSION['change_successful'] = 0;
   }
  ?>
 <!DOCTYPE html>
@@ -12,11 +15,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/external-styles.css">
-  <link rel="stylesheet" href="styles/resetpassword-styles.css">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <title>warmglue: reset password</title>
+  <title>warmglue: succesful password change</title>
   <meta charset="utf-8">
-  <meta name="description" content="You'll be sent a link to reset your password.">
+  <meta name="description" content="Your password has been succesfully changed.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- favicon stuff -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -40,30 +42,8 @@
   </nav>
   <div class="main-body">
     <div class="basic-info">
-      <h1>reset password</h1>
-      <form name="reset-password" action="backend/send-password-reset" method="post">
-        <br>
-        <?php
-          if (isset($_SESSION['email_attempt'])) {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\" value=\"%s\">", $_SESSION['email_attempt']);
-          } else {
-            echo sprintf("<p class=\"form-text\">email</p><input type=\"text\" name=\"email\" placeholder=\"jane.doe@gmail.com\">");
-          }
-        ?>
-        <div class="pre-link"></div>
-        <a class="form-link" href="login">return to login</a>
-        <div class="post-link"></div>
-        <?php
-          if (isset($_SESSION['message']) && $_SESSION['backend_redirect']) {
-            echo sprintf("<p class=\"error-text\">%s</p>", $_SESSION['message']);
-          }
-
-          $_SESSION['backend_redirect'] = 0;
-
-          echo sprintf("<input type=\"hidden\" name=\"reset_pw_access\" value=\"1\">");
-        ?>
-        <input type="submit" value="reset password">
-      </form>
+      <h1>password changed</h1>
+      <p class="big-text">Your password has been successfully changed. You can return <a class="big-text-link" href="landing">home</a>.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>
