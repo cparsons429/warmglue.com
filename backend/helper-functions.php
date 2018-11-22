@@ -180,6 +180,11 @@
     return preg_match("/^[a-zA-Z\s,.'-\pL]+$/", $str);
   }
 
+  function isRating($str) {
+    // return whether the rating matches the appropriate regex
+    return preg_match("/^(1|2|3|4|5)$/", $str);
+  }
+
   function emailIndex($arr, $email) {
     // return index of the email in the given array, or -1 if it's not in the array
     foreach ($arr as $key => $value) {

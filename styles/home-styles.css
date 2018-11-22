@@ -1,4 +1,5 @@
 input[type=submit] {
+  margin-top: 0;
   background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
 }
 
@@ -25,7 +26,7 @@ input[type=submit]:hover {
   /* for desktop screens */
   .main-body {
     position: relative;
-    background: url("../assets/bgdesktop.jpg") no-repeat;
+    background: url("../assets/bghome.jpg") no-repeat;
     background-size: cover;
     height: calc(100vw * 4000 / 3789);
   }

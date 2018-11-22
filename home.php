@@ -5,6 +5,9 @@
     header("location: login");
     exit();
   }
+
+  $_SESSION['pull_intros_access_allowed'] = 1;
+  require 'backend/pull_intros';
  ?>
 <!DOCTYPE html>
 <html>
@@ -46,24 +49,79 @@
     </div>
   </nav>
   <div class="main-body">
-    <div class="intros-list">
-    </div>
-    <div class="buttons-bar">
+    <div class="link-buttons">
       <div class="profile-div">
         <a href="profile" class="profile-link">
-          <button class="button profile">profile</button>
+          <button class="button body-profile">profile</button>
         </a>
       </div>
       <div class="search-div">
         <a href="search" class="search-link">
-          <button class="search profile">search</button>
+          <button class="button body-search">search</button>
         </a>
       </div>
       <div class="account-div">
         <a href="account" class="account-link">
-          <button class="button account">account</button>
+          <button class="button body-account">account</button>
         </a>
       </div>
+    </div>
+    <div class="intro-pages">
+      <div class="tab-left">
+        <img class="page-left greyed-out">
+      </div>
+      <div class="tab-right">
+        <img class="page-right greyed-out">
+      </div>
+    </div>
+    <div class="intro-list">
+      <?php
+        $intros = getIntros($_SESSION['token']);
+
+        if (count($intros) == 0) {
+          // user must have been offered no intros yet
+          if ($_SESSION['completed_profile']) {
+            // user has completed their profile
+            echo sprintf("<img class=\"no-intros-yet\">");
+          } else {
+            // user has not completed their profile
+            echo sprintf("<img class=\"incomplete-profile\">");
+          }
+        } else {
+          // create entries for each of the intros offered; JS will handle showing the correct number
+          for ($i = 0; $i < count($intros); $i++) {
+            // format of returned intros: id, first name, last name, suggested date, rating, reason
+            // creating an entry on the left side of the screen
+            echo sprintf("<p class=\"intro-text i%d\">%s\t%s %s</p><img class=\"rate i%d\" id=\"ri%d\" onClick=\"rate_this(this.id)\"><br class=\"i%d\">", $i, $intros[$i][3], $intros[$i][1], $intros[$i][2], $i, $i, $i);
+
+            // a div containing a form to review the intro will appear on the right side after the user clicks the rate icon
+            echo sprintf("<div class=\"rating i%d delete\">", $i);
+            echo sprintf("<h2>intro with %s %s</h2>", $intros[$i][1], $intros[$i][2]);
+            echo sprintf("<form name=\"update-review%d\" action=\"backend/update-review\" method=\"post\">", $intros[$i][0]);
+            echo sprintf("<br><p class=\"form-text\">*rating (1-5)</p><input type=\"text\" name=\"rating\" placeholder=\"5 - great, 1 - poor\" value=\"%d\"><br>", $intros[$i][4]);
+            echo sprintf("<p class=\"form-text\">reason</p><textarea name=\"reason\" placeholder=\"Pretty valuable! They connected me with a couple of their friends in the space.\">%s</textarea><br><br><br><br><br><br><br><br><br>", $intros[$i][5]);
+
+            // put a message at the bottom of the form, with space for any error message
+            echo sprintf("<div class=\"pre-warning\"></div>");
+
+            if (isset($_SESSION['message']) && $_SESSION['backend_redirect']) {
+              echo sprintf("<p class=\"error-text\">* This entry is required.<br>Your reviews are used to improve the quality of warmglue's future recommendations for you. This <b>won't</b> be seen by %s (or by anyone not working with warmglue).<br><br>%s</p>", $intros[$i][1], $_SESSION['message']);
+            } else {
+              echo sprintf("<p class=\"error-text\">* This entry is required.<br>Your reviews are used to improve the quality of warmglue's future recommendations for you. This <b>won't</b> be seen by %s (or by anyone not working with warmglue).</p>", $intros[$i][1]);
+            }
+
+            echo sprintf("<div class=\"post-warning\"></div>");
+
+            // including token and intro id to secure and facilitate backend processing
+            echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
+            echo sprintf("<input type=\"hidden\" name=\"intro_id\" value=\"%s\">", $intros[$i][0]);
+            echo sprintf("<input type=\"submit\" value=\"rate intro\">");
+
+            echo sprintf("</form>");
+            echo sprintf("</div>");
+          }
+        }
+       ?>
     </div>
   </div>
   <div class="footer">
