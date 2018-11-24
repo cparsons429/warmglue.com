@@ -311,6 +311,13 @@ input[type=submit]:hover {
   transition: all 0.25s ease-in-out;
 }
 
+.expand-small {
+  /* make a div 1.25x in size */
+  transform: scale(1.25);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
 .enable-link {
   /* enable link in a div */
   pointer-events: auto;

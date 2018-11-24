@@ -15,11 +15,126 @@ input[type=submit]:hover {
 .nav-log-out {
   font-size: 1.1em;
   padding: 0.5em;
-  background: linear-gradient(#ffb3b3 0%, #ff4d4d 100%);
 }
 
-.nav-log-out:hover {
-  background: linear-gradient(#ffcccc 0%, #ff6666 100%);
+.link-buttons {
+  position: relative;
+  background: white;
+  width: 34.5em;
+  margin-left: 12em;
+  padding-top: 8.5em;
+  height: 4em;
+}
+
+.body-profile {
+  float: left;
+  position: absolute;
+  top: 7em;
+  left: 5em;
+  margin: 0em 0em 0 0;
+  background: linear-gradient(#ff0000 0%, #990000 100%);
+}
+
+.body-profile:hover {
+  background: linear-gradient(#ff4d4d 0%, #b30000 100%);
+}
+
+.body-search {
+  float: left;
+  position: absolute;
+  top: 7em;
+  left: 11em;
+  margin: 0em 0em 0 0;
+  background: linear-gradient(#ff0000 0%, #990000 100%);
+}
+
+.body-search:hover {
+  background: linear-gradient(#ff4d4d 0%, #b30000 100%);
+}
+
+.body-account {
+  float: left;
+  position: absolute;
+  top: 7em;
+  left: 17em;
+  margin: 0em 0em 0 0;
+  background: linear-gradient(#ff0000 0%, #990000 100%);
+}
+
+.body-account:hover {
+  background: linear-gradient(#ff4d4d 0%, #b30000 100%);
+}
+
+.tab-left {
+  position: absolute;
+  top: 10em;
+  left: 2.5em;
+}
+
+.page-left-grey {
+  content: url("../assets/leftarrowgrey.png");
+  width: 1em;
+  height: 1.5em;
+  transform: scale(0.8);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.page-left-red {
+  content: url("../assets/leftarrowred.png");
+  width: 1em;
+  height: 1.5em;
+  transform: scale(0.8);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.page-left-red:hover {
+  transform: scale(1);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.tab-right {
+  position: absolute;
+  top: 10em;
+  left: 30.8em;
+}
+
+.page-right-grey {
+  content: url("../assets/rightarrowgrey.png");
+  width: 1em;
+  height: 1.5em;
+  transform: scale(0.8);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.page-right-red {
+  content: url("../assets/rightarrowred.png");
+  width: 1em;
+  height: 1.5em;
+  transform: scale(0.8);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.page-right-red:hover {
+  transform: scale(1);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.intro-list {
+  position: relative;
+  background: white;
+  width: 34.5em;
+  margin-left: 12em;
+  padding-bottom: 8em;
+  height: calc(100vw * 4000 / 3789 - 30em);
+  min-height: calc(100vh - 22.2em);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 @media only screen and (min-width: 769px) {

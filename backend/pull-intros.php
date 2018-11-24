@@ -22,9 +22,10 @@
     $mysqli = authenticated_connect($token);
 
     // find current intros
-    $stmt = $mysqli->prepare("SELECT id, link0_id, link1_id, suggested, provided_rating, rating_reason FROM searches WHERE user_id=? ORDER BY suggested DESC");
+    $stmt = $mysqli->prepare("SELECT id, link0_id, link1_id, suggested, provided_rating, rating_reason FROM intros WHERE user_id=? ORDER BY suggested DESC");
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
+
     $stmt->bind_result($intro_id_str, $link0_id_str, $link1_id_str, $suggested_str, $provided_rating_str, $rating_reason);
 
     $intros_initial = array();

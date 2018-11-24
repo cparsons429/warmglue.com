@@ -7,7 +7,7 @@
   }
 
   $_SESSION['pull_intros_access_allowed'] = 1;
-  require 'backend/pull_intros';
+  require 'backend/pull-intros.php';
  ?>
 <!DOCTYPE html>
 <html>
@@ -50,6 +50,10 @@
   </nav>
   <div class="main-body">
     <div class="link-buttons">
+      <div class="tab-left expand-small">
+        <img class="page-left-grey">
+        <img class="page-left-red delete">
+      </div>
       <div class="profile-div">
         <a href="profile" class="profile-link">
           <button class="button body-profile">profile</button>
@@ -65,13 +69,9 @@
           <button class="button body-account">account</button>
         </a>
       </div>
-    </div>
-    <div class="intro-pages">
-      <div class="tab-left">
-        <img class="page-left greyed-out">
-      </div>
-      <div class="tab-right">
-        <img class="page-right greyed-out">
+      <div class="tab-right expand-small">
+        <img class="page-right-grey">
+        <img class="page-right-red delete">
       </div>
     </div>
     <div class="intro-list">
