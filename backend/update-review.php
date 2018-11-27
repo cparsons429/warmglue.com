@@ -25,7 +25,7 @@
     $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide a rating to proceed.");
     $_SESSION['rating_attempt'] = null;
   } else if (!isRating($rate_str)) {
-    $_SESSION['message'] = updateMessage($_SESSION['message'], "Valid ratings are 1, 2, 3, 4, or 5 (5 - great, 1 - poor).");
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "Your rating has to be an integer from 1 to 5. Rating \"1\" means the intro was poor; \"5\" means it was great.");
   } else {
     // we're good to go
     $rate = intval($rate_str);
