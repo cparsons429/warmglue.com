@@ -100,7 +100,7 @@
       $stmt->close();
 
       // format of returned intros: id, first name, last name, suggested date, rating, reason
-      array_push($intros, array($intro_initial[0], $f_name, $l_name, $intro_initial[3], $intro_initial[4], $intros_initial[5]));
+      array_push($intros, array($intro_initial[0], $f_name, $l_name, $intro_initial[3], $intro_initial[4], $intro_initial[5]));
     }
 
     return $intros;

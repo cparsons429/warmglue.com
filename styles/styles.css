@@ -250,11 +250,16 @@ input[type=submit]:hover {
 }
 
 .intro-text {
-  margin: 2em 2.5em 2em 2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 22em;
+  margin: 1.1em 0 0 2em;
 }
 
 .write {
   float: right;
+  margin: -1.1em 2.7em 0 0;
   width: 1.2em;
   height: 1.2em;
   content: url("../assets/writereview.png");
@@ -262,6 +267,7 @@ input[type=submit]:hover {
 
 .x-right {
   float: right;
+  margin: -1.1em 2.7em 0 0;
   width: 1em;
   height: 1em;
   content: url("../assets/xsign.png");

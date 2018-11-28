@@ -130,7 +130,7 @@ input[type=submit]:hover {
   background: white;
   width: 34.5em;
   margin-left: 12em;
-  padding-bottom: 8em;
+  padding: 0.9em 0 8em 0;
   height: calc(100vw * 4000 / 3789 - 30em);
   min-height: calc(100vh - 22.2em);
   border-bottom-left-radius: 12px;
@@ -168,8 +168,9 @@ input[type=submit]:hover {
   padding: 0.5em 2em 2em 2em;
   border-radius: 12px;
   border: none;
-  margin-left: 36.5em;
+  margin: -3.7em 0 0 36.5em;
   width: 25em;
+  position: absolute;
 }
 
 .rate-intro-submit {

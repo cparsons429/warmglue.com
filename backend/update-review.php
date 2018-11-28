@@ -12,6 +12,8 @@
   // clear our error message, and let frontend know it was just redirected from the backend
   $_SESSION['message'] = null;
   $_SESSION['backend_redirect'] = 1;
+  $_SESSION['intro_number'] = intval($_POST['intro_num']);
+  $_SESSION['scroll_value'] = intval($_POST['scroll_val']);
 
   // save the rating and reason the user attempted in case submission fails
   // make sure to escape string to prevent sql injections
@@ -23,9 +25,8 @@
   // make sure first name matches regex to prevent sql injections, and make sure the user has input an first name
   if ($rate_str === "") {
     $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide a rating to proceed.");
-    $_SESSION['rating_attempt'] = null;
   } else if (!isRating($rate_str)) {
-    $_SESSION['message'] = updateMessage($_SESSION['message'], "Your rating has to be an integer from 1 to 5. Rating \"1\" means the intro was poor; \"5\" means it was great.");
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "Your rating has to be an integer from 1 to 5. \"1\" means the intro was poor; \"5\" means it was great.");
   } else {
     // we're good to go
     $rate = intval($rate_str);
@@ -43,6 +44,8 @@
     $stmt->close();
 
     $_SESSION['message'] = updateMessage($_SESSION['message'], "Rating succesfully saved.");
+    $_SESSION['rating_attempt'] = null;
+    $_SESSION['reason_attempt'] = null;
   }
 
   header("location: ../home");

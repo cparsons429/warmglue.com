@@ -49,6 +49,17 @@
     </div>
   </nav>
   <div class="main-body">
+    <?php
+      // scroll to the original position before backend redirect
+      echo sprintf("<script>");
+      echo sprintf("var body = document.body;");
+      echo sprintf("var html = document.documentElement;");
+      echo sprintf("body.scrollTop = %d;", $_SESSION['scroll_value']);
+      echo sprintf("html.scrollTop = %d;", $_SESSION['scroll_value']);
+      echo sprintf("</script>");
+
+      $_SESSION['scroll_value'] = null;
+     ?>
     <div class="link-buttons">
       <div class="tab-left expand-small">
         <img class="page-left-grey">
@@ -101,15 +112,37 @@
           // create entries for each of the intros offered; JS will handle showing the correct number
           for ($i = 0; $i < count($intros); $i++) {
             // format of returned intros: id, first name, last name, suggested date, rating, reason
-            // creating an entry on the left side of the screen
-            echo sprintf("<p class=\"intro-text i%d\">%s&emsp;%s %s<img class=\"write\" id=\"w%d\" onClick=\"show_review(this.id)\"><img class=\"x-right delete\" id=\"x%d\" onClick=\"hide_review(this.id)\"></p><br class=\"i%d\">", $i, $intros[$i][3], $intros[$i][1], $intros[$i][2], $i, $i, $i);
+            // we will show review info automatically if we're redirected from the backend; otherwise, it'll be hidden
+            if ($i === $_SESSION['intro_number']) {
+              // creating an entry on the left side of the screen
+              echo sprintf("<p class=\"intro-text i%d\">%s&emsp;%s %s</p><img class=\"write delete i%d\" id=\"w%d\" onClick=\"show_review(this.id)\"><img class=\"x-right i%d\" id=\"x%d\" onClick=\"hide_review(this.id)\">", $i, $intros[$i][3], $intros[$i][1], $intros[$i][2], $i, $i, $i, $i);
 
-            // a div containing a form to review the intro will appear on the right side after the user clicks the rate icon
-            echo sprintf("<div class=\"review r%d delete\">", $i);
+              echo sprintf("<div class=\"review\" id=\"r%d\">", $i);
+            } else {
+              // creating an entry on the left side of the screen
+              echo sprintf("<p class=\"intro-text i%d\">%s&emsp;%s %s</p><img class=\"write i%d\" id=\"w%d\" onClick=\"show_review(this.id)\"><img class=\"x-right delete i%d\" id=\"x%d\" onClick=\"hide_review(this.id)\">", $i, $intros[$i][3], $intros[$i][1], $intros[$i][2], $i, $i, $i, $i);
+
+              // a div containing a form to review the intro will appear on the right side after the user clicks the rate icon
+              echo sprintf("<div class=\"review delete\" id=\"r%d\">", $i);
+            }
+
+            // if the user attempted a review, these are the values we want to show
+            if (isset($_SESSION['rating_attempt'])) {
+              $rate_to_show = $_SESSION['rating_attempt'];
+            } else {
+              $rate_to_show = $intros[$i][4];
+            }
+
+            if (isset($_SESSION['reason_attempt'])) {
+              $reas_to_show = $_SESSION['reason_attempt'];
+            } else {
+              $reas_to_show = $intros[$i][5];
+            }
+
             echo sprintf("<h2>*intro with %s %s</h2>", $intros[$i][1], $intros[$i][2]);
             echo sprintf("<form name=\"update-review%d\" action=\"backend/update-review\" method=\"post\">", $intros[$i][0]);
-            echo sprintf("<br><p class=\"form-text\">**rating (1 to 5)</p><input type=\"text\" name=\"rating\" placeholder=\"1 = poor, 5 = great\" value=\"%s\"><br>", $intros[$i][4]);
-            echo sprintf("<p class=\"form-text\">reason</p><textarea name=\"reason\" placeholder=\"Pretty valuable! They connected me with a couple of their friends in the space.\">%s</textarea><br><br><br><br><br><br><br><br>", $intros[$i][5]);
+            echo sprintf("<br><p class=\"form-text\">**rating (1 to 5)</p><input type=\"text\" name=\"rating\" placeholder=\"1 = poor, 5 = great\" value=\"%s\"><br>", $rate_to_show);
+            echo sprintf("<p class=\"form-text\">reason</p><textarea name=\"reason\" placeholder=\"Pretty valuable! They connected me with a couple of their friends in the space.\">%s</textarea><br><br><br><br><br><br><br><br>", $reas_to_show);
 
             // put a message at the bottom of the form, with space for any error message
             echo sprintf("<div class=\"pre-warning\"></div>");
@@ -125,10 +158,15 @@
             // including token and intro id to secure and facilitate backend processing
             echo sprintf("<input type=\"hidden\" name=\"token\" value=\"%s\">", $_SESSION['token']);
             echo sprintf("<input type=\"hidden\" name=\"intro_id\" value=\"%s\">", $intros[$i][0]);
-            echo sprintf("<input type=\"submit\" value=\"rate intro\" class=\"rate-intro-submit\">");
+            echo sprintf("<input type=\"hidden\" name=\"intro_num\" value=\"%s\">", strval($i));
+            echo sprintf("<input type=\"hidden\" name=\"scroll_val\" value=\"\" id=\"scroll_top%d\">", $i);
+            echo sprintf("<input type=\"submit\" value=\"rate intro\" class=\"rate-intro-submit\" onClick=\"scroll_save(%d)\">", $i);
 
             echo sprintf("</form>");
             echo sprintf("</div>");
+
+            $_SESSION['intro_number'] = null;
+            $_SESSION['backend_redirect'] = 0;
           }
         }
        ?>
