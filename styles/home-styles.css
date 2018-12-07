@@ -21,7 +21,7 @@ input[type=submit]:hover {
   position: relative;
   background: white;
   width: 34.5em;
-  margin-left: 12em;
+  margin-left: 10em;
   padding-top: 8.5em;
   height: 4em;
 }
@@ -129,10 +129,9 @@ input[type=submit]:hover {
   position: relative;
   background: white;
   width: 34.5em;
-  margin-left: 12em;
+  margin-left: 10em;
   padding: 0.9em 0 8em 0;
-  height: calc(100vw * 4000 / 3789 - 30em);
-  min-height: calc(100vh - 22.2em);
+  height: calc(100vw * 4000 / 3789 - 60em);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
@@ -169,7 +168,7 @@ input[type=submit]:hover {
   border-radius: 12px;
   border: none;
   margin: -3.7em 0 0 36.5em;
-  width: 25em;
+  width: 20em;
   position: absolute;
 }
 
@@ -177,13 +176,94 @@ input[type=submit]:hover {
   margin-right: 9em;
 }
 
-@media only screen and (min-width: 769px) {
-  /* for desktop screens */
+.write {
+  float: right;
+  margin: -1.1em 2.7em 0 0;
+  width: 1.2em;
+  height: 1.2em;
+  content: url("../assets/writereview.png");
+}
+
+.x-right {
+  float: right;
+  margin: -1.1em 2.7em 0 0;
+  width: 1em;
+  height: 1em;
+  content: url("../assets/xsign.png");
+}
+
+.intro-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 22em;
+  margin: 1.1em 0 0 2em;
+}
+
+@media only screen and (min-width: 1201px) {
+  /* for large desktop screens */
   .main-body {
     position: relative;
     background: url("../assets/bghome.jpg") no-repeat;
     background-size: cover;
     height: calc(100vw * 4000 / 3789);
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1200px) {
+  /* for small desktop screens and tablets */
+  .main-body {
+    position: relative;
+    background: url("../assets/bghome.jpg") no-repeat;
+    background-size: cover;
+    height: calc(100vw * 4000 / 3789);
+  }
+
+  .link-buttons {
+    width: 26em;
+    margin-left: 2em;
+  }
+
+  .intro-list {
+    width: 26em;
+    height: calc(100vw * 4000 / 3789 - 60em);
+    margin-left: 2em;
+  }
+
+  .review {
+    margin-left: 28em;
+  }
+
+  .tab-left {
+    left: 2.5em;
+  }
+
+  .body-profile {
+    left: 3.5em;
+  }
+
+  .body-search {
+    left: 8em;
+  }
+
+  .body-account {
+    left: 12.5em;
+  }
+
+  .tab-right {
+    left: 23.3em;
+  }
+
+  .write {
+    margin-right: 1.7em;
+  }
+
+  .x-right {
+    margin-right: 1.7em;
+  }
+
+  .intro-text {
+    width: 17em;
   }
 }
 

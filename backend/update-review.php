@@ -14,6 +14,7 @@
   $_SESSION['backend_redirect'] = 1;
   $_SESSION['intro_number'] = intval($_POST['intro_num']);
   $_SESSION['scroll_value'] = intval($_POST['scroll_val']);
+  $_SESSION['first_value'] = intval($_POST['first_val']);
 
   // save the rating and reason the user attempted in case submission fails
   // make sure to escape string to prevent sql injections

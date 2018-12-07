@@ -12,7 +12,7 @@ nav {
   width: 100vw;
   top: 0;
   position: fixed !important;
-  background-color: transparent;
+  background-color: white;
 }
 
 h1 {
@@ -247,30 +247,6 @@ input[type=submit]:hover {
 
 ::placeholder {
   color: #cccccc;
-}
-
-.intro-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 22em;
-  margin: 1.1em 0 0 2em;
-}
-
-.write {
-  float: right;
-  margin: -1.1em 2.7em 0 0;
-  width: 1.2em;
-  height: 1.2em;
-  content: url("../assets/writereview.png");
-}
-
-.x-right {
-  float: right;
-  margin: -1.1em 2.7em 0 0;
-  width: 1em;
-  height: 1em;
-  content: url("../assets/xsign.png");
 }
 
 .empty-footer-pad {
