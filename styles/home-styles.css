@@ -164,6 +164,7 @@ input[type=submit]:hover {
 
 .review {
   background: white;
+  word-break: break-word;
   padding: 0.5em 2em 2em 2em;
   border-radius: 12px;
   border: none;
@@ -200,7 +201,7 @@ input[type=submit]:hover {
   margin: 1.1em 0 0 2em;
 }
 
-@media only screen and (min-width: 1201px) {
+@media only screen and (min-width: 1200px) {
   /* for large desktop screens */
   .main-body {
     position: relative;
@@ -210,7 +211,7 @@ input[type=submit]:hover {
   }
 }
 
-@media only screen and (min-width: 769px) and (max-width: 1200px) {
+@media only screen and (min-width: 1000px) and (max-width: 1199px) {
   /* for small desktop screens and tablets */
   .main-body {
     position: relative;
@@ -226,7 +227,7 @@ input[type=submit]:hover {
 
   .intro-list {
     width: 26em;
-    height: calc(100vw * 4000 / 3789 - 60em);
+    height: calc(100vw * 4000 / 3789 - 50em);
     margin-left: 2em;
   }
 
@@ -267,8 +268,8 @@ input[type=submit]:hover {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  /* for mobile screens */
+@media only screen and (max-width: 999px) {
+  /* for large tablets and mobile screens */
 
   .brand-image {
     margin-left: 1.8em;

@@ -3,7 +3,11 @@ function get_first_visible_intro() {
 };
 
 function get_max_visible_intros() {
-  return Math.floor(($('.intro-list').height() - 2 * 16) / ((1.1 + 1.1) * 16));
+  if (window.innerWidth > 1200) {
+    return Math.floor(($('.intro-list').height() - 2 * 16) / ((1.1 + 1.1) * 16));
+  } else {
+    return Math.floor(($('.intro-list').height() + 6 * 16) / ((1.1 + 1.5) * 16));
+  }
 };
 
 function get_total_intros() {
