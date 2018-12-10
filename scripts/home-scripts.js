@@ -5,8 +5,10 @@ function get_first_visible_intro() {
 function get_max_visible_intros() {
   if (window.innerWidth > 1200) {
     return Math.floor(($('.intro-list').height() - 2 * 16) / ((1.1 + 1.1) * 16));
-  } else {
+  } else if (window.innerWidth >= 1000) {
     return Math.floor(($('.intro-list').height() + 6 * 16) / ((1.1 + 1.5) * 16));
+  } else {
+    return 8;
   }
 };
 

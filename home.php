@@ -56,17 +56,17 @@
       </div>
       <div class="profile-div">
         <a href="profile" class="profile-link">
-          <button class="button body-profile">profile</button>
+          <button class="adjustable-button body-profile">profile</button>
         </a>
       </div>
       <div class="search-div">
         <a href="search" class="search-link">
-          <button class="button body-search">search</button>
+          <button class="adjustable-button body-search">search</button>
         </a>
       </div>
       <div class="account-div">
         <a href="account" class="account-link">
-          <button class="button body-account">account</button>
+          <button class="adjustable-button body-account">account</button>
         </a>
       </div>
       <div class="tab-right expand-small">
@@ -128,7 +128,7 @@
               $reas_to_show = $intros[$i][5];
             }
 
-            echo sprintf("<h2>*intro with %s %s</h2>", $intros[$i][1], $intros[$i][2]);
+            echo sprintf("<h2 class=\"review-header\">*intro with %s %s</h2>", $intros[$i][1], $intros[$i][2]);
             echo sprintf("<form name=\"update-review%d\" action=\"backend/update-review\" method=\"post\">", $intros[$i][0]);
             echo sprintf("<br><p class=\"form-text\">**rating</p><input type=\"text\" name=\"rating\" placeholder=\"1 = poor, 5 = great\" value=\"%s\"><br>", $rate_to_show);
             echo sprintf("<p class=\"form-text\">reason</p><textarea name=\"reason\" placeholder=\"Pretty valuable! They connected me with a couple of their friends in the space.\">%s</textarea><br><br><br><br><br><br><br><br>", $reas_to_show);
@@ -137,9 +137,9 @@
             echo sprintf("<div class=\"pre-warning\"></div>");
 
             if (isset($_SESSION['message']) && $_SESSION['backend_redirect'] && $_SESSION['intro_number'] == $i) {
-              echo sprintf("<p class=\"error-text\">* This review <b>can't</b> be seen by %s.<br>** This entry is required.<br><br>%s<br><br></p>", $intros[$i][1], $_SESSION['message']);
+              echo sprintf("<p class=\"error-text review-error\">* This review <b>can't</b> be seen by %s.<br>** This entry is required.<br><br>%s<br><br></p>", $intros[$i][1], $_SESSION['message']);
             } else {
-              echo sprintf("<p class=\"error-text\">* Your review <b>won't</b> be seen by %s.<br>** This entry is required.<br><br></p>", $intros[$i][1]);
+              echo sprintf("<p class=\"error-text review-error\">* Your review <b>won't</b> be seen by %s.<br>** This entry is required.<br><br></p>", $intros[$i][1]);
             }
 
             echo sprintf("<div class=\"post-warning\"></div>");

@@ -157,7 +157,7 @@
   }
 
   function getDateStr($date) {
-    // after pulling $date from the sql db, convert it to a human-readable string in the mm/dd/yyyy or "now" format
+    // after pulling date from the sql db, convert it to a human-readable string in the mm/dd/yyyy or "now" format
     if (!isset($date)) {
       // in case this is a current date
       return "";
@@ -168,6 +168,12 @@
     $day = substr($date, 8, 2);
 
     return $month."/".$day."/".$year;
+  }
+
+  function getShortDateStr($date) {
+    // after pulling $date from the sql db, convert it to a human-readable string in the mm/dd format
+
+    return substr(getDateStr($date), 0, 5);
   }
 
   function isEmail($str) {

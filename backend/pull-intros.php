@@ -34,7 +34,7 @@
       $intro_id = intval($intro_id_str);
       $link0_id = intval($link0_id_str);
       $link1_id = intval($link1_id_str);
-      $suggested = getDateStr($suggested_str);
+      $suggested = getShortDateStr($suggested_str);
       $provided_rating = strval($provided_rating_str);
 
       array_push($intros_initial, array($intro_id, $link0_id, $link1_id, $suggested, $provided_rating, $rating_reason));

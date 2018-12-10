@@ -7,6 +7,19 @@ input[type=submit]:hover {
   background: linear-gradient(#ffcccc 0%, #ff6666 100%);
 }
 
+.adjustable-button {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3em;
+  font-weight: 300;
+  padding: 0.6em;
+  margin-right: -0.4em;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 12px;
+}
+
 .nav-log-out-div {
   float: right;
   margin: 0.7em 1.6em 0em 0em;
@@ -21,6 +34,7 @@ input[type=submit]:hover {
   position: relative;
   background: white;
   width: 34.5em;
+  max-width: 100vw;
   margin-left: 10em;
   padding-top: 8.5em;
   height: 4em;
@@ -201,6 +215,10 @@ input[type=submit]:hover {
   margin: 1.1em 0 0 2em;
 }
 
+.review-header {
+  display: default;
+}
+
 @media only screen and (min-width: 1200px) {
   /* for large desktop screens */
   .main-body {
@@ -208,6 +226,10 @@ input[type=submit]:hover {
     background: url("../assets/bghome.jpg") no-repeat;
     background-size: cover;
     height: calc(100vw * 4000 / 3789);
+  }
+
+  .review-error::after {
+    content: "\A";
   }
 }
 
@@ -266,10 +288,14 @@ input[type=submit]:hover {
   .intro-text {
     width: 17em;
   }
+
+  .review-error::after {
+    content: "\A";
+  }
 }
 
-@media only screen and (max-width: 999px) {
-  /* for large tablets and mobile screens */
+@media only screen and (min-width: 480px) and (max-width: 999px) {
+  /* for tablets and large mobile screens */
 
   .brand-image {
     margin-left: 1.8em;
@@ -278,10 +304,144 @@ input[type=submit]:hover {
   .main-body {
     position: relative;
     background: white;
-    width: calc(100vw - 2em);
-    margin-left: 2em;
-    padding-top: 8.5em;
-    padding-bottom: 8em;
-    min-height: calc(100vh - 22.2em);
+    width: 100vw;
+    margin-left: 0;
+    padding-top: 0em;
+    padding-bottom: 6em;
+    min-height: calc(100vh - 13.7em);
+  }
+
+  .link-buttons {
+    margin-left: 0;
+  }
+
+  .tab-left {
+    left: calc(2.5em + (100vw - 475px) / 2);
+  }
+
+  .body-profile {
+    left: calc(4em + (100vw - 475px) / 2);
+  }
+
+  .body-search {
+    left: calc(9em + (100vw - 475px) / 2);
+  }
+
+  .body-account {
+    left: calc(14em + (100vw - 475px) / 2);
+  }
+
+  .tab-right {
+    left: calc(25.8em + (100vw - 475px) / 2);
+  }
+
+  .intro-list {
+    width: 100vw;
+    padding-bottom: 0;
+    min-height: 20.7em;
+    height: auto;
+    margin-left: 0em;
+  }
+
+  .intro-text {
+    width: calc(100vw - 10em);
+  }
+
+  .review {
+    width: calc(100vw - 4em);
+    margin: 0 0 0 0.5em;
+    padding-bottom: 0.5em;
+    position: relative;
+  }
+
+  .review-header {
+    display: none;
+  }
+
+  .review-error::after {
+    content: "";
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  /* for small mobile screens */
+
+  .adjustable-button {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    padding: 0.6em;
+    margin-top: 1.5em;
+    margin-right: -0.4em;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 12px;
+  }
+
+  .brand-image {
+    margin-left: 1.8em;
+  }
+
+  .main-body {
+    position: relative;
+    background: white;
+    width: 100vw;
+    margin-left: 0;
+    padding-top: 0em;
+    padding-bottom: 6em;
+    min-height: calc(100vh - 13.7em);
+  }
+
+  .link-buttons {
+    margin-left: 0;
+  }
+
+  .tab-left {
+    left: calc(3.3em + (100vw - 400px) / 2);
+  }
+
+  .body-profile {
+    left: calc(4.5em + (100vw - 400px) / 2);
+  }
+
+  .body-search {
+    left: calc(9em + (100vw - 400px) / 2);
+  }
+
+  .body-account {
+    left: calc(13.5em + (100vw - 400px) / 2);
+  }
+
+  .tab-right {
+    left: calc(18.1em + (100vw - 320px) / 2);
+  }
+
+  .intro-list {
+    width: 100vw;
+    padding-bottom: 0;
+    min-height: 20.7em;
+    height: auto;
+    margin-left: 0em;
+  }
+
+  .intro-text {
+    width: calc(100vw - 7em);
+  }
+
+  .review {
+    width: calc(100vw - 4em);
+    margin: 0 0 0 0.5em;
+    padding-bottom: 0.5em;
+    position: relative;
+  }
+
+  .review-header {
+    display: none;
+  }
+
+  .review-error::after {
+    content: "";
   }
 }
