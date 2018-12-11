@@ -164,7 +164,7 @@ input[type=submit]:hover {
 .empty-intros-right {
   float: left;
   padding-top: 3.5em;
-  width: 10em;
+  width: 8em;
 }
 
 .no-intros {
@@ -292,6 +292,10 @@ input[type=submit]:hover {
   .review-error::after {
     content: "\A";
   }
+
+  .empty-intros-container {
+    padding-top: 4em;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 999px) {
@@ -360,6 +364,10 @@ input[type=submit]:hover {
 
   .review-error::after {
     content: "";
+  }
+
+  .empty-intros-container {
+    padding-top: 0;
   }
 }
 
@@ -443,5 +451,9 @@ input[type=submit]:hover {
 
   .review-error::after {
     content: "";
+  }
+
+  .empty-intros-container {
+    padding-top: 0;
   }
 }
