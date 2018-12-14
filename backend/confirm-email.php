@@ -46,7 +46,7 @@
       $mail->FromName = 'warmglue';
       $mail->AddAddress($to, $f_name." ".$l_name);
       $mail->Subject = 'Connect email to warmglue';
-      $mail->Body = "Hi ".$f_name.",\r\n\r\nClick the link below, or copy-paste it into your browser window, to connect this email to warmglue:\r\n\r\nhttps://warmglue.com/confirmemail?email=".$to."&hash=".$a_hash."\r\n\r\nIf you didn't sign up for this email, reply to let warmglue know there's been a mistake.\r\n\r\n-warmglue";
+      $mail->Body = "Hi ".$f_name.",\r\n\r\nClick the link below, or copy-paste it into your browser window, to connect this email to warmglue:\r\n\r\nhttps://www.warmglue.com/confirmemail?email=".$to."&hash=".$a_hash."\r\n\r\nIf you didn't sign up for this email, reply to let warmglue know there's been a mistake.\r\n\r\n-warmglue";
 
       $mail->Send();
     }

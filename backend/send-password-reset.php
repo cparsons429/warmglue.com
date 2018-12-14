@@ -66,7 +66,7 @@
     $mail->FromName = 'warmglue';
     $mail->AddAddress($e, $f_name." ".$l_name);
     $mail->Subject = 'Reset warmglue password';
-    $mail->Body = "Hi ".$f_name.",\r\n\r\nClick the link below, or copy-paste it into your browser window, to reset your warmglue password:\r\n\r\nhttps://warmglue.com/changepassword?token=".$reset_token."\r\n\r\nThis link will expire in one hour.\r\n\r\nIf you didn't request a password reset, you can safely ignore this email.\r\n\r\n-warmglue";
+    $mail->Body = "Hi ".$f_name.",\r\n\r\nClick the link below, or copy-paste it into your browser window, to reset your warmglue password:\r\n\r\nhttps://www.warmglue.com/changepassword?token=".$reset_token."\r\n\r\nThis link will expire in one hour.\r\n\r\nIf you didn't request a password reset, you can safely ignore this email.\r\n\r\n-warmglue";
 
     $mail->Send();
 

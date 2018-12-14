@@ -43,7 +43,7 @@
   <div class="main-body">
     <div class="basic-info">
       <h1>password changed</h1>
-      <p class="big-text">Your password has been successfully changed. You can return <a class="big-text-link" href="landing">home</a>.</p>
+      <p class="big-text">Your password has been successfully changed. You can <a class="big-text-link" href="login">login</a> now.</p>
     </div>
   </div>
   <div class="empty-footer-pad"></div>

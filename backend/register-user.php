@@ -90,7 +90,7 @@
       $_SESSION['token'] = bin2hex(random_bytes(32));
       $_POST['registering'] = 1;
 
-      // immediately send message to confirm primary email
+      // immediately confirm primary email
       confirmEmail($mysqli, $_SESSION['token']);
 
       header("location: ../profile");
