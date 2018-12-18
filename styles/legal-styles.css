@@ -1,0 +1,5 @@
+@media only screen and (max-width: 768px) {
+  .main-body {
+    width: calc(100vw - 4em) !important;
+  }
+}
