@@ -143,6 +143,11 @@ input[type=submit]:hover {
   white-space: pre;
 }
 
+.legal-text {
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
 .form-text::after {
   content: "       ";
 }
@@ -185,6 +190,13 @@ input[type=submit]:hover {
   font-size: 1.1em;
   font-weight: 300;
   margin-bottom: 1.7em;
+}
+
+.legal-link {
+  color: #b30000;
+  text-decoration: underline;
+  font-size: 1em;
+  font-weight: 300;
 }
 
 .pre-link {
