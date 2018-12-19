@@ -143,13 +143,28 @@ input[type=submit]:hover {
   white-space: pre;
 }
 
+.form-text-check {
+  font-size: 1.1em;
+  font-weight: 300;
+  display: inline;
+  white-space: pre;
+}
+
 .legal-text {
   font-size: 1.1em;
   font-weight: 300;
 }
 
+.form-text-check::before {
+  content: "\A";
+}
+
 .form-text::after {
   content: "       ";
+}
+
+.form-text-check::after {
+  content: "";
 }
 
 .error-text {
@@ -368,7 +383,23 @@ input[type=submit]:hover {
     margin-top: 8px;
   }
 
+  input[type=checkbox]::before {
+    content: "";
+  }
+
+  .form-text-check {
+    white-space: pre-wrap;
+  }
+
+  .form-text-check::before {
+    content: "";
+  }
+
   .form-text::after {
+    content: "\A";
+  }
+
+  .form-text-check::after {
     content: "\A";
   }
 

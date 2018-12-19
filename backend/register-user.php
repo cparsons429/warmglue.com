@@ -67,6 +67,13 @@
         exit();
       }
 
+      // make sure user has agreed to the TOS and PP
+      if (!($_POST['agree'] === "y")) {
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "You must agree to the terms of service and privacy policy to proceed.");
+        header("location: ../signup");
+        exit();
+      }
+
       // we're good to create a user
       $stmt = $mysqli->prepare("INSERT INTO users (salted_hash) VALUES (?)");
       $stmt->bind_param('s', password_hash($_POST['password0'], PASSWORD_DEFAULT));
