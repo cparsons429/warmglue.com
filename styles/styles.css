@@ -275,18 +275,18 @@ input[type=submit]:hover {
   height: 6em;
 }
 
-.twitter-link {
+.footer-link-p {
   position: relative;
-  top: -1em;
+  top: -1.5em;
+  margin-bottom: 0 !important;
 }
 
-.facebook-link {
-  position: relative;
-  top: -1em;
-  margin-left: 0.5em;
+.footer-link {
+  font-size: 1em;
+  color: #cccccc;
 }
 
-.medium-link {
+.icon-link {
   position: relative;
   top: -1em;
   margin-left: 0.5em;

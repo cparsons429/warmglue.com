@@ -74,15 +74,18 @@
     <?php
       echo sprintf("<p>&copy; warmglue %s</p>", date("Y"));
     ?>
-    <a href="https://twitter.com/realwarmglue" class="medium-link" target="_blank">
+    <a href="https://twitter.com/realwarmglue" class="icon-link" target="_blank">
       <img class="twitter" alt="">
     </a>
-    <a href="https://www.facebook.com/realwarmglue" class="facebook-link" target="_blank">
+    <a href="https://www.facebook.com/realwarmglue" class="icon-link" target="_blank">
       <img class="facebook" alt="">
     </a>
-    <a href="https://medium.com/@warmglue" class="medium-link" target="_blank">
+    <a href="https://medium.com/@warmglue" class="icon-link" target="_blank">
       <img class="medium" alt="">
     </a>
+    <p class="footer-link-p">
+      <a href="privacy" class="footer-link">privacy</a>&ensp;<a href="terms" class="footer-link">terms</a>
+    </p>
   </div>
 </body>
 </html>
