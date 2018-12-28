@@ -65,7 +65,7 @@
 	     $_SESSION['user_id'] = $u_id;
        $_SESSION['logged_in'] = 1;
        $_SESSION['token'] = bin2hex(random_bytes(32));
-	     header("location: ../home");
+       header("location: connect-emails");
        exit();
     } else {
        // login must have failed because password didn't match password in records

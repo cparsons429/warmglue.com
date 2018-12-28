@@ -3,8 +3,6 @@
 
   $_SESSION['db_access_allowed'] = 1;
   require 'db.php';
-  $_SESSION['confirm_email_access_allowed'] = 1;
-  require 'confirm-email.php';
   $_SESSION['helper_functions_access_allowed'] = 1;
   require 'helper-functions.php';
 
@@ -20,6 +18,12 @@
   $e = trim($_POST['email']);
   $_SESSION['email_attempt'] = htmlentities($e);
 
+  // making sure the email's domain has mx records
+  $at_pos = strpos($e, "@");
+  $hostname = substr($e, $at_pos + 1);
+  $mx = [];
+  getmxrr($hostname, $mx);
+
   // make sure email matches regex to prevent sql injections, and make sure the user has input an email
   if ($e === "") {
     $_SESSION['message'] = updateMessage($_SESSION['message'], "You have to provide an email to proceed.");
@@ -30,6 +34,9 @@
     $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" doesn't look like an email address.");
     header("location: ../signup");
     exit();
+  } else if (count($mx) == 0 || $mx[0] == null || $mx[0] === '0.0.0.0' || strpos($mx[0], 'wildcard') !== false) {
+    // this email's domain has no legitimate mx records, so there can't be an email address registered there
+    $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$hostname."\" doesn't have a registered email server, so \"".$e."\" is an invalid email address.");
   } else {
     // we're good to go
   }
@@ -96,9 +103,6 @@
       $_SESSION['logged_in'] = 1;
       $_SESSION['token'] = bin2hex(random_bytes(32));
       $_POST['registering'] = 1;
-
-      // immediately confirm primary email
-      confirmEmail($mysqli, $_SESSION['token']);
 
       header("location: ../profile");
       exit();

@@ -66,8 +66,15 @@
       $stmt->fetch();
       $stmt->close();
 
+      // making sure this email isn't taken by another account
       $count = intval($count_str);
       $u_id = intval($u_id_str);
+
+      // making sure the email's domain has mx records
+      $at_pos = strpos($e, "@");
+      $hostname = substr($e, $at_pos + 1);
+      $mx = [];
+      getmxrr($hostname, $mx);
 
       if (!isEmail($e)) {
         // this is not a valid email
@@ -75,6 +82,9 @@
       } else if ($count == 1 && !($u_id == $_SESSION['user_id'])) {
         // this email is already taken by another account
         $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$e."\" is already registered with another account.");
+      } else if (count($mx) == 0 || $mx[0] == null || $mx[0] === '0.0.0.0' || strpos($mx[0], 'wildcard') !== false) {
+        // this email's domain has no legitimate mx records, so there can't be an email address registered there
+        $_SESSION['message'] = updateMessage($_SESSION['message'], "\"".$hostname."\" doesn't have a registered email server, so \"".$e."\" is an invalid email address.");
       } else {
         // the thing here is valid
         array_push($emails, $e);
@@ -340,16 +350,8 @@
     $_SESSION['email_attempts'] = null;
     $_SESSION['occupation_attempts'] = null;
 
-    // if they're registering, send them to search
-    // otherwise, send them back home
-    if ($_SESSION['registering'] == 1) {
-      $_SESSION['registering'] = 0;
-      header("location: ../search");
-      exit();
-    } else {
-      header("location: ../home");
-      exit();
-    }
+    header("location: connect-emails");
+    exit();
   } else {
     // the user didn't complete the form correctly
     header("location: ../profile");
