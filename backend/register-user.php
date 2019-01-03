@@ -102,7 +102,7 @@
       $_SESSION['user_id'] = $u_id;
       $_SESSION['logged_in'] = 1;
       $_SESSION['token'] = bin2hex(random_bytes(32));
-      $_POST['registering'] = 1;
+      $_SESSION['registering'] = 1;
 
       header("location: ../profile");
       exit();

@@ -20,15 +20,14 @@
   $unconnected_e = [];
 
   while ($stmt->fetch()) {
-    $id = intval($id_str);
-    $unconnected_e[$id] = $e;
+    $unconnected_e[$id_str] = $e;
   }
 
   $stmt->close();
 
   $_SESSION['e_queue'] = [];
 
-  foreach ($unconnected_e as $id => $e) {
+  foreach ($unconnected_e as $id_str => $e) {
     // get the domain
     $at_pos = strpos($e, "@");
     $hostname = substr($e, $at_pos + 1);
@@ -38,13 +37,14 @@
     $stmt->bind_param('s', $hostname);
     $stmt->execute();
     $stmt->bind_result($count_str, $esp);
+    $stmt->fetch();
     $stmt->close();
 
     $count = intval($count_str);
 
     if ($count > 0) {
       // this esp has already been catalogued
-      array_push($_SESSION['e_queue'], [$id, $e, $esp]);
+      array_push($_SESSION['e_queue'], [intval($id_str), $e, $esp]);
     } else {
       // this esp has not been catalogued
       $stmt = $mysqli->prepare("SELECT first_name, last_name FROM users WHERE id=?");
@@ -66,6 +66,7 @@
     }
   }
 
+  $_SESSION['first_verify_queue'] = 1;
   header('location: email-verification-queue');
   exit();
 
