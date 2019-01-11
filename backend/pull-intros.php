@@ -105,4 +105,35 @@
 
     return $intros;
   }
+
+  function completedProfileAndSearches($token) {
+    session_start();
+
+    // connect, while preventing CSRF attacks
+    $mysqli = authenticated_connect($token);
+
+    // make sure the user has a complete profile by checking to see if they've input at least one occupation
+    $stmt = $mysqli->prepare("SELECT COUNT(*) FROM user_occupations WHERE user_id=?");
+    $stmt->bind_param('i', $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($cnt0);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (intval($cnt0) > 0) {
+      // make sure the user has at least one complete search
+      $stmt = $mysqli->prepare("SELECT COUNT(*) FROM searches WHERE user_id=?");
+      $stmt->bind_param('i', $_SESSION['user_id']);
+      $stmt->execute();
+      $stmt->bind_result($cnt1);
+      $stmt->fetch();
+      $stmt->close();
+
+      if (intval($cnt1) > 0) {
+        return 1;
+      }
+    }
+
+    return 0;
+  }
  ?>

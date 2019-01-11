@@ -60,7 +60,7 @@
       $mail->FromName = 'warmglue';
       $mail->AddAddress($e, $f_name." ".$l_name);
       $mail->Subject = 'Connect email to warmglue';
-      $mail->Body = "Hi ".$f_name.",\r\n\r\nSince warmglue hasn't registered an email address at ".$hostname." before, please verify your email".$e."by replying with the sentence \"I'm not a robot.\"\r\n\r\nIf you didn't sign up for warmglue, you can safely ignore this email.\r\n\r\n-warmglue";
+      $mail->Body = "Hi ".$f_name.",\r\n\r\nSince warmglue hasn't registered an email address at ".$hostname." before, please verify your email ".$e." by replying with the sentence \"I'm not a robot.\"\r\n\r\nIf you didn't sign up for warmglue, you can safely ignore this email.\r\n\r\n-warmglue";
 
       $mail->Send();
     }

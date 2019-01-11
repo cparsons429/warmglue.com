@@ -87,11 +87,11 @@
           echo sprintf("</div>");
           echo sprintf("<div class=\"empty-intros-right\">");
 
-          if ($_SESSION['completed_profile'] && $_SESSION['completed_searches']) {
-            // user has completed their profile
-            echo sprintf("<p class=\"no-intros-text\">Intro suggestions will start arriving by tomorrow - check your inbox.</p>");
+          if (completedProfileAndSearches($_SESSION['token']) == 1) {
+            // user has completed their profile and searches
+            echo sprintf("<p class=\"no-intros-text\">Suggestions for intros will start arriving in your inbox by tomorrow.</p>");
           } else {
-            // user has not completed their profile
+            // user has not completed their profile and/or searches
             echo sprintf("<p class=\"no-intros-text\">To start receiving intros, complete your profile and save some searches.</p>");
           }
 

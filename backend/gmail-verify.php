@@ -32,7 +32,7 @@
 
     // setting access token, and handling case when access token is an empty entry in mysql
     try {
-      $client->setAccessToken(json_decode($accessTokenJson));
+      $client->setAccessToken(json_decode($accessTokenJson, true));
     } catch (Exception $exc) {
       $client->setAccessToken('');
     }
@@ -42,7 +42,6 @@
       if ($client->getRefreshToken()) {
         // refresh the token if possible, else fetch a new one
         $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        $accessTokenJson = $client->getAccessToken();
 
         $stmt = $mysqli->prepare("UPDATE user_emails SET access_token=? WHERE id=?");
         $stmt->bind_param('si', json_encode($client->getAccessToken()), $id);
